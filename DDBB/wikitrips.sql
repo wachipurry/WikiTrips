@@ -1,4 +1,4 @@
-CREATE DATABASE wikitrips;
+CREATE DATABASE IF NOT EXISTS wikitrips ;
 
 use wikitrips;
 
@@ -14,7 +14,7 @@ CREATE TABLE user_details(
     descr VARCHAR(100) NOT NULL,
     alias VARCHAR(30) NOT NULL UNIQUE,
     id_status TINYINT NOT NULL,
-    last_login DATE NOT NULL,
+    last_login DATE NOT NULL
 );
 
 CREATE TABLE user_profile(
@@ -64,3 +64,8 @@ CREATE TABLE pass(
     pass VARCHAR(200) NOT NULL,
     FOREIGN KEY(id_user) REFERENCES user_details(id_user)
 );
+
+
+CREATE VIEW featured_trips AS 
+SELECT DISTINCT title, summary, img_url_thumb FROM trips JOIN media USING (id_trip) ;
+
