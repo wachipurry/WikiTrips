@@ -59,13 +59,14 @@ CREATE TABLE media(
     FOREIGN KEY (id_trip) REFERENCES trips(id_trip)
 );
 
+CREATE TABLE wt_status (
+    id_status INT AUTO_INCREMENT PRIMARY KEY,
+    status_name VARCHAR(15) NOT NULL)
+
 CREATE TABLE pass(
     id_user INT,
     pass VARCHAR(200) NOT NULL,
     FOREIGN KEY(id_user) REFERENCES user_details(id_user)
 );
 
-
-CREATE VIEW featured_trips AS 
-SELECT DISTINCT title, summary, img_url_thumb FROM trips JOIN media USING (id_trip) ;
 
