@@ -6,13 +6,32 @@ INSERT INTO user_details (img_profile, descr, alias, id_status) VALUES
     ("https://picsum.photos/200/300?random=1", "Soy artista 3d, me gusta la magia, la nieve, los deportes de contacto y siempre me propongo metas a alcanzar.", "capitan", 4),
     ("https://picsum.photos/200/300?random=1", "Me encantan las charlas apasionadas, regocijantes y divertidas. Me gusta la montaña y conocer gente nueva", "manuela88", 4),
     ("https://picsum.photos/200/300?random=1", "Mi entorno dice que soy una persona maravillosa. Me encanta ir en bicicleta y perderme en lugares desconocidos", "angelita", 4),
-    ("https://picsum.photos/200/300?random=1", "Amante de la arquitectura y museos. ", "marccc", 4);
+    ("https://picsum.photos/200/300?random=1", "Amante de la arquitectura y museos. ", "marccc", 4),
+
+    ("https://picsum.photos/200/300?random=1", "Descripcion 5", "pepe5555", 4),
+    ("https://picsum.photos/200/300?random=1", "Descripcion 6", "diana6666", 4),
+    ("https://picsum.photos/200/300?random=1", "Mi perfil 7", "carla7777", 4),
+    ("https://picsum.photos/200/300?random=1", "Amante de la cultura y museos. ", "anton8888", 4),
+    ("https://picsum.photos/200/300?random=1", "Descripcion 9", "carles9999", 4),
+    ("https://picsum.photos/200/300?random=1", "Descripcion 10", "celia1010", 4),
+    ("https://picsum.photos/200/300?random=1", "Mi perfil 11", "sara1111", 4),
+    ("https://picsum.photos/200/300?random=1", "Fan de la natura y senderismo. ", "jordi1212", 4);    
+
      
 INSERT INTO user_profile (id_user, treatment, usr_name, surnames, email, opt_in) VALUES
-    (1, "Mr.", "Antonio", "Sánchez", "antonio_s@gmail.com", true ),
-    (2, "Ms.", "Manuela", "Ramos", "manuelaramos@gmail.com", true ),
-    (3, "Ms.", "Ángela", "López", "angelita@gmail.com", true ),
-    (4, "Mr.", "Marc", "García", "marcus7@gmail.com", true );
+    (1, "Sr.", "Antonio", "Sánchez", "antonio_s@gmail.com", true ),
+    (2, "Sra.", "Manuela", "Ramos", "manuelaramos@gmail.com", true ),
+    (3, "Sra.", "Ángela", "López", "angelita@gmail.com", true ),
+    (4, "Sr.", "Marc", "García", "marcus7@gmail.com", true ),
+
+    (5, "Sr.", "Pepe", "Ruiz", "pep.r123@gmail.com", true ),
+    (6, "Sra.", "Diana", "Gutierrez", "diana_guti@gmail.com", true ),
+    (7, "Sra.", "Carla", "Puig", "c.puig555@gmail.com", true ),
+    (8, "Sr.", "Anton", "Serra", "a.serra@gmail.com", true ),
+    (9, "Sr.", "Carles", "Sanz", "qdicescharlyio@gmail.com", true ),
+    (10, "Sra.", "Celia", "Perez", "celia222@gmail.com", true ),
+    (11, "Sra.", "Sara", "López", "sarita1989@gmail.com", true ),
+    (12, "Sr.", "Jordi", "Martí", "jordi7@gmail.com", true );
 
 INSERT INTO trips (id_user, id_status, title, summary, descr, geo) VALUES
     (3, 3, "Vall de Nuria", "Viajar no es llegar a un destino, sino abrir camino.", "Para todos aquellos a los que le gusta sentir el mundo bajo sus pies e ir paso a paso conociendo rincones inaccesibles y vivir la naturaleza de una forma directa y sin barreras esta es tu opción de viaje. Con diferentes niveles pasando del senderismo, accesible a cualquier público medianamente en forma, a los trekkings, sólo aptos para viajeros preparados física y técnicamente, nuestros viajes a pie son una garantía de sentir el mundo como siempre has soñado.", "GEO"),
@@ -39,3 +58,14 @@ INSERT INTO media (id_trip, img_url_thumb, img_url_high, img_alt) VALUES
 (2, "https://picsum.photos/300/200?random=1" ,"https://picsum.photos/800/500?random=1", "Foto Barrio Gótico Barcelona" ),
 (3, "https://picsum.photos/300/200?random=1" ,"https://picsum.photos/800/500?random=1", "Foto viaje a Marruecos" ),
 (4, "https://picsum.photos/300/200?random=1" ,"https://picsum.photos/800/500?random=1", "Reino de Asturias" );
+
+
+INSERT INTO wt_status (status_name) VALUES 
+("borrador"),
+("pendiente"),
+("publico"),
+("reportado"),
+("no_publico"),
+("activo"),
+("baneado"),
+("baja")
