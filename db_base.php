@@ -1,16 +1,21 @@
 <?php
 
+// Esta classe deberia ser abstracta
 class DBconn
 {
+
+    // Estas variables deberian ser PROTECTED
     static $db_servername = "localhost";
     static $db_username = "root";
     static $db_password = "";
     static $db_name = "wikitrips_5";
 
+    // Estas variables deberian ser PRIVATE
     public $rows;
     public $sql;
     public $conn;
 
+    // METODO PARA CREAR CONEXION
     public function conn_open()
     {
         $this->conn = new mysqli(self::$db_servername, self::$db_username, self::$db_password, self::$db_name);
@@ -23,11 +28,13 @@ class DBconn
         }
     }
 
+    // METODO PARA CERRAR CONEXION
     public function conn_close()
     {
         $this->conn->close();
     }
 
+    // METODO PARA HACER UNA CONSULTA SELECT
     function select()
     {
 

@@ -1,12 +1,7 @@
 <?php
 
-/**
- * @author Roger Calventus
- */
-
-//Importació conexió BD i funcions
+//Importación conexión DB y funciones
 require('db_gestor.php');
-require('functions.php');
 //print_r($_GET);
 //echo '<hr>' . $_GET['apiCode'] . 'hola';
 //get_header_html('TEST WIKITRIPS');
@@ -15,7 +10,7 @@ require('functions.php');
 if (isset($_GET['apiCode'])) {
     if (!empty($_GET['apiCode'])) {
         $code = htmlentities($_GET['apiCode']);
-        echo '<hr>' . $code . '<hr>' . '<hr>';
+        //echo '<hr>' . $code . '<hr>' . '<hr>';
         switch ($code) {
                 // code 101 = ultimas entradas del home (featured_trips)
             case 101:
@@ -34,20 +29,23 @@ if (isset($_GET['apiCode'])) {
 function listaHome()
 {
     //VISTA d DB debe tener -> 
-    $datos = select("featured_trips_0");
+    $datos = select("featured_trips_0 LIMIT 4");
     $pintar = json_encode($datos, true);
-    echo '<hr>' . "var_dump de JSON" . var_dump($pintar) . '<hr>';
+    //echo '<hr>' . "var_dump de JSON" . var_dump($pintar) . '<hr>';
 
-    print_r($pintar);
-    return $pintar;
+    //print_r($pintar);
+    echo $pintar;
+
+
+    
 }
 
 function listaTrips()
 {
     $datos = select("alltrips");
     $pintar = json_encode($datos, true);
-    echo '<hr>' . "var_dump de JSON" . var_dump($pintar) . '<hr>';
-    print_r($pintar);
+    //echo '<hr>' . "var_dump de JSON" . var_dump($pintar) . '<hr>';
+    //print_r($pintar);
 
 
     return $pintar;
