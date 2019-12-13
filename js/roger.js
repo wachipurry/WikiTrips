@@ -1,12 +1,18 @@
+/**
+ * ESTO NO ME FUNCIONA DEL TODO, HAY QUE MIRARLO
+ * ES EL SCRIPT QUE DEBERIA REDUCIR EL MENU SUPERIOR
+ * PERO DEJANDOLO FIJO Y ESAS COSAS DE CSS
+ */
+
 window.onscroll = function() { scrollFunction() };
 
 function scrollFunction() {
     if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
-        document.getElementById("wt_navbar").style.padding = "30px 10px";
-        //document.getElementById("wt_logo").style.fontSize = "25px";
+        document.getElementById("wt_navbar").style.padding = "20px 10px";
+        document.getElementById("wt_logo").style.fontSize = "20px";
     } else {
         document.getElementById("wt_navbar").style.padding = "80px 10px"; //80px antes
-        //document.getElementById("wt_logo").style.fontSize = "35px";
+        document.getElementById("wt_logo").style.fontSize = "5opx";
     }
 }
 
@@ -58,7 +64,7 @@ btn.addEventListener("click", function() {
 
             console.log(jsonObj); //Chivato del objeto JSON q recibimos para su tratamiento
 
-            document.getElementById('api_test_01').style.color = 'darkgray'
+            document.getElementById('api_test_01').style.color = '#212529'
             document.getElementById('api_test_01').style.textAlign = 'left'
             document.getElementById('api_test_01').innerHTML = jsonObj[0]['descr']
         }

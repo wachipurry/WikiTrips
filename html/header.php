@@ -11,15 +11,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
+    <!-- Awesome font icons stylesheet-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <!-- linkS provisionales para tests -->
     <link rel="stylesheet" href="css/roger.css">
     <!--<script src="js/roger.js"></script>-->
     <!--<script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
-
-    <style>
-        h5 {
-            border-bottom: 1px solid #17a2b8;
-            padding: 30px 0px 5px 0px;
-        }
-    </style>
 </head>

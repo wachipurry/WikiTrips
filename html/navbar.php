@@ -1,13 +1,14 @@
-<body class="bg">
-    <div id="wt_navbar">
+ <!-- NAVBAR header -->
+ <div id="wt_navbar">
         <div class="container">
 
             <a href="#default" id="wt_logo">
-                <img src="img/wikitrips_01.png">
+                <p class="text-dark text-left">Título de la web<br/>
+                o un slogan con gancho!</p>
             </a>
             <div id="wt_navbar-right">
-                <button id="roger_login" class="btn btn-outline-success bg-light">LOGIN</button>
-                <button id="roger_logout" class="btn bg-light btn-outline-warning">SALIR</button>
+                <button id="roger_login" class="btn btn-outline-dark">LOGIN</button>
+                <button id="roger_logout" class="btn btn-outline-dark">SALIR</button>
             </div>
         </div>
     </div>

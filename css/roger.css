@@ -1,19 +1,10 @@
-body {
-    margin: 0px;
-    padding: 0px;
-    _font-family: Arial, Helvetica, sans-serif;
+html {
+    margin: 0;
 }
 
-
-/* BACKGROUND */
-
-.bg {
-    _background-image: url("../img/bigduck.jpg");
-    _height: 100%;
-    _opacity: 0.65;
-    _background-position: center;
-    _background-repeat: no-repeat;
-    _background-size: cover;
+body {
+    _font-family: Georgia, 'Times New Roman', Times, serif;
+    margin: 0;
 }
 
 
@@ -21,7 +12,7 @@ body {
 
 #wt_navbar {
     overflow: hidden;
-    background-color: rgba(100, 100, 100, 0.8);
+    background-color: rgba(251, 179, 45, 1);
     padding: 90px 10px;
     transition: 0.4s;
     position: fixed;
@@ -41,13 +32,14 @@ body {
     border-radius: 4px;
 }
 
-#wt_navbar #wt_logo img {
-    width: 5em;
-    transition: 0.4s;
+#wt_navbar #wt_logo {
+    font-size: 50px;
+    _height: 5em;
+    transition: 2s;
 }
 
 #wt_navbar:hover {
-    background-color: #ddd;
+    background-color: rgba(251, 179, 45, 0.5);
     color: black;
 }
 
@@ -74,12 +66,64 @@ body {
     }
 }
 
+
+/* SECTIONS */
+
+section {
+    margin: 0px;
+    min-height: 100vh;
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    _position: relative;
+    background-blend-mode: darken;
+    background-color: pink;
+    padding: 0px;
+}
+
+#roger_02 {
+    padding: 3em 0;
+    min-height: auto;
+    background-color: grey;
+}
+
+#roger_04 {
+    padding: 3em 0;
+    min-height: auto;
+    background-color: grey;
+}
+
+
+/* CAJAS DE DESTACADOS (FEATURED) */
+
+.featured_box {
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 50vh;
+    _background-color: white;
+    _position: absolute;
+    _bottom: 50px;
+    _min-height: 40rvh;
+}
+
+.featured_trips {
+    border-radius: 3px;
+    background-color: rgba(256, 256, 256, 0.6);
+    padding: 5px 10px;
+    margin: 5px;
+}
+
+
+/* FOOTER y COPYRIGHT */
+
 .footer {
     position: fixed;
     left: 0;
     bottom: 0;
+    height: 2em;
     width: 100%;
-    background-color: gold;
+    background-color: rgb(251, 179, 45);
     color: darkslategray;
     text-align: center;
 }
