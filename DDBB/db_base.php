@@ -20,18 +20,16 @@ class DBconn
     {
         $this->conn = new mysqli(self::$db_servername, self::$db_username, self::$db_password, self::$db_name);
 
-        
         //MIRAR SI CHARSET NO ES UTF-8
         if (!$this->conn->set_charset("utf8")) {
             echo "error en set CHARSET";
         }
         
-        /*
+        /* ESTO SE QUEDA AQUI POR SI NOS VUELVE A DAR PROBLEMAS EL CHARSET CUANDO SALGAMOS DE PRODUCCION
         if (TRUE !== $this->conn->query('SET collation_connection = @@collation_database;')) {
             echo "error set collation@@";
         }
         */
-
 
         if ($this->conn->connect_errno) { //Si error. mensage + die/exit
             echo "Error: Fallo al conectarse a MySQL debido a: \n";
@@ -73,7 +71,13 @@ class DBconn
         $this->conn_close();
     }
 
-
+    
+    /**
+     * 
+     * TODO LO QUE HAY A PARTIR DE AQUI ESTA PENDIENTE DE IMPLEMENTAR
+     * CONSIGAMOS PRIMERO QUE FUNCIONEN LOS SELECT Y LUEGO YA PASAREMOS A LOS INSERT, UPDATE o DELETE
+     * 
+     *  */
 
     function insert()
     {
