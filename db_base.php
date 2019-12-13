@@ -6,9 +6,9 @@ class DBconn
 
     // Estas variables deberian ser PROTECTED
     static $db_servername = "labs.iam.cat";
-    static $db_username = "a15javmadcer_a";
-    static $db_password = "ausias123";
-    static $db_name = "wikitrip";
+    static $db_username = "a19rogcalrul_ajr";
+    static $db_password = "ajr2019wt";
+    static $db_name = "a19rogcalrul_wikitrips";
 
     // Estas variables deberian ser PRIVATE
     public $rows;
@@ -19,6 +19,19 @@ class DBconn
     public function conn_open()
     {
         $this->conn = new mysqli(self::$db_servername, self::$db_username, self::$db_password, self::$db_name);
+
+        
+        //MIRAR SI CHARSET NO ES UTF-8
+        if (!$this->conn->set_charset("utf8")) {
+            echo "error en set CHARSET";
+        }
+        
+        /*
+        if (TRUE !== $this->conn->query('SET collation_connection = @@collation_database;')) {
+            echo "error set collation@@";
+        }
+        */
+
 
         if ($this->conn->connect_errno) { //Si error. mensage + die/exit
             echo "Error: Fallo al conectarse a MySQL debido a: \n";

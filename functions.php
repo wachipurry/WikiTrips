@@ -31,7 +31,7 @@ function get_header_html($title)
         <!-- linkS provisionales para tests -->
         <link rel="stylesheet" href="css/roger.css">
         <!--<script src="js/roger.js"></script>-->
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <!--<script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
 
         <style>
             h5 {

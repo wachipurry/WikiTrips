@@ -10,6 +10,7 @@ require('db_base.php');
 function select($sql_select) //VISTA default_trips_32
 {
     $db = new DBconn;
+    
 
     $db->sql = 'SELECT * FROM ' . $sql_select; // SELECT * FROM default_trips_2
     $db->select();

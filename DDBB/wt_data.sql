@@ -8,7 +8,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
-USE wikitrips_2;
+USE a19rogcalrul_wikitrips;
 
 INSERT INTO `user_status` (`id_status`, `status_name`) VALUES
 (1, 'Activo'),
@@ -17,18 +17,18 @@ INSERT INTO `user_status` (`id_status`, `status_name`) VALUES
 (4, 'Eliminado');
 
 INSERT INTO `user_details` (`id_user`, `img_profile`, `descr`, `alias`, `id_status`, `last_login`) VALUES
-(1, 'https://picsum.photos/200/300', 'Soy artista 3d, me gusta la magia, la nieve, los deportes de contacto y siempre me propongo metas a ', 'capitan', 1, '0000-00-00'),
-(2, 'https://picsum.photos/200/300', 'Me encantan las charlas apasionadas, regocijantes y divertidas. Me gusta la montaña y conocer gente ', 'manuela88', 1, '0000-00-00'),
-(3, 'https://picsum.photos/200/300', 'Mi entorno dice que soy una persona maravillosa. Me encanta ir en bicicleta y perderme en lugares de', 'angelita', 1, '0000-00-00'),
-(4, 'https://picsum.photos/200/300', 'Amante de la arquitectura y museos. ', 'marccc', 1, '0000-00-00'),
-(5, 'https://picsum.photos/200/300', 'Descripcion 5', 'pepe5555', 1, '0000-00-00'),
-(6, 'https://picsum.photos/200/300', 'Descripcion 6', 'diana6666', 1, '0000-00-00'),
-(7, 'https://picsum.photos/200/300', 'Mi perfil 7', 'carla7777', 1, '0000-00-00'),
-(8, 'https://picsum.photos/200/300', 'Amante de la cultura y museos. ', 'anton8888', 1, '0000-00-00'),
-(9, 'https://picsum.photos/200/300', 'Descripcion 9', 'carles9999', 1, '0000-00-00'),
-(10, 'https://picsum.photos/200/300', 'Descripcion 10', 'celia1010', 1, '0000-00-00'),
-(11, 'https://picsum.photos/200/300', 'Mi perfil 11', 'sara1111', 1, '0000-00-00'),
-(12, 'https://picsum.photos/200/300', 'Fan de la natura y senderismo. ', 'jordi1212', 1, '0000-00-00');
+(1, 'foto01.jpg', 'Soy artista 3d, me gusta la magia, la nieve, los deportes de contacto y siempre me propongo metas a ', 'capitan', 1, '0000-00-00'),
+(2, 'foto02.jpg', 'Me encantan las charlas apasionadas, regocijantes y divertidas. Me gusta la montaña y conocer gente ', 'manuela88', 1, '0000-00-00'),
+(3, 'foto01.jpg', 'Mi entorno dice que soy una persona maravillosa. Me encanta ir en bicicleta y perderme en lugares de', 'angelita', 1, '0000-00-00'),
+(4, 'foto02.jpg', 'Amante de la arquitectura y museos. ', 'marccc', 1, '0000-00-00'),
+(5, 'foto01.jpg', 'Descripcion 5', 'pepe5555', 1, '0000-00-00'),
+(6, 'foto02.jpg', 'Descripcion 6', 'diana6666', 1, '0000-00-00'),
+(7, 'foto01.jpg', 'Mi perfil 7', 'carla7777', 1, '0000-00-00'),
+(8, 'foto02.jpg', 'Amante de la cultura y museos. ', 'anton8888', 1, '0000-00-00'),
+(9, 'foto01.jpg', 'Descripcion 9', 'carles9999', 1, '0000-00-00'),
+(10, 'foto02.jpg', 'Descripcion 10', 'celia1010', 1, '0000-00-00'),
+(11, 'foto01.jpg', 'Mi perfil 11', 'sara1111', 1, '0000-00-00'),
+(12, 'foto02.jpg', 'Fan de la natura y senderismo. ', 'jordi1212', 1, '0000-00-00');
 
 INSERT INTO `user_profile` (`id_user`, `treatment`, `firstname`, `lastname`, `email`, `opt_in`, `sign_up`, `unsuscribed`) VALUES
 (1, 'Sr.', 'Antonio', 'Sánchez', 'antonio_s@gmail.com', 1, '2019-12-10 16:09:52', NULL),
@@ -75,12 +75,12 @@ INSERT INTO `trips` (`id_trip`, `id_user`, `id_status`, `title`, `summary`, `des
 (6, 1, 3, 'Escape Room La puerta Màgica', 'El maestro August Bumbledore te desafía con una última prueba antes de darte tu varita oficial de mago. Para superarla, adéntrate en sus aposentos y e', 'El maestro August Bumbledore te desafía con una última prueba antes de darte tu varita oficial de mago. Para superarla, adéntrate en sus aposentos y encuentra la puerta mágica. Descubrirla será la prueba definitiva de que sois auténticos magos.', '2019-12-10 22:07:43', 'GEO');
 
 INSERT INTO `media` (`id_image`, `id_trip`, `img_url_thumb`, `img_url_high`, `img_alt`) VALUES
-(1, 2, 'https://picsum.photos/300/200', 'https://picsum.photos/800/500', 'Foto Vall de Nuria'),
-(2, 3, 'https://picsum.photos/300/200', 'https://picsum.photos/800/500', 'Foto Barrio Gótico Barcelona'),
-(3, 4, 'https://picsum.photos/300/200', 'https://picsum.photos/800/500', 'Foto viaje a Marruecos'),
-(4, 5, 'https://picsum.photos/300/200', 'https://picsum.photos/800/500', 'Reino de Asturias'),
-(5, 1, 'https://picsum.photos/300/200', 'https://picsum.photos/800/500', 'Camino del Rey'),
-(6, 6, 'https://picsum.photos/300/200', 'https://picsum.photos/800/500', 'La puerta Magica');
+(1, 2, 'foto03.jpg', 'foto03.jpg', 'Foto Vall de Nuria'),
+(2, 3, 'foto04.jpg', 'foto04.jpg', 'Foto Barrio Gótico Barcelona'),
+(3, 4, 'foto03.jpg', 'foto03.jpg', 'Foto viaje a Marruecos'),
+(4, 5, 'foto04.jpg', 'foto04.jpg', 'Reino de Asturias'),
+(5, 1, 'foto04.jpg', 'foto04.jpg', 'Camino del Rey'),
+(6, 6, 'foto03.jpg', 'foto03.jpg', 'La puerta Magica');
 
 
 INSERT INTO `categories` (`id_cat`, `cat_name`) VALUES

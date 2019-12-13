@@ -28,12 +28,16 @@ if (isset($_GET['apiCode'])) {
 
 function listaHome()
 {
+
+
+
+
     //VISTA d DB debe tener -> 
-    $datos = select("featured_trips_0 LIMIT 4");
-    $pintar = json_encode($datos, true);
+    $datos = select("trips");
+    $pintar = json_encode($datos);
     //echo '<hr>' . "var_dump de JSON" . var_dump($pintar) . '<hr>';
 
-    //print_r($pintar);
+    //print_r($datos);
     echo $pintar;
 
 
@@ -42,11 +46,11 @@ function listaHome()
 
 function listaTrips()
 {
-    $datos = select("alltrips");
-    $pintar = json_encode($datos, true);
+    $datos = select("featured_trips_2");
+    $pintar = json_encode($datos);
     //echo '<hr>' . "var_dump de JSON" . var_dump($pintar) . '<hr>';
     //print_r($pintar);
 
 
-    return $pintar;
+    echo $pintar;
 }
