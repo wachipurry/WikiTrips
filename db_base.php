@@ -5,10 +5,10 @@ class DBconn
 {
 
     // Estas variables deberian ser PROTECTED
-    static $db_servername = "localhost";
-    static $db_username = "root";
-    static $db_password = "";
-    static $db_name = "wikitrips_5";
+    static $db_servername = "labs.iam.cat";
+    static $db_username = "a15javmadcer_a";
+    static $db_password = "ausias123";
+    static $db_name = "wikitrip";
 
     // Estas variables deberian ser PRIVATE
     public $rows;
