@@ -1,0 +1,25 @@
+featured trips_0
+--> trip_id || trip_name || trip_resum || trip_thumb
+--> ordenados por ultimo añadido
+--> no distingue entre estado publicado, reportado....
+
+
+featured trips_1
+--> trip_id || trip_name || trip_thumb || trip_rate
+--> ordenados por mejor valoracion
+--> solo muestra los que estan estado = public
+
+
+featured_trips_3 hace lo mismo que el featured_trips_0 pero solo los estado = publico
+
+
+trip_categoires
+--> trip_id || category
+--> devueleve las categorias de un trip
+--> Pero hay que llmaralo con un WHERE trup_id = X
+
+
+trip_details --> devuelva una lista con la info detallada de un trip
+--> trip_id || trip_name || trip_text || trip_author || trip_date || trip_location || trip_img || trip_alt
+
+--> Cuando alguein clique en un trip de la lista resumida (cazando el trip_id) se deberia hacer la peticion al api con el id para que el API lanze la consulta con un WHERE trip_id = X

@@ -12,11 +12,19 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode] existe
         switch ($code) {
 
             case 101: // code 101 = ultimas entradas del home (featured_trips)
-                listaHome();
+                listaUltimosTrips();
                 break;
 
-            case 102: // code 102 = lista completa de experiencias
-                listaTrips();
+            case 102: // code 102 = trips con mejor rating para HOME
+                listaTripsMasValorados();
+                break;
+
+            case 103: // code 103 = lista con info detallada de un trip
+                tripDetallado();
+                break;
+
+            case 104: // code 102 = lista de categorias de un trip
+                categoriasTrip();
                 break;
             default:
                 return 'Invalid request !!';
@@ -37,16 +45,29 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode] existe
  * 
  * */
 
-function listaHome()
+function listaUltimosTrips()
 {
-    $datos = select("trips");
+    $datos = select("featured_trips_3");
     $pintar = json_encode($datos);
     echo $pintar;
 }
 
-function listaTrips()
+function listaTripsMasValorados()
 {
-    $datos = select("featured_trips_2");
+    $datos = select("featured_trips_1");
+    $pintar = json_encode($datos);
+    echo $pintar;
+}
+
+function tripDetallado()
+{
+    $datos = select("trip_details");
+    $pintar = json_encode($datos);
+    echo $pintar;
+}
+function categoriasTrip()
+{
+    $datos = select("trip_categories");
     $pintar = json_encode($datos);
     echo $pintar;
 }

@@ -1,0 +1,8 @@
+BBDD
+
+
+database -> a19rogcalrul_wikitrips
+
+user -> a19rogcalrul_ajr
+
+pass -> ajr2019wt
