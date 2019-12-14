@@ -46,6 +46,21 @@ CREATE VIEW featured_trips_3 AS SELECT DISTINCT
 
 
 
+CREATE VIEW trip_details AS SELECT
+id_trip AS trip_id,
+title AS trip_name,
+description AS trip_text,
+alias AS trip_author,
+publish_date AS trip_date,
+geo AS trip_location,
+img_url_high AS trip_img,
+img_alt AS trip_alt
+FROM trips
+JOIN user_details USING (id_user)
+JOIN media USING (id_trip)
+ORDER BY trip_id DESC
+
+
 CREATE VIEW trip_categories AS
-    SELECT cat_name FROM categories
+    SELECT id_trip AS trip_id, cat_name AS category FROM categories
     JOIN trips_cat USING (id_cat);
