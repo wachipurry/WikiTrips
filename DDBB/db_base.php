@@ -1,57 +1,59 @@
 <?php
 
-// Esta classe deberia ser abstracta
-class DBconn
+/**
+ * Clase Abstracta con datos protegidos de la conexion a Base de Datos
+ */
+abstract class DBconn
 {
 
-    // Estas variables deberian ser PROTECTED
-    static $db_servername = "labs.iam.cat";
-    static $db_username = "a19rogcalrul_ajr";
-    static $db_password = "ajr2019wt";
-    static $db_name = "a19rogcalrul_wikitrips";
+    // Variables estaticas de conexión
+    private static $db_servername = "labs.iam.cat";
+    private static $db_username = "a19rogcalrul_ajr";
+    private static $db_password = "ajr2019wt";
+    private static $db_name = "a19rogcalrul_wikitrips";
 
-    // Estas variables deberian ser PRIVATE
-    public $rows;
-    public $sql;
-    public $conn;
+    // Variables de entorno
+    protected $rows;
+    protected $sql;
+    protected $conn;
 
     // METODO PARA CREAR CONEXION
-    public function conn_open()
+    private function conn_open()
     {
         $this->conn = new mysqli(self::$db_servername, self::$db_username, self::$db_password, self::$db_name);
-
-        //MIRAR SI CHARSET NO ES UTF-8
-        if (!$this->conn->set_charset("utf8")) {
-            echo "error en set CHARSET";
-        }
-        
-        /* ESTO SE QUEDA AQUI POR SI NOS VUELVE A DAR PROBLEMAS EL CHARSET CUANDO SALGAMOS DE PRODUCCION
-        if (TRUE !== $this->conn->query('SET collation_connection = @@collation_database;')) {
-            echo "error set collation@@";
-        }
-        */
-
-        if ($this->conn->connect_errno) { //Si error. mensage + die/exit
+        //Si hay error, mensage + die/exit
+        if ($this->conn->connect_errno) {
             echo "Error: Fallo al conectarse a MySQL debido a: \n";
             echo "Errno: " . $this->conn->connect_errno . "\n";
             echo "Error: " . $this->conn->connect_error . "\n";
             die;
         }
+
+        //MIRAR SI CHARSET NO ES UTF-8
+        if (!$this->conn->set_charset("utf8")) {
+            echo "error en set CHARSET";
+        }
+
+        /*
+        ESTO SE QUEDA AQUI POR SI NOS VUELVE A DAR PROBLEMAS EL CHARSET CUANDO SALGAMOS DE PRODUCCION
+        if (TRUE !== $this->conn->query('SET collation_connection = @@collation_database;')) {
+            echo "error set collation@@";
+        }
+        */
     }
 
     // METODO PARA CERRAR CONEXION
-    public function conn_close()
+    private function conn_close()
     {
         $this->conn->close();
     }
 
     // METODO PARA HACER UNA CONSULTA SELECT
-    function select()
+    protected function execute_query()
     {
-
         $this->conn_open();
+        //Si hay error, mensage + die/exit
         if (!$resultado = $this->conn->query($this->sql)) {
-
             echo "Error: La ejecución de la consulta falló debido a: \n";
             echo "Query: " . $this->sql . "\n";
             echo "Errno: " . $this->conn->errno . "\n";
@@ -59,9 +61,11 @@ class DBconn
             die;
         }
 
+        //Si la respuesta devuelve 0 filas
         if ($resultado->num_rows === 0) {
             echo 'La consulta ' .  $this->sql . ' no ha devuelto ningun resultado';
             die;
+        //Si hay respuesta, pasar la info a $rows
         } else if ($resultado->num_rows > 0) {
 
             for ($i = 0; $i < $resultado->num_rows; $i++) {
@@ -71,7 +75,9 @@ class DBconn
         $this->conn_close();
     }
 
-    
+    protected abstract function selectAll();
+
+
     /**
      * 
      * TODO LO QUE HAY A PARTIR DE AQUI ESTA PENDIENTE DE IMPLEMENTAR

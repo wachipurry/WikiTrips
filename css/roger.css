@@ -97,17 +97,17 @@ section {
 
 /* CAJAS DE DESTACADOS (FEATURED) */
 
-.featured_box {
+#featured_box {
     padding-left: 50px;
     padding-right: 50px;
-    padding-top: 50vh;
+    padding-top: 35vh;
     _background-color: white;
     _position: absolute;
     _bottom: 50px;
     _min-height: 40rvh;
 }
 
-.featured_trips {
+#featured_trips {
     border-radius: 3px;
     background-color: rgba(256, 256, 256, 0.6);
     padding: 5px 10px;

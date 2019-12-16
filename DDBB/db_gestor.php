@@ -1,23 +1,29 @@
 <?php
 
+require_once('db_base.php');
 
-//ImportacióN conexión Db y funciones
-require('db_base.php');
-//require('functions.php');
+/**
+ * Classe publica que gestiona las query con la base de datos
+ * */
 
-
-
-/** POR LA MIERDA QUE HACE ESTE ARXHIVO (puente ara classe abstracte) PUEDE QUE ME
- * MONTE LA CONEXION CON PDO EN LUGAR DE MSQLI Y PASE DE CLASSES ABSTRACTAS */
-
-function select($sql_select) //VISTA default_trips_32
+class DB extends DBconn
 {
-    $db = new DBconn;
+    
+    /**
+     * Constructor! Hay que pasarle la query SQL especifica a ejecutar
+     */
+    public function __construct($sql_constructor)
+    {
+        $this->sql = $sql_constructor;
+    }
 
 
-    $db->sql = 'SELECT * FROM ' . $sql_select; // SELECT * FROM default_trips_2
-    $db->select();
-    $resultados = $db->rows;
+    public function selectAll() //VISTA default_trips_32
+    {
 
-    return $resultados;
+        $this->execute_query($this->sql);
+        $resultados = $this->rows;
+
+        return $resultados;
+    }
 }
