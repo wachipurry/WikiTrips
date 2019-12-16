@@ -17,5 +17,5 @@
                     <button id="submitLogInButton" type="button" class="btn btn-succes">Sig In</button>
                 </form>
             </div>
-        </div>
+        </div> 
     </div>

@@ -40,7 +40,7 @@ echo json_encode($arrayPrueba);*/
                         "trip_thumb"=>'https://picsum.photos/200'
                     ]
                 ];
-                echo json_encode($arrayPrueba);
+                echo json_encode($arrayPrueba); 
             }
             
             if($code=="201"){

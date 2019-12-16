@@ -115,7 +115,7 @@ function lista_trips_por_rating($num)
     //print_r($keys);
     //echo '<hr>';;
     $pintar = json_encode($datos);
-    echo $pintar;
+    echo $pintar; 
 }
 
 /**103

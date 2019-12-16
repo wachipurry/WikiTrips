@@ -10,7 +10,7 @@ class Model {
         101-> Ver la preview de las experiencias
         102-> Experiencias completas
         201-> Log in
-        202-> sign in
+        202-> sign in 
     */
 
     createDefaultExperiences() {
