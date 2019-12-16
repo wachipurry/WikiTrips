@@ -16,6 +16,6 @@
 
     <!-- linkS provisionales para tests -->
     <link rel="stylesheet" href="css/roger.css">
-    <!--<script src="js/roger.js"></script>-->
+    <script src="indexJS.js"></script>
     <!--<script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
 </head>

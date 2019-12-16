@@ -3,12 +3,11 @@
         <div class="container">
 
             <a href="#default" id="wt_logo">
-                <p class="text-dark text-left">Título de la web<br/>
-                o un slogan con gancho!</p>
+                <p class="text-dark text-left">WikiTrips</p>
             </a>
             <div id="wt_navbar-right">
-                <button id="roger_login" class="btn btn-outline-dark">LOGIN</button>
-                <button id="roger_logout" class="btn btn-outline-dark">SALIR</button>
+                <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#sigInModal"> SIGN IN </button>
+                <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#logInModal"> LOG IN </button>
             </div>
         </div>
     </div>

@@ -57,7 +57,7 @@ class View {
 
     //inner text en el div principal con las experiencias preview
     createDivsExperiences(textHtml) {
-        $("#principal").html(textHtml);
+        $("#featured_box").html(textHtml);
     }
 
     createDivsFullExperiences(textHtml) {
