@@ -14,6 +14,7 @@ abstract class DBconn
 
     // Variables de entorno
     protected $rows;
+    protected $lastID;
     protected $sql;
     protected $conn;
 
@@ -65,7 +66,7 @@ abstract class DBconn
         if ($resultado->num_rows === 0) {
             echo 'La consulta ' .  $this->sql . ' no ha devuelto ningun resultado';
             die;
-        //Si hay respuesta, pasar la info a $rows
+            //Si hay respuesta, pasar la info a $rows
         } else if ($resultado->num_rows > 0) {
 
             for ($i = 0; $i < $resultado->num_rows; $i++) {
@@ -75,19 +76,7 @@ abstract class DBconn
         $this->conn_close();
     }
 
-    protected abstract function selectAll();
-    protected abstract function insert($table, $conditions){
-
-
-
-    /**
-     * 
-     * TODO LO QUE HAY A PARTIR DE AQUI ESTA PENDIENTE DE IMPLEMENTAR
-     * CONSIGAMOS PRIMERO QUE FUNCIONEN LOS SELECT Y LUEGO YA PASAREMOS A LOS INSERT, UPDATE o DELETE
-     * 
-     *  */
-
-    function insert()
+    function insert_query()
     {
         $this->conn_open();
         if (!$resultado = $this->conn->query($this->sql)) {
@@ -98,12 +87,21 @@ abstract class DBconn
             echo "Error: " . $this->conn->error . "\n";
             die;
         } else {
-            echo $this->conn->insert_id;
+            $this->lastID = $this->conn->insert_id;
         }
         $this->conn_close();
     }
 
 
+}
+
+/**
+ * TODO LO QUE HAY A PARTIR DE AQUI ESTA PENDIENTE DE IMPLEMENTAR
+ * CONSIGAMOS PRIMERO QUE FUNCIONEN LOS SELECT Y LUEGO YA PASAREMOS A LOS INSERT, UPDATE o DELETE
+ *  */
+
+
+/*
     function delete()
     {
         $this->conn_open();
@@ -121,3 +119,4 @@ abstract class DBconn
         $this->conn_close();
     }
 }
+*/

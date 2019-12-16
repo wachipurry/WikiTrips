@@ -204,9 +204,14 @@ function comprobar_login($nick, $pwd)
 }
 
 function insertar_usuario($nickname,$name, $surname, $password, $email, $treatment) {
-    $conditions1 = array('alias' => $nickname, 'id_status' => 1);
-    $db = new DB("");
-    $db->insert('user_details', $conditions1);
+    $conditions1 = array('alias' => "'" . $nickname ."'", 'id_status' => 1);
+    $db1 = new DB("");
+    $newId = $db1->insert('user_details', $conditions1);
+
+    $conditions2 = array('id_user' => $newId, 'firstname' => "'" . $name ."'", 'lastname' => "'" . $surname . "'", 'email' => "'" . $email . "'", 'treatment' => "'" . $treatment . "'");
+    $db2 = new DB("");
+    $db2->insert('user_profile', $conditions2);
+
 
 }
 

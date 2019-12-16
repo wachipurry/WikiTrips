@@ -28,7 +28,7 @@ class DB extends DBconn
     }
 
     public function insert($table, $conditions){
-
+        //Crear (concatenando) la query SQL
         $sql = "INSERT INTO " . $table . "(";
         $fields_num = count(array_keys($conditions));
         for ($i = 0; $i < ($fields_num - 1); $i++) {
@@ -41,7 +41,16 @@ class DB extends DBconn
         }
         $res = substr($sql2, 0, -2);
         $sql .= $res . ')';
-        echo $sql;
+
+        //Asignar la SQL generada al atributo de la conexion
+        $this->sql =$sql;
+        $this->insert_query($this->sql);
+
+        return $this->lastID;
+        //echo $this->conn->insert_id;
+        
+
+        //echo 'id de usuario insertado = ' . $result;
 
 
     }
