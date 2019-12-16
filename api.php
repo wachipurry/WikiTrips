@@ -5,7 +5,7 @@ $_SESSION['intentos'] = 0;
 
 //Importación conexión DB y funciones
 require('DDBB/db_gestor.php');
-
+include('functions.php');
 
 if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
     if (!empty($_GET['apiCode'])) { //Comprobar que el POST['apiCode'] no està vacio
@@ -30,6 +30,7 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
                             if (comprobar_login($user, $pwd)) {
                                 $_SESSION['username'] = $user;
                                 $_SESSION['intentos'] = 0;
+                                //INCLUIR HTML PAGINA INICIO USUARIO LOGEADO
                                 echo 'true';
                             } else {
                                 $_SESSION['intentos']++;
@@ -39,15 +40,24 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
                             echo "MAXIMO de INTENTOS";
                         }
                     }
-
-
-
-
                 } else {
                     echo "Invalid user request";
                 }
                 break;
 
+            case 202: // code 202 = registro de usurio
+                $nickname = htmlentities($_GET["nickname"]);
+                $name = htmlentities($_GET["name"]);
+                $surname = htmlentities($_GET["surname"]);
+                $password = htmlentities($_GET["password"]);
+                $email = htmlentities($_GET["email"]);
+                $treatment = htmlentities($_GET["treatment"]);
+                $error = validateDataSignIn($nickname, $name, $surname, $password, $email, $treatment);
+                if (!empty($error) && $error != "") {
+                    echo $error;
+                } else {
+                    insertar_usuario($nickname,$name, $surname, $password, $email, $treatment);
+                }
                 //default:
                 //return 'Invalid request !!';
         }
@@ -123,7 +133,7 @@ function lista_trips_por_rating($num)
     //print_r($keys);
     //echo '<hr>';;
     $pintar = json_encode($datos);
-    echo $pintar; 
+    echo $pintar;
 }
 
 /**103
@@ -192,3 +202,12 @@ function comprobar_login($nick, $pwd)
         return false;
     }
 }
+
+function insertar_usuario($nickname,$name, $surname, $password, $email, $treatment) {
+    $conditions1 = array('alias' => $nickname, 'id_status' => 1);
+    $db = new DB("");
+    $db->insert('user_details', $conditions1);
+
+}
+
+

@@ -76,6 +76,8 @@ abstract class DBconn
     }
 
     protected abstract function selectAll();
+    protected abstract function insert($table, $conditions){
+
 
 
     /**

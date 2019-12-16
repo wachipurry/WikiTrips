@@ -26,4 +26,23 @@ class DB extends DBconn
 
         return $resultados;
     }
+
+    public function insert($table, $conditions){
+
+        $sql = "INSERT INTO " . $table . "(";
+        $fields_num = count(array_keys($conditions));
+        for ($i = 0; $i < ($fields_num - 1); $i++) {
+            $sql .= array_keys($conditions)[$i] . ", ";
+        }
+        $sql .= array_keys($conditions)[$fields_num - 1] . ') VALUES (';
+        $sql2 = "";
+        foreach ($conditions as $key => $value) {
+            $sql2 .= $value . ", ";
+        }
+        $res = substr($sql2, 0, -2);
+        $sql .= $res . ')';
+        echo $sql;
+
+
+    }
 }
