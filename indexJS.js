@@ -10,7 +10,7 @@ class Model {
         101-> Ver la preview de las experiencias
         102-> Experiencias completas
         201-> Log in
-        202-> sign in
+        202-> sign in 
     */
 
     createDefaultExperiences() {
@@ -51,8 +51,8 @@ class Model {
 //Declaracion de la vista
 class View {
     //Constructor que crea lo necesario cuando se declara la vista
-    constructor() {
-        console.log("Vista creada");
+    constructor(controller) {
+       console.log("Vista creada");
     }
 
     //inner text en el div principal con las experiencias preview
@@ -71,6 +71,22 @@ class View {
                 work.getInputSignIn(controller);
             }
         );
+        $("#submitLogInButton").click(
+            function () {
+                work.getInputLogIn(controller);
+            }
+        );
+    }
+
+    getInputLogIn(controller){
+        let nickname=$("#nicknameLogIn").val();
+        let password=$("#passwordLogIn").val();
+        let textoError = controller.validateFormLogIn(nickname,password);
+        if (textoError != "") {
+            this.loadDangerAlert("#modalLogInAlert",textoError);
+        } else {
+            controller.ajaxSubmitLogIn(nickname,password);
+        }
     }
 
     getInputSignIn(controller) {
@@ -79,16 +95,28 @@ class View {
         let email = $("#email").val();
         let pass1 = $("#passwordA").val();
         let pass2 = $("#passwordB").val();
-        let textoError = controller.validateForm(nickname, name, email, pass1, pass2);
+        let textoError = controller.validateFormSignIn(nickname, name, email, pass1, pass2);
         if (textoError != "") {
-            $("#modalSignInAlert").addClass("alert alert-danger");
-            $("#modalSignInAlert").html("<ul>" + textoError + "</ul>");
-            $("#modalSignInAlert").show();
+            this.loadDangerAlert("#modalSignInAlert",textoError);
         } else {
             let treatment = $("#treatment").val();
             let surname = $("#surname").val();
             controller.ajaxSubmitSignIn(nickname, name, surname, email, pass1, treatment);
         }
+    }
+
+    loadDangerAlert(idModal,textoError){
+        $(idModal).removeClass("alert-success");
+        $(idModal).addClass("alert alert-danger");
+        $(idModal).html("<ul>" + textoError + "</ul>");
+        $(idModal).show();
+    }
+
+    loadSuccessAlert(idModal){
+        $(idModal).removeClass("alert-danger");
+        $(idModal).addClass("alert alert-success");
+        $(idModal).html("Success !");
+        $(idModal).show();
     }
 }
 
@@ -109,7 +137,7 @@ class Controller {
     ajaxRequestPreviewExperiences() {
         let work = this;
         $.ajax({
-            type: 'post',
+            type: 'get',
             //Hay que poner la ruta completa en la url para poder hacer la request
             url: "apiPrueba.php",
             data: {
@@ -146,7 +174,7 @@ class Controller {
     ajaxRequestFullExperiences() {
         let work = this;
         $.ajax({
-            type: 'post',
+            type: 'get',
             url: "apiPrueba.php",
             data: {
                 apiCode: "102"
@@ -176,12 +204,13 @@ class Controller {
         return textHtml;
     }
 
-    validateForm(nickname, name, email, pass1, pass2) {
+    validateFormSignIn(nickname, name, email, pass1, pass2) {
         let textoError = "";
         nickname = nickname.trim();
         name = name.trim();
         pass1 = pass1.trim();
         pass2 = pass2.trim();
+        email=email.trim();
         if (nickname == "") {
             textoError += "<li>Empty nickname</li>";
         }
@@ -201,10 +230,27 @@ class Controller {
 
     }
 
+    validateFormLogIn(nickname,password){
+        let textoError = "";
+        nickname = nickname.trim();
+        password = password.trim();
+        if (nickname == "") {
+            textoError += "<li>Empty nickname</li>";
+        }
+        if (password == "") {
+            textoError += "<li>Empty password</li>";
+        }
+        
+        return textoError;
+    }
+
+
+
     ajaxSubmitSignIn(nickname,name,surname,email,pass1,treatment){
+        let work=this;
         $.ajax({
 
-            type: "post",
+            type: "get",
             url: "apiPrueba.php",
             data: {
                 apiCode: "202",
@@ -217,17 +263,9 @@ class Controller {
             },
             success: function(result) {
                 if(result!=""){
-                    console.log(result);
-                    $("#modalSignInAlert").removeClass("alert-success");
-                    $("#modalSignInAlert").addClass("alert alert-danger");
-                    $("#modalSignInAlert").html("<ul>"+result+"</ul>");
-                    $("#modalSignInAlert").show();
+                   work.view.loadDangerAlert("#modalSignInAlert",result);
                 }else{
-                    $("#modalSignInAlert").removeClass("alert-danger");
-                    $("#modalSignInAlert").addClass("alert alert-success");
-                    $("#modalSignInAlert").html("Ta gucci brother !");
-                    $("#modalSignInAlert").show();
-        
+                   work.view.loadSuccessAlert("#modalSignInAlert");
                 }
             },
             error: function() {
@@ -236,7 +274,29 @@ class Controller {
         });
     }
 
-   
+    ajaxSubmitLogIn(nickname,password) {
+        let work=this;
+        $.ajax({
+            type: "get",
+            url: "apiPrueba.php",
+            data: {
+                apiCode: "201",
+                uId:nickname,
+                uPwd:password
+            },
+            success: function(result) {
+                alert(result);
+            /*    if(result!=""){
+                   work.view.loadDangerAlert("#modalSignInAlert",result);
+                }else{
+                   work.view.loadSuccessAlert("#modalSignInAlert");
+                }*/
+            },
+            error: function() {
+                console.log("ERROR petición ajax de enviar datos LogIn");
+            }
+        });
+    }
 
 
 

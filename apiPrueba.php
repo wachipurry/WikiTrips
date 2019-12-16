@@ -18,9 +18,9 @@
     ]
 ];
 echo json_encode($arrayPrueba);*/
-    if (isset($_POST["apiCode"])){
-        if(!empty($_POST["apiCode"])){
-            $code=htmlentities($_POST["apiCode"]);
+    if (isset($_GET["apiCode"])){
+        if(!empty($_GET["apiCode"])){
+            $code=htmlentities($_GET["apiCode"]);
             if($code=="101"){
                 $arrayPrueba=[
                     [
@@ -40,16 +40,22 @@ echo json_encode($arrayPrueba);*/
                         "trip_thumb"=>'https://picsum.photos/200'
                     ]
                 ];
-                echo json_encode($arrayPrueba);
+                echo json_encode($arrayPrueba); 
+            }
+            
+            if($code=="201"){
+                $user=htmlentities($_GET["uId"]);
+                $password=htmlentities($_GET["uPwd"]);
+                echo "Welcome ".$user;
             }
             if($code=="202"){
-                $nickname=htmlentities($_POST["nickname"]);
-                $name=htmlentities($_POST["name"]);
-                $surname=htmlentities($_POST["surname"]);
-                $password=htmlentities($_POST["password"]);
-                $email=htmlentities($_POST["email"]);
-                $treatment=htmlentities($_POST["treatment"]);
-                $error=validateData($nickname,$name,$surname,$password,$email,$treatment);
+                $nickname=htmlentities($_GET["nickname"]);
+                $name=htmlentities($_GET["name"]);
+                $surname=htmlentities($_GET["surname"]);
+                $password=htmlentities($_GET["password"]);
+                $email=htmlentities($_GET["email"]);
+                $treatment=htmlentities($_GET["treatment"]);
+                $error=validateDataSignIn($nickname,$name,$surname,$password,$email,$treatment);
                 if(!empty($error) && $error!=""){
                     echo $error;
                 }
@@ -57,11 +63,13 @@ echo json_encode($arrayPrueba);*/
                     echo "";
                 }
             }
+
         }
     }
 
+        
 
-        function validateData($nickname,$name,$surname,$password,$email,$treatment){
+        function validateDataSignIn($nickname,$name,$surname,$password,$email,$treatment){
             $error="";
             if(empty($nickname)){
                 $error .= "<li>The nickname is empty</li>";
