@@ -1,7 +1,7 @@
 <!-- Creación del modal de prueba con todas las clases de boostrap para que se parezca -->
 <div id="sigInModal" class="sigInModal modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <div class="card-body modal-content">
                 <div  id="modalSignInAlert" style="display: none;"  role="alert">
                    
                   </div>
@@ -39,7 +39,7 @@
                     <div class="form-group">
                         <input type="password" class="form-control" id="passwordB" placeholder="Repeat the password" required>
                     </div>
-                    <button id="submitSignInButton" type="button" class="btn btn-succes">Sig In</button>
+                    <button id="submitSignInButton" type="button" class="btn btn-success">Sig In</button>
                 </form>
             </div>
         </div>

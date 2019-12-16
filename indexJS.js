@@ -139,7 +139,7 @@ class Controller {
         $.ajax({
             type: 'get',
             //Hay que poner la ruta completa en la url para poder hacer la request
-            url: "apiPrueba.php",
+            url: "api.php",
             data: {
                 apiCode: "101"
             },
@@ -160,12 +160,20 @@ class Controller {
 
     //Forma el texto con las experiencias
     createPreviewExperiencesHTML(arrayExperiences) {
-        let textHtml = ``;
+        let textHtml = `<div class="row">`;
         for (let i = 0; i < arrayExperiences.length; i++) {
-            textHtml += `<div class="col-md-3">`;
-            textHtml += `<h2>${arrayExperiences[i].trip_name}</h2>`;
-            textHtml += `<img src="${arrayExperiences[i].trip_thumb}" alt="test" > `;
-            textHtml += `</div>`;
+            textHtml += `<div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="card" style="width: auto;">
+                    <img src="img/${arrayExperiences[i].trip_thumb}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">${arrayExperiences[i].trip_name}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Autor o ciudad</h6>
+                        <p class="card-text">${arrayExperiences[i].trip_resum}</p>
+                        <a href="#" class="card-link text-success">+ INFO</a>
+                        <a href="#" class="card-link text-warning">REPORTAR</a>
+                    </div>
+                </div>
+            </div> `;
         }
         return textHtml;
     }
@@ -175,7 +183,7 @@ class Controller {
         let work = this;
         $.ajax({
             type: 'get',
-            url: "apiPrueba.php",
+            url: "api.php",
             data: {
                 apiCode: "102"
             },
@@ -251,7 +259,7 @@ class Controller {
         $.ajax({
 
             type: "get",
-            url: "apiPrueba.php",
+            url: "api.php",
             data: {
                 apiCode: "202",
                 nickname:nickname,
@@ -278,7 +286,7 @@ class Controller {
         let work=this;
         $.ajax({
             type: "get",
-            url: "apiPrueba.php",
+            url: "api.php",
             data: {
                 apiCode: "201",
                 uId:nickname,
