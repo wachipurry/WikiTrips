@@ -1,6 +1,8 @@
 <?php
 session_start();
 $_SESSION['IP'] = getRealIP();
+$_SESSION['intentos'] = 0;
+
 //Importación conexión DB y funciones
 require('db_gestor.php');
 
@@ -28,13 +30,19 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
                             if (comprobar_login($user, $pwd)) {
                                 $_SESSION['username'] = $user;
                                 $_SESSION['intentos'] = 0;
+                                echo 'true';
                             } else {
                                 $_SESSION['intentos']++;
+                                echo 'false';
                             }
                         } else {
                             echo "MAXIMO de INTENTOS";
                         }
                     }
+
+
+
+
                 } else {
                     echo "Invalid user request";
                 }
@@ -65,7 +73,7 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
                 }
             }
         } else {
-            echo "Invalid tID request";
+            //echo "Invalid tID request";
         }
     }
 }
