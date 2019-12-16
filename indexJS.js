@@ -52,7 +52,7 @@ class Model {
 class View {
     //Constructor que crea lo necesario cuando se declara la vista
     constructor(controller) {
-       console.log("Vista creada");
+        console.log("Vista creada");
     }
 
     //inner text en el div principal con las experiencias preview
@@ -60,12 +60,8 @@ class View {
         $("#featured_box").html(textHtml);
     }
 
-    createDivsFullExperiences(textHtml) {
-        $("#secundario").html(textHtml);
-    }
-
     setUpClicks(controller) {
-        let work=this;
+        let work = this;
         $("#submitSignInButton").click(
             function () {
                 work.getInputSignIn(controller);
@@ -78,14 +74,15 @@ class View {
         );
     }
 
-    getInputLogIn(controller){
-        let nickname=$("#nicknameLogIn").val();
-        let password=$("#passwordLogIn").val();
-        let textoError = controller.validateFormLogIn(nickname,password);
+    getInputLogIn(controller) {
+        let nickname = $("#nicknameLogIn").val();
+        let password = $("#passwordLogIn").val();
+        let textoError = controller.validateFormLogIn(nickname, password);
         if (textoError != "") {
-            this.loadDangerAlert("#modalLogInAlert",textoError);
+            this.loadDangerAlert("#modalLogInAlert", textoError);
         } else {
-            controller.ajaxSubmitLogIn(nickname,password);
+            console.log("click");
+            controller.ajaxSubmitLogIn(nickname, password);
         }
     }
 
@@ -97,7 +94,7 @@ class View {
         let pass2 = $("#passwordB").val();
         let textoError = controller.validateFormSignIn(nickname, name, email, pass1, pass2);
         if (textoError != "") {
-            this.loadDangerAlert("#modalSignInAlert",textoError);
+            this.loadDangerAlert("#modalSignInAlert", textoError);
         } else {
             let treatment = $("#treatment").val();
             let surname = $("#surname").val();
@@ -105,14 +102,14 @@ class View {
         }
     }
 
-    loadDangerAlert(idModal,textoError){
+    loadDangerAlert(idModal, textoError) {
         $(idModal).removeClass("alert-success");
         $(idModal).addClass("alert alert-danger");
         $(idModal).html("<ul>" + textoError + "</ul>");
         $(idModal).show();
     }
 
-    loadSuccessAlert(idModal){
+    loadSuccessAlert(idModal) {
         $(idModal).removeClass("alert-danger");
         $(idModal).addClass("alert alert-success");
         $(idModal).html("Success !");
@@ -189,7 +186,7 @@ class Controller {
             },
             success: function (result) {
                 let textoHTML = work.createFullExperiencesHTML(JSON.parse(result));
-                work.view.createDivsFullExperiences(textoHTML);
+                work.view.createDivsExperiences(textoHTML);
             }
         });
 
@@ -200,14 +197,20 @@ class Controller {
         let textHtml = ``;
         this.model.updateExperiences(arrayExperiences);
         for (let i = 0; i < arrayExperiences.length; i++) {
-            textHtml += `<div class="col-md-3">`;
-            textHtml += `<h2>${arrayExperiences[i].trip_name}</h2>`;
-            textHtml += `<img src="${arrayExperiences[i].trip_thumb}" alt="test" > `;
-            textHtml += `<label>${arrayExperiences[i].trip_resum}</label>`;
-            textHtml += `<label>${arrayExperiences[i].trip_date}</label>`;
-            textHtml += `<label>${arrayExperiences[i].trip_author}</label>`;
-            textHtml += `<label>${arrayExperiences[i].trip_rate}</label>`;
-            textHtml += `</div>`;
+          textHtml+=`  <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="card" style="width: auto;">
+                    <img src="img/${arrayExperiences[i].trip_thumb}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">${arrayExperiences[i].trip_name}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">${arrayExperiences[i].trip_author}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">${arrayExperiences[i].trip_date}</h6>
+                        <p class="card-text">${arrayExperiences[i].trip_resum}</p>
+                        <a href="#" class="card-link text-success">${arrayExperiences[i].trip_rate}</a>
+                        <a href="#" class="card-link text-warning">REPORTAR</a>
+                    </div>
+                </div>
+            </div> `;
+            
         }
         return textHtml;
     }
@@ -218,7 +221,7 @@ class Controller {
         name = name.trim();
         pass1 = pass1.trim();
         pass2 = pass2.trim();
-        email=email.trim();
+        email = email.trim();
         if (nickname == "") {
             textoError += "<li>Empty nickname</li>";
         }
@@ -238,7 +241,7 @@ class Controller {
 
     }
 
-    validateFormLogIn(nickname,password){
+    validateFormLogIn(nickname, password) {
         let textoError = "";
         nickname = nickname.trim();
         password = password.trim();
@@ -248,60 +251,84 @@ class Controller {
         if (password == "") {
             textoError += "<li>Empty password</li>";
         }
-        
+
         return textoError;
     }
 
 
 
-    ajaxSubmitSignIn(nickname,name,surname,email,pass1,treatment){
-        let work=this;
+    ajaxSubmitSignIn(nickname, name, surname, email, pass1, treatment) {
+        let work = this;
         $.ajax({
 
             type: "get",
             url: "api.php",
             data: {
                 apiCode: "202",
-                nickname:nickname,
-                name:name,
-                surname:surname,
-                email:email,
-                password:pass1,
-                treatment:treatment
+                nickname: nickname,
+                name: name,
+                surname: surname,
+                email: email,
+                password: pass1,
+                treatment: treatment
             },
-            success: function(result) {
-                if(result!=""){
-                   work.view.loadDangerAlert("#modalSignInAlert",result);
-                }else{
-                   work.view.loadSuccessAlert("#modalSignInAlert");
+            success: function (result) {
+                if (result != "") {
+                    work.view.loadDangerAlert("#modalSignInAlert", result);
+                } else {
+                    work.view.loadSuccessAlert("#modalSignInAlert");
                 }
             },
-            error: function() {
+            error: function () {
                 console.log("ERROR petición ajax de enviar datos SignIn");
             }
         });
     }
 
-    ajaxSubmitLogIn(nickname,password) {
-        let work=this;
+    ajaxSubmitLogIn(nickname, password) {
+        let work = this;
         $.ajax({
             type: "get",
             url: "api.php",
             data: {
                 apiCode: "201",
-                uId:nickname,
-                uPwd:password
+                uId: nickname,
+                uPwd: password
             },
-            success: function(result) {
-                alert(result);
-            /*    if(result!=""){
-                   work.view.loadDangerAlert("#modalSignInAlert",result);
-                }else{
-                   work.view.loadSuccessAlert("#modalSignInAlert");
-                }*/
+            success: function (result) {
+                if (result == "false") {
+                    work.view.loadDangerAlert("#modalLogInAlert", result);
+                } else {
+                    work.view.loadSuccessAlert("#modalLogInAlert");
+                    work.ajaxOrderByDate();
+                }
             },
-            error: function() {
+            error: function () {
                 console.log("ERROR petición ajax de enviar datos LogIn");
+            }
+        });
+    }
+
+
+    ajaxOrderByDate() {
+        let work = this;
+        $.ajax({
+            type: "get",
+            url: "api.php",
+            data: {
+                apiCode: "101",
+                //Seria conveniente enviar un token o algo para confirmar que está registradoS
+            },
+            success: function (result) {
+                if (result == "false") {
+                    //Avisar de que no se han podido ordenar
+                } else {
+                    let textHTML=work.createFullExperiencesHTML(result);
+                    work.view.createDivsExperiences(textHTML);
+                }
+            },
+            error: function () {
+                console.log("ERROR petición ajax de cargar experiencias por fecha");
             }
         });
     }
