@@ -49,6 +49,12 @@ abstract class DBconn
         $this->conn->close();
     }
 
+    abstract protected function selectAll();
+    abstract protected function insert($table, $conditions);
+    abstract protected function update($table, $conditions, $id);
+
+
+
     // METODO PARA HACER UNA CONSULTA SELECT
     protected function execute_query()
     {
@@ -76,6 +82,7 @@ abstract class DBconn
         $this->conn_close();
     }
 
+    // METODO PARA HACER UN INSERT
     function insert_query()
     {
         $this->conn_open();
@@ -91,8 +98,6 @@ abstract class DBconn
         }
         $this->conn_close();
     }
-
-
 }
 
 /**

@@ -8,7 +8,7 @@ require_once('db_base.php');
 
 class DB extends DBconn
 {
-    
+
     /**
      * Constructor! Hay que pasarle la query SQL especifica a ejecutar
      */
@@ -27,7 +27,8 @@ class DB extends DBconn
         return $resultados;
     }
 
-    public function insert($table, $conditions){
+    public function insert($table, $conditions)
+    {
         //Crear (concatenando) la query SQL
         $sql = "INSERT INTO " . $table . "(";
         $fields_num = count(array_keys($conditions));
@@ -43,15 +44,33 @@ class DB extends DBconn
         $sql .= $res . ')';
 
         //Asignar la SQL generada al atributo de la conexion
-        $this->sql =$sql;
+        $this->sql = $sql;
         $this->insert_query($this->sql);
 
         return $this->lastID;
         //echo $this->conn->insert_id;
-        
-
         //echo 'id de usuario insertado = ' . $result;
+    }
 
+    public function update($table, $conditions, $where)
+    {
+        //Crear (concatenando) la query SQL
+        $sql = "UPDATE " . $table . " SET ";
 
+        $sql2 = "";
+        foreach ($conditions as $key => $value) {
+            $sql2 .= $key . " = " . $value . ", ";
+        }
+        $res = substr($sql2, 0, -2);
+        $id_field = array_keys($where)[0];
+        $sql .= $res . ') WHERE ' . $id_field . ' = ' . $where[$id_field];
+
+        //Asignar la SQL generada al atributo de la conexion
+        //$this->sql =$sql;
+        //$this->insert_query($this->sql);
+        echo $sql;
+        //return $this->lastID;
+        //echo $this->conn->insert_id;
+        //echo 'id de usuario insertado = ' . $result;
     }
 }

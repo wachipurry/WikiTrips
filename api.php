@@ -20,6 +20,40 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
                 lista_trips_por_rating(4);
                 break;
 
+            case 103: // code 103 = lista con info detallada de un trip
+                if (isset($_GET['tId'])) { //Comprobar que POST['tId'] existe
+                    if (!empty($_GET['tId'])) { //Comprobar que el POST['tId'] no està vacio
+                        $id = htmlentities($_GET['tId']); //Sanear la entrada del POST['tId']
+                        info_detalle_1_trip($id);
+                    }
+                } else {
+                    echo "Invalid user request";
+                }
+                break;
+
+            case 104: // code 104 = lista de categorias de un trip
+                if (isset($_GET['tId'])) { //Comprobar que POST['tId'] existe
+                    if (!empty($_GET['tId'])) { //Comprobar que el POST['tId'] no està vacio
+                        $id = htmlentities($_GET['tId']); //Sanear la entrada del POST['tId']
+                        categorias_1_trip($id);
+                    }
+                } else {
+                    echo "Invalid user request";
+                }
+                break;
+            case 105: // code 105 = Valoración de un trip
+
+                if (isset($_GET['tId'])) { //Comprobar que POST['tId'] existe
+                    if (!empty($_GET['tId'])) { //Comprobar que el POST['tId'] no està vacio
+                        $id = htmlentities($_GET['tId']); //Sanear la entrada del POST['tId']
+                        rating_1_trip($id);
+                    }
+                } else {
+                    echo "Invalid user request";
+                }
+                break;
+
+
             case 201: // code 201 = login
                 if (isset($_GET['uId']) && isset($_GET['uId'])) { //Comprobar que POST['uId'] y POST['uPwd'] existe
                     if (!empty($_GET['uPwd']) && !empty($_GET['uPwd'])) { //Comprobar que el POST['uId'] y POST['uPwd'] no està vacio
@@ -45,47 +79,52 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
                 }
                 break;
 
-            case 202: // code 202 = registro de usurio
+            case 202: // code 202 = registro de usuario
                 $nickname = htmlentities($_GET["nickname"]);
-                $name = htmlentities($_GET["name"]);
-                $surname = htmlentities($_GET["surname"]);
+                $firstname = htmlentities($_GET["name"]);
+                $lastname = htmlentities($_GET["surname"]);
                 $password = htmlentities($_GET["password"]);
                 $email = htmlentities($_GET["email"]);
                 $treatment = htmlentities($_GET["treatment"]);
-                $error = validateDataSignIn($nickname, $name, $surname, $password, $email, $treatment);
+                //Validar datos y respuesta de error
+                $error = validate_signIn($nickname, $name, $password, $email);
+
                 if (!empty($error) && $error != "") {
                     echo $error;
-                } else {
-                    insertar_usuario($nickname,$name, $surname, $password, $email, $treatment);
+                } else { // SI TODO CORRECTO HACER INSERT
+                    $firsname = string_to_title($firstname);
+                    $lastname = string_to_title($lastname);
+                    insertar_usuario($nickname, $firstname, $lastname, $password, $email, $treatment);
                 }
+
+            case 203: // apiCode 203 = Editar perfil de usuario
+                $nickname = htmlentities($_GET["user_nickname"]);
+                $treatment = htmlentities($_GET["user_treatment"]);
+                $firstname = htmlentities($_GET["user_name"]);
+                $lastname = htmlentities($_GET["user_surname"]);
+                $description = htmlentities($_GET["user_description"]);
+                $user_image = htmlentities($_GET["user_image"]);
+                $email = htmlentities($_GET["user_email"]);
+                $publicity = htmlentities($_GET["allow_add"]);
+                //Validar datos y respuesta de error
+                $error = validate_edit_profile($nickname, $treatment, $firstname, $lastname, $description, $user_image, $email, $publicity);
+                if (!empty($error) && $error != "") {
+                    echo $error;
+                } else { // SI TODO CORRECTO HACER UPDATE
+                    editar_usuario($nickname, $treatment, $firstname, $lastname, $description, $user_image, $email, $publicity);
+                }
+
+
+
+
                 //default:
                 //return 'Invalid request !!';
         }
-
-
-
-        // Si tambien hay un tId
-        if (isset($_GET['tId'])) { //Comprobar que POST['tId'] existe
-            if (!empty($_GET['tId'])) { //Comprobar que el POST['tId'] no està vacio
-                $id = htmlentities($_GET['tId']); //Sanear la entrada del POST['tId']
-                switch ($code) {
-                    case 103: // code 103 = lista con info detallada de un trip
-                        info_detalle_1_trip($id);
-                        break;
-                    case 104: // code 104 = lista de categorias de un trip
-                        categorias_1_trip($id);
-                        break;
-                    case 105: // code 105 = Valoración de un trip
-                        rating_1_trip($id);
-                        break;
-                        //default:
-                        //return 'Invalid request !!';
-                }
-            }
-        } else {
-            //echo "Invalid tID request";
-        }
+    } else { //De lo contrario --> POST['apiCode'] està vacio
+        form_api();
     }
+} else { //De lo contrario --> POST['apiCode'] no existe
+    form_api();
 }
 
 
@@ -192,9 +231,9 @@ function rating_1_trip($id)
  * @return  (true || false)
  * */
 
-function comprobar_login($nick, $pwd)
+function comprobar_login($nickname, $pwd)
 {
-    $db = new DB("SELECT pwd FROM `user_login` WHERE user_nickname = '" . $nick . "'");
+    $db = new DB("SELECT pwd FROM `user_login` WHERE user_nickname = '" . $nickname . "'");
     $datos = $db->selectAll();
     if ($pwd === $datos[0]['pwd']) {
         return true;
@@ -203,16 +242,34 @@ function comprobar_login($nick, $pwd)
     }
 }
 
-function insertar_usuario($nickname,$name, $surname, $password, $email, $treatment) {
-    $conditions1 = array('alias' => "'" . $nickname ."'", 'id_status' => 1);
+function insertar_usuario($nickname, $name, $surname, $password, $email, $treatment)
+{
+    $conditions1 = array('alias' => "'" . $nickname . "'", 'id_status' => 1);
     $db1 = new DB("");
     $newId = $db1->insert('user_details', $conditions1);
 
-    $conditions2 = array('id_user' => $newId, 'firstname' => "'" . $name ."'", 'lastname' => "'" . $surname . "'", 'email' => "'" . $email . "'", 'treatment' => "'" . $treatment . "'");
+    $conditions2 = array('id_user' => $newId, 'firstname' => "'" . $name . "'", 'lastname' => "'" . $surname . "'", 'email' => "'" . $email . "'", 'treatment' => "'" . $treatment . "'");
     $db2 = new DB("");
     $db2->insert('user_profile', $conditions2);
 
-
+    $conditions3 = array('id_user' => $newId, 'pass' => "'" . $password . "')");
+    $db2 = new DB("");
+    $db2->insert('pass', $conditions3);
 }
 
+function editar_usuario($nickname, $treatment, $firstname, $lastname, $description, $user_image, $email, $publicity)
+{
 
+    ///api.php?apiCode=203&user_nickname=marccc&user_treatment=treat&user_name=name&user_surname=sur&user_email=email@email.com&allow_add=yes&user_description=description&user_image=JPG
+    $db = new DB("SELECT user_id FROM `users` WHERE user_nickname = '" . $nickname . "'");
+    $id = $db->selectAll();
+    $condition = $id[0];
+
+
+    $sets = array('treatment' => "'" . $treatment . "'", 'firstname' => "'" . $firstname . "'", 'lastname' => "'" . $lastname . "'", 'img_profile' => "'" . $user_image . "'", 'descr' => "'" . $description . "'", 'email' => "'" . $email . "'", 'email' => "'" . $email . "'", 'opt_in' => "'" . $publicity . "'");
+    $db1 = new DB("");
+    $db1->update('user_details', $sets, $condition);
+}
+
+function añadir_experiencia($nickname, $name, $surname, $password, $email, $treatment)
+{ }

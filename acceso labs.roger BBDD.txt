@@ -1,0 +1,22 @@
+BBDD
+
+
+database -> a19rogcalrul_wikitrips
+
+user -> a19rogcalrul_ajr
+
+pass -> ajr2019wt
+
+CREATE VIEW login AS SELECT
+alias AS user_nickname,
+pass AS pwd
+FROM pass
+JOIN user_details USING (id_user)
+
+CREATE VIEW trip_rate AS SELECT
+id_trip AS trip_id,
+avg(rate) AS trip_rate FROM trips
+JOIN ratings USING (id_trip)
+GROUP BY id_trip
+
+CREATE VIEW users AS SELECT id_user AS user_id, alias AS user_nickname FROM `user_details`
