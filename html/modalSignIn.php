@@ -8,15 +8,15 @@
                 <form>
                     <div class="form-group">
                         <label for="nickname">Nickname</label>
-                        <input type="text" class="form-control" id="nickname" placeholder="Nickname" required>
+                        <input type="text" class="form-control" id="nickname" placeholder="Pakito69" required>
                     </div>
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" placeholder="Name" required>
+                        <input type="text" class="form-control" id="name" placeholder="Paco" required>
                     </div>
                     <div class="form-group">
                         <label for="surname">Surnames</label>
-                        <input type="text" class="form-control" id="surname" placeholder="Surname">
+                        <input type="text" class="form-control" id="surname" placeholder="García">
                     </div>
                     <div class="form-group">
                         <label for="treatment">Treatment:</label>
@@ -28,7 +28,7 @@
                     </div>
                     <div class="form-group">
                         <label for="email">Email address</label>
-                        <input type="email" class="form-control" id="email" placeholder="Enter email" required>
+                        <input type="email" class="form-control" id="email" placeholder="paco@inspedralbes.cat" required>
                     </div>
                     <div class="form-group">
                         <label for="passwordA">Password </label>

@@ -72,6 +72,16 @@ class View {
                 work.getInputLogIn(controller);
             }
         );
+        $("#submitAddTripButton").click(
+            function(){
+                work.getInputAddTrip(controller);
+            }
+        );
+        $("#submitEditProfileButton").click(
+            function(){
+                work.getInputEditProfile(controller);
+            }
+        );
     }
 
     setUpPageAfterLogIn(textNav, texNavBar, textFeature) {
@@ -87,7 +97,6 @@ class View {
         if (textoError != "") {
             this.loadDangerAlert("#modalLogInAlert", textoError);
         } else {
-            console.log("click");
             controller.ajaxSubmitLogIn(nickname, password);
         }
     }
@@ -108,7 +117,7 @@ class View {
         }
     }
 
-    getInputEditProfile() {
+    getInputEditProfile(controller) {
         let nickname = $("#nicknameEdit").val();
         let name = $("#nameEdit").val();
         let surname = $("#surnameEdit").val();
@@ -124,13 +133,14 @@ class View {
 
     }
 
-    getInputAddTrip() {
+    getInputAddTrip(controller) {
         let title = $("#tripTitle").val();
         let resume = $("#tripResume").val();
         let description = $("#tripDescription").val();
         let location = $("#tripLocation").val();
         let category = $("#tripCategory").val();
         let img = $("#tripImg").val();
+        let textoError=controller.validateFormAddTrip(title,resume,description,location,category,img);
         if (textoError != "") {
             this.loadDangerAlert("#modalAddTripAlert", textoError);
         } else {
@@ -160,7 +170,6 @@ class Controller {
         this.view.setUpClicks(this);
         //Peticion de ajax al cargar el controlador con las experiencias previas
         this.ajaxRequestPreviewExperiences();
-        // this.ajaxRequestFullExperiences();
 
         console.log("Controlador creado");
 
@@ -303,7 +312,43 @@ class Controller {
         return textoError;
     }
 
-
+    validateFormAddTrip(title,resume,description,location,category,img){
+        title=title.trim();
+        resume=resume.trim();
+        description=description.trim();
+        location=location.trim()
+        category=category.trim();
+        img=img.trim();
+        let textoError="";
+        if (title == "") {
+            textoError += "<li>Empty title</li>";
+        }
+        if (resume == "") {
+            textoError += "<li>Empty resume</li>";
+        }
+        if (description == "") {
+            textoError += "<li>Empty description</li>";
+        }
+        if (location == "") {
+            textoError += "<li>Empty location</li>";
+        }
+        if (category == "") {
+            textoError += "<li>Empty category</li>";
+        }
+        if (img == "") {
+            textoError += "<li>Empty img</li>";
+        }
+        if (title.length > 50) {
+            textoError += "<li>The Title is to large</li>";
+        }
+        if (resume.length > 150) {
+            textoError += "<li>The Resume is to large</li>";
+        }
+        if (description > 300) {
+            textoError += "<li>The Description is to large</li>";
+        }
+        return textoError;
+    }
 
     ajaxSubmitSignIn(nickname, name, surname, email, pass1, treatment) {
         let work = this;

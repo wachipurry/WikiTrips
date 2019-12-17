@@ -10,15 +10,15 @@
             <form>
                 <div class="form-group">
                     <label for="tripTitle">Title</label>
-                    <input type="text" class="form-control" id="tripTitle" placeholder="Trip title" >
+                    <input type="text" class="form-control" id="tripTitle" placeholder="Max 50 characters" >
                 </div>
                 <div class="form-group">
                     <label for="tripResume">Resume</label>
-                    <textarea class="form-control" id="tripResume" rows="2" cols="50"></textarea>
+                    <textarea class="form-control" id="tripResume" rows="2" cols="50" placeholder="Max 150 characters" ></textarea>
                 </div>
                 <div class="form-group">
                     <label for="tripDescription">Description</label>
-                    <textarea class="form-control" id="tripDescription" rows="4" cols="50"></textarea>
+                    <textarea class="form-control" id="tripDescription" rows="4" cols="50" placeholder="Max 300 characters" ></textarea>
                 </div>
                 <div class="form-group">
                     <label for="tripLocation">Trip location</label>

@@ -10,32 +10,26 @@
             <form>
                 <div class="form-group">
                     <label for="nicknameEdit">Nickname</label>
-                    <input type="text" class="form-control" id="nicknameEdit" placeholder="Nickname" >
+                    <input type="text" class="form-control" id="nicknameEdit" placeholder="Pakito69" readonly>
                 </div>
                 <div class="form-group">
                     <label for="nameEdit">Name</label>
-                    <input type="text" class="form-control" id="nameEdit" placeholder="Name" >
+                    <input type="text" class="form-control" id="nameEdit" placeholder="Paco" >
                 </div>
                 <div class="form-group">
                     <label for="surnameEdit">Surnames</label>
-                    <input type="text" class="form-control" id="surnameEdit" placeholder="Surnames" >
-                </div>
-                <div class="form-group">
-                    <label for="oldEmailEdit">Current email address</label>
-                    <input type="oldEmailEdit" class="form-control" id="oldEmailEdit" placeholder="Enter email" readonly>
+                    <input type="text" class="form-control" id="surnameEdit" placeholder="García" >
                 </div>
                 <div class="form-group">
                     <label for="newEmail">New email address</label>
-                    <input type="newEmail" class="form-control" id="newEmail" placeholder="Enter new email">
-                </div>
-                <div class="form-group">
-                    <label for="oldPassword">Current password </label>
-                    <input type="text" class="form-control" id="oldPassword" readonly>
+                    <input type="newEmail" class="form-control" id="newEmail" placeholder="paco@inspedralbes.cat">
                 </div>
                 <div class="form-group">
                     <label for="newPassword">New password </label>
-                    <input type="text" class="form-control" id="newPassword" >
-                    <input type="text" class="form-control" id="newPasswordRepeat" aria-describedby="passwordHelp">
+                    <input type="text" placeholder="Between 6 and 12 characters" class="form-control" id="newPassword">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="newPasswordRepeat" placeholder="Repeat the password" aria-describedby="passwordHelp">
                     <small id="passwordHelp" class="form-text text-muted">* Must contains minimun one capital
                         letter, one especial char and one number </small>
                 </div>
