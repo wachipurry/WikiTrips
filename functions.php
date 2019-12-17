@@ -210,11 +210,11 @@ function logged_return()
     }
 
     $html_logged = array(
-        'html_textNav' => `
+        'html_textNav' => '
             <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#editProfileModal"> EDIT PROFILE </button>
             <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#addTripModal"> ADD TRIP </button>
-        `,
-        'html_modalAddTrip' => `
+        ',
+        'html_modalAddTrip' => '
             <!-- Creación del modal de prueba con todas las clases de boostrap para que se parezca -->
             <div id="addTripModal" class="addTripModal modal fade" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -262,8 +262,8 @@ function logged_return()
                     </div>
                 </div>
             </div>
-        `,
-        'html_modalEditProfile' => `
+        ',
+        'html_modalEditProfile' => '
             <!-- Creación del modal de prueba con todas las clases de boostrap para que se parezca -->
             <div id="editProfileModal" class="editProfileModal modal fade" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -306,8 +306,8 @@ function logged_return()
                     </div>
                 </div>
             </div>
-        `,
-        'filter' => `
+        ',
+        'filter' => '
             <!-- SECCION SEGUNDA -->
                 <section id="roger_02">
                     <div class="container">
@@ -324,13 +324,13 @@ function logged_return()
                             <div class="col-md-3">
                                 <!-- Petición ajax para cargarlas-->
                                 <select class="btn btn-outline-dark form-control" id="v">
-                                ` . $html_options . `
+                                ' . $html_options . '
                                 </select>
                             </div>
                         </div>
                     </div>
                 </section>
-        `,
+        ',
         'username' => $_SESSION['username'],
         'token' => session_id()
     );
