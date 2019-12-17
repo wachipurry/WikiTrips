@@ -37,6 +37,10 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
 
         //Si solo hay apiCode, solo hay estas opciones de SWITCH
         switch ($code) {
+            case 001:
+                logged_return();
+                break;
+
             case 101: // code 101 = Lista de experiencias
                 if (isset($_GET['resultTotal']) && isset($_GET['resultPage']) && isset($_GET['resultOrder']) && isset($_GET['resultWhere']) && isset($_GET['resultCondition'])) { //Comprobar que POST['apiCode'] existe
                     if (!empty($_GET['resultTotal']) && !empty($_GET['resultPage']) && !empty($_GET['resultOrder']) && !empty($_GET['resultWhere']) && !empty($_GET['resultCondition'])) { //Comprobar que el POST['apiCode'] no està vacio
@@ -95,13 +99,7 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
                                 $_SESSION['username'] = $user;
                                 $_SESSION['intentos'] = 0;
                                 //Preparar array de datos para AJAX
-                                $html_logged = array(
-                                    'html_textNav' => include('html/navbar.php'),
-                                    'html_modalAddTrip' => include('html/modalAddTrip.php'),
-                                    'html_modalEditProfile' => include('html/modalEditProfile.php'),
-                                    'username' => $_SESSION['username'],
-                                    'token' => session_id()
-                                );
+                                $html_logged = logged_return();
                                 //Encode y retorno de JSON
                                 $pintar = json_encode($html_logged);
                                 echo $pintar;
@@ -230,6 +228,13 @@ function total_trips($sql)
     $db = new DB($sql);
     $datos = $db->selectAll();
     return $datos;
+}
+
+function filtro_categorias()
+{
+    $db = new DB("SELECT cat_name FROM categories");
+    $datos = $db->selectAll();
+    print_r($datos);
 }
 
 /**101
