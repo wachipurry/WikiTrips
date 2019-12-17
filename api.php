@@ -38,7 +38,7 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
         //Si solo hay apiCode, solo hay estas opciones de SWITCH
         switch ($code) {
             case 001:
-                logged_return();
+                print_r(logged_return());
                 break;
 
             case 101: // code 101 = Lista de experiencias
