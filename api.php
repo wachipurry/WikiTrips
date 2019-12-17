@@ -11,10 +11,19 @@ include('functions.php');
 
 
 /**
+ * apiCode
+ * 
+ * + resultType (detallada, resumida)
+ * + resultTotal (LIMIT)
+ * + resultPack (Paginacion)
+ * + resultOrder (last, rate)
+ * + resultCondition (author, category)
  * 
  * 101 -> 4 experiencias
  * 102 -> 4 experiemcias
- * 
+ * 103 -> lista 10 experiencias detalladas for fecha
+ * 103 -> igual anterior por ratio
+ * 105 -> igual anterior por categorias
  * 
  * 
  * 
@@ -29,21 +38,35 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
 
         //Si solo hay apiCode, solo hay estas opciones de SWITCH
         switch ($code) {
-            case 101: // code 101 = ultimas entradas del HOME (featured_trips)
-                lista_ultimos_trips(10);
-                break;
-            case 102: // code 102 = trips con mejor rating para HOME (featured_trips)
-                lista_trips_por_rating(10);
+            case 101: // code 101 = Lista de experiencias
+                if (isset($_GET['resultTotal']) && isset($_GET['resultPack']) && isset($_GET['resultOrder']) && isset($_GET['resultCondition'])) { //Comprobar que POST['apiCode'] existe
+                    if (!empty($_GET['resultTotal']) && !empty($_GET['resultPack']) && !empty($_GET['resultOrder']) && !empty($_GET['resultCondition'])) { //Comprobar que el POST['apiCode'] no està vacio
+                        $resultTotal = htmlentities($_GET['resultTotal']); //Sanear la entrada del POST['resultTotal']
+                        $resultPack = htmlentities($_GET['resultPack']); //Sanear la entrada del POST['resultPack']
+                        $resultOder = htmlentities($_GET['resultOrder']); //Sanear la entrada del POST['resultOder']
+                        $resultCondition = htmlentities($_GET['resultCondition']); //Sanear la entrada del POST['resultCondition']
+
+                        listar_trips($resultTotal, $resultPack, $resultOrder, $resultCondition);
+                    } else {
+                        echo "Sorry, I've recived some parameter empty";
+                    }
+                } else {
+                    echo "Sorry, I've not recived all parameters";
+                }
+
+                //lista_ultimos_trips($resultType, $resultTotal, $resultPack, $resultOder, $resultCondition);
                 break;
 
-            case 103: // code 103 = lista con info detallada de un trip
+            case 102: // code 103 = lista con info detallada de un trip
                 if (isset($_GET['tId'])) { //Comprobar que POST['tId'] existe
                     if (!empty($_GET['tId'])) { //Comprobar que el POST['tId'] no està vacio
                         $id = htmlentities($_GET['tId']); //Sanear la entrada del POST['tId']
                         info_detalle_1_trip($id);
+                    } else {
+                        echo "Sorry, tId is empty";
                     }
                 } else {
-                    echo "Invalid user request";
+                    echo "Sorry, I've not recived tId";
                 }
                 break;
 
@@ -131,7 +154,7 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
                     editar_usuario($nickname, $treatment, $firstname, $lastname, $description, $user_image, $email, $publicity);
                 }
 
-            break;
+                break;
 
 
                 //default:
@@ -157,6 +180,64 @@ function getRealIP()
     return $_SERVER['REMOTE_ADDR'];
 }
 
+
+function listar_trips($resultTotal, $resultPack, $resultOrder, $resultCondition)
+{
+
+    if ($resultTotal != "all") { // Si el total no es TODOS
+        if ($resultOrder == "last") { // Si se elige ordenar por LAST
+            //Ejecutar consulta SQL RESUMIDA + LIMITE + ORDER BY LAST
+
+            $db = new DB('SELECT * from featured_trips_0 LIMIT ');
+            $datos = $db->selectAll();
+            //$keys = array_keys($datos[0]);
+            //print_r($keys);
+            //echo '<hr>';
+            $pintar = json_encode($datos);
+            echo $pintar;
+
+        } else if ($resultOrder == "rate") { // Si se elige ordenar por LAST
+            //Ejecutar consulta SQL RESUMIDA + LIMITE + ORDER BY RATE
+        } else {
+            echo "Sorry, I've not understood your resultOrder";
+        }
+    } else if ($resultTotal == "all") { // Si el total es TODOS
+        if ($resultCondition == "author") {
+            if ($resultOrder == "last") { // Si se elige ordenar por LAST
+                //Ejecutar consulta SQL RESUMIDA + TODAS + WHERE + ORDER BY LAST + PACK 
+            } else if ($resultOrder == "rate") { // Si se elige ordenar por RATE
+                //Ejecutar consulta SQL RESUMIDA + TODAS + WHERE + ORDER BY RATE + PACK 
+            } else {
+                echo "Sorry, I've not understood your resultOrder";
+            }
+        } else if ($resultCondition == "category") {
+            if ($resultOrder == "last") { // Si se elige ordenar por LAST
+                //Ejecutar consulta SQL RESUMIDA + TODAS + WHERE + ORDER BY LAST + PACK 
+            } else if ($resultOrder == "rate") { // Si se elige ordenar por RATE
+                //Ejecutar consulta SQL RESUMIDA + TODAS + WHERE + ORDER BY RATE + PACK 
+            } else {
+                echo "Sorry, I've not understood your resultOrder";
+            }
+        } else {
+            echo "Sorry, I've not understood your resultCondition";
+        }
+    } else {
+        echo "Sorry, I've not understood your resultTotal";
+    }
+}
+
+function consulta_101() {
+
+
+
+    $db = new DB('SELECT * from featured_trips_0 LIMIT ');
+    $datos = $db->selectAll();
+    //$keys = array_keys($datos[0]);
+    //print_r($keys);
+    //echo '<hr>';
+    $pintar = json_encode($datos);
+    echo $pintar;
+}
 
 
 /**101
@@ -289,4 +370,5 @@ function editar_usuario($nickname, $treatment, $firstname, $lastname, $descripti
 }
 
 function añadir_experiencia($nickname, $name, $surname, $password, $email, $treatment)
-{ }
+{
+}
