@@ -1,6 +1,13 @@
 <!-- SECCION PRIMERA -->
 <section id="roger_01" style="background-image: url('img/bg_test_01.jpg');">
     <div class="container">
+        <div id="loadModal" class="editProfileModal modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div id="loadButton" class="card-body modal-content">
+                    
+                </div>
+            </div>
+        </div>
         <div id="featured_box">
 
             <div class="card" style="width: auto;">
