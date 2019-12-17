@@ -2,39 +2,39 @@
 class Model {
     //Constructor que crea lo necesario cuando se declara el modelo
     constructor(controller) {
-        console.log("Model creat");
-        let experiences = [];
-        this.controller = controller;
-    }
-    /*
-        101-> Ver la preview de las experiencias
-        102-> Experiencias completas
-        201-> Log in
-        202-> sign in 
-    */
+            console.log("Model creat");
+            let experiences = [];
+            this.controller = controller;
+        }
+        /*
+            101-> Ver la preview de las experiencias
+            102-> Experiencias completas
+            201-> Log in
+            202-> sign in 
+        */
 
     createDefaultExperiences() {
-        let experiencias = [{
-            featureImg: "https://picsum.photos/200",
-            featureTitle: "Prueba 1"
-        },
-        {
-            featureImg: "https://picsum.photos/200",
-            featureTitle: "Prueba 2"
-        },
-        {
-            featureImg: "https://picsum.photos/200",
-            featureTitle: "Prueba 3"
-        },
-        {
-            featureImg: "https://picsum.photos/200",
-            featureTitle: "Prueba 4"
-        }
-        ];
+            let experiencias = [{
+                    featureImg: "https://picsum.photos/200",
+                    featureTitle: "Prueba 1"
+                },
+                {
+                    featureImg: "https://picsum.photos/200",
+                    featureTitle: "Prueba 2"
+                },
+                {
+                    featureImg: "https://picsum.photos/200",
+                    featureTitle: "Prueba 3"
+                },
+                {
+                    featureImg: "https://picsum.photos/200",
+                    featureTitle: "Prueba 4"
+                }
+            ];
 
-        return experiencias;
-    }
-    //Actualiza las experiencias en local
+            return experiencias;
+        }
+        //Actualiza las experiencias en local
     updateExperiences(newExperiences) {
         if (this.experiences = newExperiences) {
             return true;
@@ -63,15 +63,21 @@ class View {
     setUpClicks(controller) {
         let work = this;
         $("#submitSignInButton").click(
-            function () {
+            function() {
                 work.getInputSignIn(controller);
             }
         );
         $("#submitLogInButton").click(
-            function () {
+            function() {
                 work.getInputLogIn(controller);
             }
         );
+    }
+
+    setUpPageAfterLogIn(textNav, texNavBar, textFeature) {
+        $("#wt_navbar-right").html(textNav);
+        $("#orderNavBar").html(texNavBar);
+        $("#featured_box").html(textFeature);
     }
 
     getInputLogIn(controller) {
@@ -92,13 +98,43 @@ class View {
         let email = $("#email").val();
         let pass1 = $("#passwordA").val();
         let pass2 = $("#passwordB").val();
-        let textoError = controller.validateFormSignIn(nickname, name, email, pass1, pass2);
+        let textoError = controller.validateFormUser(nickname, name, email, pass1, pass2);
         if (textoError != "") {
             this.loadDangerAlert("#modalSignInAlert", textoError);
         } else {
             let treatment = $("#treatment").val();
             let surname = $("#surname").val();
             controller.ajaxSubmitSignIn(nickname, name, surname, email, pass1, treatment);
+        }
+    }
+
+    getInputEditProfile() {
+        let nickname = $("#nicknameEdit").val();
+        let name = $("#nameEdit").val();
+        let surname = $("#surnameEdit").val();
+        let email = $("#newEmaillEdit").val();
+        let password = $("#newPassword").val();
+        let passwordRepeat = $("#newPasswordRepeat").val();
+        let textoError = controller.validateFormUser(nickname, name, email, password, passwordRepeat);
+        if (textoError != "") {
+            this.loadDangerAlert("#modalEditProfileAlert", textoError);
+        } else {
+            //Hacer update del usuario
+        }
+
+    }
+
+    getInputAddTrip() {
+        let title = $("#tripTitle").val();
+        let resume = $("#tripResume").val();
+        let description = $("#tripDescription").val();
+        let location = $("#tripLocation").val();
+        let category = $("#tripCategory").val();
+        let img = $("#tripImg").val();
+        if (textoError != "") {
+            this.loadDangerAlert("#modalAddTripAlert", textoError);
+        } else {
+            //Hacer update del usuario
         }
     }
 
@@ -140,7 +176,7 @@ class Controller {
             data: {
                 apiCode: "101"
             },
-            success: function (result) {
+            success: function(result) {
                 let arrayExperiences = JSON.parse(result);
                 //Actualizar modelo
                 work.model.updateExperiences(arrayExperiences);
@@ -149,7 +185,7 @@ class Controller {
                 //Insertar texto en la página
                 work.view.createDivsExperiences(textoHTML);
             },
-            error: function () {
+            error: function() {
                 console.log("Error en la petición AJAX preview");
             }
         });
@@ -184,13 +220,13 @@ class Controller {
             data: {
                 apiCode: "102"
             },
-            success: function (result) {
+            success: function(result) {
                 let arrayExperiences = JSON.parse(result);
                 let textoHTML = work.createFullExperiencesHTML(arrayExperiences);
                 work.view.createDivsExperiences(textoHTML);
             },
-            error: function(){
-                
+            error: function() {
+
             }
         });
 
@@ -221,7 +257,7 @@ class Controller {
         return textHtml += "</div>";
     }
 
-    validateFormSignIn(nickname, name, email, pass1, pass2) {
+    validateFormUser(nickname, name, email, pass1, pass2) {
         let textoError = "";
         nickname = nickname.trim();
         name = name.trim();
@@ -278,14 +314,14 @@ class Controller {
                 password: pass1,
                 treatment: treatment
             },
-            success: function (result) {
+            success: function(result) {
                 if (result != "") {
                     work.view.loadDangerAlert("#modalSignInAlert", result);
                 } else {
                     work.view.loadSuccessAlert("#modalSignInAlert");
                 }
             },
-            error: function () {
+            error: function() {
                 console.log("ERROR petición ajax de enviar datos SignIn");
             }
         });
@@ -301,15 +337,19 @@ class Controller {
                 uId: nickname,
                 uPwd: password
             },
-            success: function (result) {
+            success: function(result) {
                 if (result == "false") {
                     work.view.loadDangerAlert("#modalLogInAlert", result);
                 } else {
                     work.view.loadSuccessAlert("#modalLogInAlert");
+                    let textNav = result.textNav;
+                    let textOrderNavBar = result.textOrderNavBar;
+                    let textFeature = result.textFeature;
+                    work.view.setUpPageAfterLogIn(textNav, textOrderNavBar, textFeature);
                     work.ajaxOrderByDate();
                 }
             },
-            error: function () {
+            error: function() {
                 console.log("ERROR petición ajax de enviar datos LogIn");
             }
         });
@@ -325,7 +365,7 @@ class Controller {
                 apiCode: "103",
                 //Seria conveniente enviar un token o algo para confirmar que está registradoS
             },
-            success: function (result) {
+            success: function(result) {
                 if (result == "false") {
                     //Avisar de que no se han podido ordenar
                 } else {
@@ -336,7 +376,7 @@ class Controller {
                     work.view.createDivsExperiences(textoHTML);
                 }
             },
-            error: function () {
+            error: function() {
                 console.log("ERROR petición ajax de cargar experiencias por fecha");
             }
         });
@@ -348,6 +388,6 @@ class Controller {
 }
 
 //Creacion de toda la estructura MVC con clases
-$(document).ready(function () {
+$(document).ready(function() {
     const wikiTrips = new Controller(new Model(this), new View(this));
 })
