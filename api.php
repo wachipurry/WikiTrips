@@ -7,6 +7,22 @@ $_SESSION['intentos'] = 0;
 require('DDBB/db_gestor.php');
 include('functions.php');
 
+
+
+
+/**
+ * 
+ * 101 -> 4 experiencias
+ * 102 -> 4 experiemcias
+ * 
+ * 
+ * 
+ * 
+ */
+
+
+
+
 if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
     if (!empty($_GET['apiCode'])) { //Comprobar que el POST['apiCode'] no està vacio
         $code = htmlentities($_GET['apiCode']); //Sanear la entrada del POST['apiCode']
@@ -14,10 +30,10 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
         //Si solo hay apiCode, solo hay estas opciones de SWITCH
         switch ($code) {
             case 101: // code 101 = ultimas entradas del HOME (featured_trips)
-                lista_ultimos_trips(4);
+                lista_ultimos_trips(10);
                 break;
             case 102: // code 102 = trips con mejor rating para HOME (featured_trips)
-                lista_trips_por_rating(4);
+                lista_trips_por_rating(10);
                 break;
 
             case 103: // code 103 = lista con info detallada de un trip
@@ -253,7 +269,7 @@ function insertar_usuario($nickname, $name, $surname, $password, $email, $treatm
     $db2 = new DB("");
     $db2->insert('user_profile', $conditions2);
 
-    $conditions3 = array('id_user' => $newId, 'pass' => "'" . $password . "')");
+    $conditions3 = array('id_user' => $newId, 'pass' => "'" . $password . "'");
     $db2 = new DB("");
     $db2->insert('pass', $conditions3);
 }
