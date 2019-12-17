@@ -174,9 +174,15 @@ class Controller {
             //Hay que poner la ruta completa en la url para poder hacer la request
             url: "api.php",
             data: {
-                apiCode: "101"
+                apiCode: "101",
+                resultTotal:"4",
+                resultPage:"1",
+                resultOrder:"last",
+                resultWhere:"none",
+                resultCondition:"none"
             },
             success: function(result) {
+                console.log(result);
                 let arrayExperiences = JSON.parse(result);
                 //Actualizar modelo
                 work.model.updateExperiences(arrayExperiences);

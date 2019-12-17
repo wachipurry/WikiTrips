@@ -31,8 +31,7 @@ include('functions.php');
 
 
 
-print_r($_GET);
-echo '<hr>';
+
 if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
     if (!empty($_GET['apiCode'])) { //Comprobar que el POST['apiCode'] no està vacio
         $code = htmlentities($_GET['apiCode']); //Sanear la entrada del POST['apiCode']
