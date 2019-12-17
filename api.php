@@ -253,7 +253,7 @@ function insertar_usuario($nickname, $name, $surname, $password, $email, $treatm
     $db2 = new DB("");
     $db2->insert('user_profile', $conditions2);
 
-    $conditions3 = array('id_user' => $newId, 'pass' => "'" . $password . "')");
+    $conditions3 = array('id_user' => $newId, 'pass' => "'" . $password . "'");
     $db2 = new DB("");
     $db2->insert('pass', $conditions3);
 }

@@ -45,7 +45,12 @@ class DB extends DBconn
 
         //Asignar la SQL generada al atributo de la conexion
         $this->sql = $sql;
-        $this->insert_query($this->sql);
+        try {
+            $this->insert_query($this->sql);
+        } catch (Exception $e) {
+           echo 'error insert hola123';
+        }
+
 
         return $this->lastID;
         //echo $this->conn->insert_id;
