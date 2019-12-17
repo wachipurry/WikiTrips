@@ -2,6 +2,8 @@
 session_start();
 $_SESSION['IP'] = getRealIP();
 $_SESSION['intentos'] = 0;
+$_SESSION['username'] = "angelita";
+//echo session_id();
 
 //Importación conexión DB y funciones
 require('DDBB/db_gestor.php');
@@ -24,10 +26,10 @@ include('functions.php');
  * Supongo que luego por POST podré quitarlo, pero por ahora me tienen que mandar las categorias como "A_pie" o "Semana_Santa"
  * 
  * 102 -> Detalle de una experiencia
- * 103 -> lista 10 experiencias detalladas for fecha
- * 103 -> igual anterior por ratio
- * 105 -> igual anterior por categorias
+ * 103 -> lista de categorias de un trip
  * 
+ * 201 Login
+ * 202 Registro Usuario
  * 
  * 
  */
@@ -37,8 +39,8 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
     if (!empty($_GET['apiCode'])) { //Comprobar que el POST['apiCode'] no està vacio
         $code = htmlentities($_GET['apiCode']); //Sanear la entrada del POST['apiCode']
 
-        //Si solo hay apiCode, solo hay estas opciones de SWITCH
         switch ($code) {
+
             case 101: // code 101 = Lista de experiencias
                 if (isset($_GET['resultTotal']) && isset($_GET['resultPage']) && isset($_GET['resultOrder']) && isset($_GET['resultWhere']) && isset($_GET['resultCondition'])) { //Comprobar que POST['apiCode'] existe
                     if (!empty($_GET['resultTotal']) && !empty($_GET['resultPage']) && !empty($_GET['resultOrder']) && !empty($_GET['resultWhere']) && !empty($_GET['resultCondition'])) { //Comprobar que el POST['apiCode'] no està vacio
@@ -54,46 +56,40 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
                 } else {
                     echo "Sorry, I've not recived all parameters";
                 }
-
-                //lista_ultimos_trips($resultType, $resultTotal, $resultPack, $resultOder, $resultCondition);
                 break;
-                /*
-            case 102: // code 103 = lista con info detallada de un trip
-                if (isset($_GET['tId'])) { //Comprobar que POST['tId'] existe
-                    if (!empty($_GET['tId'])) { //Comprobar que el POST['tId'] no està vacio
-                        $id = htmlentities($_GET['tId']); //Sanear la entrada del POST['tId']
-                        info_detalle_1_trip($id);
+
+            case 102: // code 102 = Información detallada de un trip
+                if (isset($_GET['tripId']) && isset($_GET['token']) && isset($_GET['username'])) { //Comprobar que POST existe
+                    if (!empty($_GET['tripId']) && !empty($_GET['token']) && !empty($_GET['username'])) { //Comprobar que el POST no està vacio
+                        $id = htmlentities($_GET['tripId']); //Sanear la entrada del POST['tripId]
+                        $sessionId = htmlentities($_GET['token']); //Sanear la entrada del POST['tripId]
+                        $username = htmlentities($_GET['username']); //Sanear la entrada del POST['tripId]
+
+                        //Si el ID de session y el nombre de usuario son los mismos recividos
+                        if (($sessionId == session_id()) && ($username == $_SESSION['username'])) {
+                            consulta_102($id, $username);
+                        }
                     } else {
-                        echo "Sorry, tId is empty";
+                        echo "Sorry, Some parameters are empty";
                     }
                 } else {
-                    echo "Sorry, I've not recived tId";
+                    echo "Sorry, I've missed some parameter";
                 }
                 break;
 
-            case 104: // code 104 = lista de categorias de un trip
-                if (isset($_GET['tId'])) { //Comprobar que POST['tId'] existe
-                    if (!empty($_GET['tId'])) { //Comprobar que el POST['tId'] no està vacio
-                        $id = htmlentities($_GET['tId']); //Sanear la entrada del POST['tId']
-                        categorias_1_trip($id);
-                    }
-                } else {
-                    echo "Invalid user request";
-                }
-                break;
-            case 105: // code 105 = Valoración de un trip
-
-                if (isset($_GET['tId'])) { //Comprobar que POST['tId'] existe
-                    if (!empty($_GET['tId'])) { //Comprobar que el POST['tId'] no està vacio
-                        $id = htmlentities($_GET['tId']); //Sanear la entrada del POST['tId']
-                        rating_1_trip($id);
+            case 103: // code 104 = lista de categorias de un trip
+                if (isset($_GET['tripId'])) { //Comprobar que POST['tId'] existe
+                    if (!empty($_GET['tripId'])) { //Comprobar que el POST['tId'] no està vacio
+                        $id = htmlentities($_GET['tripId']); //Sanear la entrada del POST['tId']
+                        categorias_por_trip($id);
                     }
                 } else {
                     echo "Invalid user request";
                 }
                 break;
 
-*/
+
+
             case 201: // code 201 = login
                 if (isset($_GET['uId']) && isset($_GET['uId'])) { //Comprobar que POST['uId'] y POST['uPwd'] existe
                     if (!empty($_GET['uPwd']) && !empty($_GET['uPwd'])) { //Comprobar que el POST['uId'] y POST['uPwd'] no està vacio
@@ -136,7 +132,7 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
                     $lastname = string_to_title($lastname);
                     insertar_usuario($nickname, $firstname, $lastname, $password, $email, $treatment);
                 }
-/*
+
                 break;
             case 203: // apiCode 203 = Editar perfil de usuario
                 $nickname = htmlentities($_GET["user_nickname"]);
@@ -157,10 +153,9 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
 
                 break;
 
+                default:
+                return 'Invalid request !!';
 
-                //default:
-                //return 'Invalid request !!';
-                */
         }
     } else { //De lo contrario --> POST['apiCode'] està vacio
         form_api();
@@ -258,69 +253,35 @@ function consulta_101($sql)
 }
 
 
-/**101
- * Experiencias Publicas ordenadas por fechas
- * @param Integer $num Tamaño máximo de la consulta
- * @return JSON_Object Array Keys = [ trip_id | trip_name | trip_resum | trip_thumb ]
- * */
 
-/*
-function lista_ultimos_trips($num)
-{
 
-    $db = new DB('SELECT * from featured_trips_0 LIMIT ' . $num);
-    $datos = $db->selectAll();
-    //$keys = array_keys($datos[0]);
-    //print_r($keys);
-    //echo '<hr>';
-    $pintar = json_encode($datos);
-    echo $pintar;
-}
+
 
 /**102
- * Experiencias Publicas ordenadas por votos
- * @param Integer $num Tamaño máximo de la consulta
- * @return JSON_Object Array Keys = [ trip_id | trip_name | trip_thumb | trip_rate ]
+ * Información complets de una experincia para vista
+ * @param Integer $id Numero ID de la experiencia
+ * @return JSON_Object Array Keys = [ trip_id | trip_name | trip_text | trip_author | trip_Date | trip_location | trip_img | trip_alt ]
  * */
-
- /*
-function lista_trips_por_rating($num)
+function consulta_102($id, $username)
 {
-    $db = new DB('SELECT * from featured_trips_1 LIMIT ' . $num);
-    $datos = $db->selectAll();
-    //$keys = array_keys($datos[0]);
-    //print_r($keys);
-    //echo '<hr>';;
+    // trip_details -> info JOIN de trips
+    $db = new DB("SELECT * from trip_details WHERE trip_id = " . $id . " AND rate_user = " . "'" . $username . "'");
+    $datos = $db->selectOne();
+    if ($datos == false) {
+        //$db->die();
+        $db = new DB("SELECT * from trip_details WHERE trip_id = " . $id . " GROUP BY trip_id");
+        $datos = $db->selectOne();
+    }
     $pintar = json_encode($datos);
     echo $pintar;
 }
 
 /**103
- * Información complets de una experincia para vista
- * @param Integer $id Numero ID de la experiencia
- * @return JSON_Object Array Keys = [ trip_id | trip_name | trip_text | trip_author | trip_Date | trip_location | trip_img | trip_alt ]
- * */
-function info_detalle_1_trip($id)
-{
-    // trip_details -> info JOIN de trips
-    $db = new DB('SELECT * from trip_details WHERE trip_id = ' . $id);
-    $datos = $db->selectAll();
-
-    //Lo intento pero no me sale
-    //Estaria bien desde aqui llamar a categorias_1_trip()
-    //y añadir el resultado como otro campo en $datos
-    //...Y lo mismo con el rating
-
-    $pintar = json_encode($datos);
-    echo $pintar;
-}
-
-/**104
  * Categorias de una experincia
  * @param Integer $id Numero ID de la experiencia
  * @return Array Categorias en forma de array
  * */
-function categorias_1_trip($id)
+function categorias_por_trip($id)
 {
     $db = new DB('SELECT category FROM trip_categories WHERE trip_id = ' . $id);
     $datos = $db->selectAll();
@@ -333,17 +294,7 @@ function categorias_1_trip($id)
     echo $categorias;
 }
 
-/**105
- * Valoracion media de una experincia
- * @param Integer $id Numero ID de la experiencia
- * @return Integer Valoracion media
- * */
-function rating_1_trip($id)
-{
-    $db = new DB('SELECT trip_rate FROM trip_rating WHERE trip_id = ' . $id);
-    $datos = $db->selectAll();
-    echo $datos[0]['trip_rate'];
-}
+
 
 
 /**

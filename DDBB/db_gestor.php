@@ -18,6 +18,18 @@ class DB extends DBconn
     }
 
 
+    public function selectOne() //VISTA default_trips_32
+    {
+
+        $this->single_query($this->sql);
+        if ($this->result == false) {
+            return false;
+        }
+
+        $resultados = $this->rows;
+        return $resultados;
+    }
+
     public function selectAll() //VISTA default_trips_32
     {
 
@@ -48,7 +60,7 @@ class DB extends DBconn
         try {
             $this->insert_query($this->sql);
         } catch (Exception $e) {
-           echo 'error insert hola123';
+            echo 'error insert hola123';
         }
 
 
