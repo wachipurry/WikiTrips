@@ -31,7 +31,8 @@ include('functions.php');
 
 
 
-
+print_r($_GET);
+echo '<hr>';
 if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
     if (!empty($_GET['apiCode'])) { //Comprobar que el POST['apiCode'] no està vacio
         $code = htmlentities($_GET['apiCode']); //Sanear la entrada del POST['apiCode']
@@ -39,14 +40,14 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
         //Si solo hay apiCode, solo hay estas opciones de SWITCH
         switch ($code) {
             case 101: // code 101 = Lista de experiencias
-                if (isset($_GET['resultTotal']) && isset($_GET['resultPack']) && isset($_GET['resultOrder']) && isset($_GET['resultCondition'])) { //Comprobar que POST['apiCode'] existe
-                    if (!empty($_GET['resultTotal']) && !empty($_GET['resultPack']) && !empty($_GET['resultOrder']) && !empty($_GET['resultCondition'])) { //Comprobar que el POST['apiCode'] no està vacio
+                if (isset($_GET['resultTotal']) && isset($_GET['resultPage']) && isset($_GET['resultOrder']) && isset($_GET['resultWhere']) && isset($_GET['resultCondition'])) { //Comprobar que POST['apiCode'] existe
+                    if (!empty($_GET['resultTotal']) && !empty($_GET['resultPage']) && !empty($_GET['resultOrder']) && !empty($_GET['resultWhere']) && !empty($_GET['resultCondition'])) { //Comprobar que el POST['apiCode'] no està vacio
                         $resultTotal = htmlentities($_GET['resultTotal']); //Sanear la entrada del POST['resultTotal']
-                        $resultPack = htmlentities($_GET['resultPack']); //Sanear la entrada del POST['resultPack']
-                        $resultOder = htmlentities($_GET['resultOrder']); //Sanear la entrada del POST['resultOder']
+                        $resultPage = htmlentities($_GET['resultPage']); //Sanear la entrada del POST['resultPage']
+                        $resultOrder = htmlentities($_GET['resultOrder']); //Sanear la entrada del POST['resultOrder']
+                        $resultWhere = htmlentities($_GET['resultWhere']); //Sanear la entrada del POST['resultWhere']
                         $resultCondition = htmlentities($_GET['resultCondition']); //Sanear la entrada del POST['resultCondition']
-
-                        listar_trips($resultTotal, $resultPack, $resultOrder, $resultCondition);
+                        listar_trips($resultTotal, $resultPage, $resultOrder, $resultWhere, $resultCondition);
                     } else {
                         echo "Sorry, I've recived some parameter empty";
                     }
@@ -56,7 +57,7 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
 
                 //lista_ultimos_trips($resultType, $resultTotal, $resultPack, $resultOder, $resultCondition);
                 break;
-
+                /*
             case 102: // code 103 = lista con info detallada de un trip
                 if (isset($_GET['tId'])) { //Comprobar que POST['tId'] existe
                     if (!empty($_GET['tId'])) { //Comprobar que el POST['tId'] no està vacio
@@ -159,6 +160,7 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
 
                 //default:
                 //return 'Invalid request !!';
+                */
         }
     } else { //De lo contrario --> POST['apiCode'] està vacio
         form_api();
@@ -181,40 +183,53 @@ function getRealIP()
 }
 
 
-function listar_trips($resultTotal, $resultPack, $resultOrder, $resultCondition)
+function listar_trips($resultTotal, $resultPage, $resultOrder, $resultWhere, $resultCondition)
 {
 
     if ($resultTotal != "all") { // Si el total no es TODOS
         if ($resultOrder == "last") { // Si se elige ordenar por LAST
             //Ejecutar consulta SQL RESUMIDA + LIMITE + ORDER BY LAST
 
-            $db = new DB('SELECT * from featured_trips_0 LIMIT ');
-            $datos = $db->selectAll();
-            //$keys = array_keys($datos[0]);
-            //print_r($keys);
-            //echo '<hr>';
-            $pintar = json_encode($datos);
-            echo $pintar;
-
+            $sql = "SELECT * FROM trips_featured ORDER BY trip_id DESC LIMIT " . $resultTotal;
+            consulta_101($sql);
         } else if ($resultOrder == "rate") { // Si se elige ordenar por LAST
             //Ejecutar consulta SQL RESUMIDA + LIMITE + ORDER BY RATE
-        } else {
+            $sql = "SELECT * FROM trips_featured ORDER BY trip_rate DESC LIMIT " . $resultTotal;
+            consulta_101($sql);
+        } else { //Por defecto
             echo "Sorry, I've not understood your resultOrder";
         }
     } else if ($resultTotal == "all") { // Si el total es TODOS
-        if ($resultCondition == "author") {
+        if ($resultWhere == "author") {
             if ($resultOrder == "last") { // Si se elige ordenar por LAST
-                //Ejecutar consulta SQL RESUMIDA + TODAS + WHERE + ORDER BY LAST + PACK 
+                //Ejecutar consulta SQL RESUMIDA + TODAS + WHERE + ORDER BY LAST + PACK
+
+                $sql = "SELECT * FROM trips_published WHERE trip_author = '" . $resultCondition . "' ORDER BY trip_id DESC";
+                consulta_101($sql);
+
+
+                /* PAGINACION NO IMPLEMENTADA
+                $sql = "SELECT count(*) AS total_trips FROM trips_list";
+                $numTrips = total_trips($sql)[0]['total_trips'];
+                echo $numTrips;
+                */
             } else if ($resultOrder == "rate") { // Si se elige ordenar por RATE
-                //Ejecutar consulta SQL RESUMIDA + TODAS + WHERE + ORDER BY RATE + PACK 
+                //Ejecutar consulta SQL RESUMIDA + TODAS + WHERE + ORDER BY RATE + PACK
+                $sql = "SELECT * FROM trips_published WHERE trip_author = '" . $resultCondition . "' ORDER BY trip_rate DESC";
+                consulta_101($sql);
             } else {
                 echo "Sorry, I've not understood your resultOrder";
             }
-        } else if ($resultCondition == "category") {
+        } else if ($resultWhere == "category") {
+            $resultCondition = str_replace("_", " ", $resultCondition);
             if ($resultOrder == "last") { // Si se elige ordenar por LAST
-                //Ejecutar consulta SQL RESUMIDA + TODAS + WHERE + ORDER BY LAST + PACK 
+                //Ejecutar consulta SQL RESUMIDA + TODAS + WHERE + ORDER BY LAST + PACK
+                $sql = "SELECT * FROM trips_category WHERE trip_category = '" . $resultCondition . "' ORDER BY trip_id DESC";
+                consulta_101($sql);
             } else if ($resultOrder == "rate") { // Si se elige ordenar por RATE
-                //Ejecutar consulta SQL RESUMIDA + TODAS + WHERE + ORDER BY RATE + PACK 
+                //Ejecutar consulta SQL RESUMIDA + TODAS + WHERE + ORDER BY RATE + PACK
+                $sql = "SELECT * FROM trips_category WHERE trip_category = '" . $resultCondition . "' ORDER BY trip_rate DESC";
+                consulta_101($sql);
             } else {
                 echo "Sorry, I've not understood your resultOrder";
             }
@@ -225,12 +240,15 @@ function listar_trips($resultTotal, $resultPack, $resultOrder, $resultCondition)
         echo "Sorry, I've not understood your resultTotal";
     }
 }
-
-function consulta_101() {
-
-
-
-    $db = new DB('SELECT * from featured_trips_0 LIMIT ');
+function total_trips($sql)
+{
+    $db = new DB($sql);
+    $datos = $db->selectAll();
+    return $datos;
+}
+function consulta_101($sql)
+{
+    $db = new DB($sql);
     $datos = $db->selectAll();
     //$keys = array_keys($datos[0]);
     //print_r($keys);
