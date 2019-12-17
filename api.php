@@ -13,14 +13,17 @@ include('functions.php');
 /**
  * apiCode
  * 
- * + resultType (detallada, resumida)
+ * 101 -> Lista de categorias
  * + resultTotal (LIMIT)
- * + resultPack (Paginacion)
+ * + resultPage (Paginacion)
  * + resultOrder (last, rate)
- * + resultCondition (author, category)
+ * + resultWhere (author, category)
+ * + resultCondition (nickname, category_name with underscore !!!)
  * 
- * 101 -> 4 experiencias
- * 102 -> 4 experiemcias
+ * Como por GET no puedo mandar en una URL por ahora las categorias hay que llamarlas con barrabaja y yo luego lo reemplazo
+ * Supongo que luego por POST podré quitarlo, pero por ahora me tienen que mandar las categorias como "A_pie" o "Semana_Santa"
+ * 
+ * 102 -> Detalle de una experiencia
  * 103 -> lista 10 experiencias detalladas for fecha
  * 103 -> igual anterior por ratio
  * 105 -> igual anterior por categorias
@@ -30,9 +33,6 @@ include('functions.php');
  */
 
 
-
-print_r($_GET);
-echo '<hr>';
 if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
     if (!empty($_GET['apiCode'])) { //Comprobar que el POST['apiCode'] no està vacio
         $code = htmlentities($_GET['apiCode']); //Sanear la entrada del POST['apiCode']
@@ -93,7 +93,7 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
                 }
                 break;
 
-
+*/
             case 201: // code 201 = login
                 if (isset($_GET['uId']) && isset($_GET['uId'])) { //Comprobar que POST['uId'] y POST['uPwd'] existe
                     if (!empty($_GET['uPwd']) && !empty($_GET['uPwd'])) { //Comprobar que el POST['uId'] y POST['uPwd'] no està vacio
@@ -136,7 +136,7 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
                     $lastname = string_to_title($lastname);
                     insertar_usuario($nickname, $firstname, $lastname, $password, $email, $treatment);
                 }
-
+/*
                 break;
             case 203: // apiCode 203 = Editar perfil de usuario
                 $nickname = htmlentities($_GET["user_nickname"]);
@@ -263,6 +263,8 @@ function consulta_101($sql)
  * @param Integer $num Tamaño máximo de la consulta
  * @return JSON_Object Array Keys = [ trip_id | trip_name | trip_resum | trip_thumb ]
  * */
+
+/*
 function lista_ultimos_trips($num)
 {
 
@@ -280,6 +282,8 @@ function lista_ultimos_trips($num)
  * @param Integer $num Tamaño máximo de la consulta
  * @return JSON_Object Array Keys = [ trip_id | trip_name | trip_thumb | trip_rate ]
  * */
+
+ /*
 function lista_trips_por_rating($num)
 {
     $db = new DB('SELECT * from featured_trips_1 LIMIT ' . $num);
