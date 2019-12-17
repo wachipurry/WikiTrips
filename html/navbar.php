@@ -11,10 +11,6 @@
                  <div id="wt_navbar-right" class=>
                      <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#sigInModal"> SIGN IN </button>
                      <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#logInModal"> LOG IN </button>
-                     <!-- Quitar después -->
-                     <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#editProfileModal"> EDIT PROFILE </button>
-                     <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#addTripModal"> ADD TRIP </button>
-
                  </div>
              </div>
          </div>

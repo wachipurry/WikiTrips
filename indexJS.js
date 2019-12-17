@@ -257,7 +257,6 @@ class Controller {
                 let textoHTML = work.createPreviewExperiencesHTML(arrayExperiences);
                 //Insertar texto en la página
                 work.view.createDivsExperiences(textoHTML);
-                $("#loadModal").modal('hide');
 
             },
             error: function () {
@@ -451,14 +450,14 @@ class Controller {
             success: function (result) {
                 if (result != "false") {
                     work.view.loadSuccessAlert("#modalLogInAlert");
-                    console.log(result);
-                    let textNav = result.html_textNav;
-                    let textOrderNavBar = result.html_orderNav;
-                    let textModalAddTrip = result.html_modalAddTrip;
-                    let textModalEditProfile = result.html_modaEditProfile;
+                    let obj=JSON.parse(result);
+                    let textNav = obj.html_textNav;
+                    let textOrderNavBar = obj.filter;
+                    let textModalAddTrip = obj.html_modalAddTrip;
+                    let textModalEditProfile = obj.html_modalEditProfile;
 
-                    let token = result.token;
-                    let nickname = result.nickname;
+                    let token = obj.token;
+                    let nickname = obj.nickname;
                     work.model.setToken(token);
                     work.model.setNickname(nickname);
                     work.view.setUpPageAfterLogIn(textNav, textOrderNavBar, textModalAddTrip,textModalEditProfile);
