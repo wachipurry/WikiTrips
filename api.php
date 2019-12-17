@@ -87,7 +87,7 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
                 $email = htmlentities($_GET["email"]);
                 $treatment = htmlentities($_GET["treatment"]);
                 //Validar datos y respuesta de error
-                $error = validate_signIn($nickname, $name, $password, $email);
+                $error = validate_signIn($nickname, $firstname, $password, $email);
 
                 if (!empty($error) && $error != "") {
                     echo $error;
@@ -97,6 +97,7 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
                     insertar_usuario($nickname, $firstname, $lastname, $password, $email, $treatment);
                 }
 
+                break;
             case 203: // apiCode 203 = Editar perfil de usuario
                 $nickname = htmlentities($_GET["user_nickname"]);
                 $treatment = htmlentities($_GET["user_treatment"]);
@@ -114,7 +115,7 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
                     editar_usuario($nickname, $treatment, $firstname, $lastname, $description, $user_image, $email, $publicity);
                 }
 
-
+            break;
 
 
                 //default:

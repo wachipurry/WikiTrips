@@ -185,8 +185,12 @@ class Controller {
                 apiCode: "102"
             },
             success: function (result) {
-                let textoHTML = work.createFullExperiencesHTML(JSON.parse(result));
+                let arrayExperiences = JSON.parse(result);
+                let textoHTML = work.createFullExperiencesHTML(arrayExperiences);
                 work.view.createDivsExperiences(textoHTML);
+            },
+            error: function(){
+                
             }
         });
 
@@ -194,25 +198,27 @@ class Controller {
 
     //Formar el texto con las experiencias completas
     createFullExperiencesHTML(arrayExperiences) {
-        let textHtml = ``;
+        console.log(arrayExperiences.length);
+        console.log(arrayExperiences);
+        let textHtml = `<div class="row">`;
         this.model.updateExperiences(arrayExperiences);
         for (let i = 0; i < arrayExperiences.length; i++) {
-          textHtml+=`  <div class="col-lg-3 col-md-6 col-sm-12">
+            textHtml += `  <div class="col-lg-3 col-md-6 col-sm-12">
                 <div class="card" style="width: auto;">
-                    <img src="img/${arrayExperiences[i].trip_thumb}" class="card-img-top" alt="...">
+                    <img src="img/${arrayExperiences[i].trip_img}" class="card-img-top" alt="${arrayExperiences[i].trip_alt}">
                     <div class="card-body">
                         <h5 class="card-title">${arrayExperiences[i].trip_name}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">${arrayExperiences[i].trip_author}</h6>
                         <h6 class="card-subtitle mb-2 text-muted">${arrayExperiences[i].trip_date}</h6>
-                        <p class="card-text">${arrayExperiences[i].trip_resum}</p>
+                        <p class="card-text">${arrayExperiences[i].trip_text}</p>
                         <a href="#" class="card-link text-success">${arrayExperiences[i].trip_rate}</a>
                         <a href="#" class="card-link text-warning">REPORTAR</a>
                     </div>
                 </div>
             </div> `;
-            
+
         }
-        return textHtml;
+        return textHtml += "</div>";
     }
 
     validateFormSignIn(nickname, name, email, pass1, pass2) {
@@ -316,15 +322,18 @@ class Controller {
             type: "get",
             url: "api.php",
             data: {
-                apiCode: "101",
+                apiCode: "103",
                 //Seria conveniente enviar un token o algo para confirmar que está registradoS
             },
             success: function (result) {
                 if (result == "false") {
                     //Avisar de que no se han podido ordenar
                 } else {
-                    let textHTML=work.createFullExperiencesHTML(result);
-                    work.view.createDivsExperiences(textHTML);
+                    console.log(result);
+
+                    let arrayExperiences = JSON.parse(result);
+                    let textoHTML = work.createFullExperiencesHTML(arrayExperiences);
+                    work.view.createDivsExperiences(textoHTML);
                 }
             },
             error: function () {

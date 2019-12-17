@@ -86,6 +86,9 @@ function validate_password($password)
     if (!preg_match("#[a-z]+#", $password)) {
         $error .= "<li>The password must have minimun one small letter</li>";
     }
+    if(preg_match('[@_!#$%^&*()<>?/\|}{~:]',$password)){
+        $error .= "<li>The password must have minimun one special character</li>";
+    }
     return $error;
 }
 
