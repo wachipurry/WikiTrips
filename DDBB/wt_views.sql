@@ -28,6 +28,23 @@ CREATE VIEW trips_published AS SELECT
         SELECT id_trip FROM trips WHERE id_status = 3)
     GROUP BY id_trip
 
+CREATE VIEW trip_details AS SELECT
+trip_id,
+trip_name,
+description AS trip_text,
+img_url_high AS trip_img,
+trip_author,
+publish_date AS trip_date,
+trip_rate,
+alias AS rate_user,
+rate
+FROM trips_published
+INNER JOIN trips on trips.id_trip = trips_published.trip_id
+INNER JOIN media on media.id_trip = trips_published.trip_id
+INNER JOIN ratings on ratings.id_trip = trips_published.trip_id
+INNER JOIN user_details on user_details.id_user = ratings.id_user 
+ORDER BY trip_id
+
 CREATE VIEW trips_category AS SELECT
 trip_id, trip_name, trip_resum, trip_author, trip_thumb, trip_rate, cat_name AS trip_category
 FROM trips_published

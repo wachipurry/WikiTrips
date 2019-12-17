@@ -14,6 +14,7 @@ abstract class DBconn
 
     // Variables de entorno
     protected $rows;
+    protected $result;
     protected $lastID;
     protected $sql;
     protected $conn;
@@ -49,11 +50,36 @@ abstract class DBconn
         $this->conn->close();
     }
 
+    abstract protected function selectOne();
     abstract protected function selectAll();
     abstract protected function insert($table, $conditions);
     abstract protected function update($table, $conditions, $id);
 
 
+    // METODO PARA HACER UNA CONSULTA SIMPLE QUE ESPERA UNA UNICA RESPUESTA
+    protected function single_query()
+    {
+        $this->conn_open();
+        //Si hay error, mensage + die/exit
+        if (!$resultado = $this->conn->query($this->sql)) {
+            echo "Error: La ejecución de la consulta falló debido a: \n";
+            echo "Query: " . $this->sql . "\n";
+            echo "Errno: " . $this->conn->errno . "\n";
+            echo "Error: " . $this->conn->error . "\n";
+            die;
+        }
+
+        //Si la respuesta devuelve 0 filas
+        if ($resultado->num_rows === 0) {
+            $this->result = false;
+
+            //Si hay respuesta, pasar la info a $rows
+        } else if ($resultado->num_rows === 1) {
+            $this->result = true;
+            $this->rows[0] = $resultado->fetch_assoc();
+        }
+        $this->conn_close();
+    }
 
     // METODO PARA HACER UNA CONSULTA SELECT
     protected function execute_query()
@@ -70,7 +96,7 @@ abstract class DBconn
 
         //Si la respuesta devuelve 0 filas
         if ($resultado->num_rows === 0) {
-            echo 'La consulta ' .  $this->sql . ' no ha devuelto ningun resultado';
+            echo 'La consulta SQL' . $this->sql . ' no ha devuelto ningun resultado';
             die;
             //Si hay respuesta, pasar la info a $rows
         } else if ($resultado->num_rows > 0) {
