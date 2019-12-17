@@ -98,6 +98,23 @@ abstract class DBconn
         }
         $this->conn_close();
     }
+
+    function update_query()
+    {
+        $this->conn_open();
+        if (!$resultado = $this->conn->query($this->sql)) {
+
+            echo "Error: La ejecución de la consulta falló debido a: \n";
+            echo "Query: " . $this->sql . "\n";
+            echo "Errno: " . $this->conn->errno . "\n";
+            echo "Error: " . $this->conn->error . "\n";
+            die;
+        } else {
+            echo "UPDATE SUCCES!!";
+            //$this->lastID = $this->conn->insert_id;
+        }
+        $this->conn_close();
+    }
 }
 
 /**

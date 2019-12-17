@@ -65,10 +65,12 @@ class DB extends DBconn
         $id_field = array_keys($where)[0];
         $sql .= $res . ') WHERE ' . $id_field . ' = ' . $where[$id_field];
 
+        $this->sql = $sql;
+        $this->update_query($this->sql);
         //Asignar la SQL generada al atributo de la conexion
         //$this->sql =$sql;
         //$this->insert_query($this->sql);
-        echo $sql;
+        //echo $sql;
         //return $this->lastID;
         //echo $this->conn->insert_id;
         //echo 'id de usuario insertado = ' . $result;
