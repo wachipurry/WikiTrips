@@ -137,9 +137,9 @@ class View {
     setUpPageAfterLogIn(textNav, texNavBar, textModalAddTrip,textModalEditProfile) {
         $("#wt_navbar-right").html(textNav);
         $("#orderNavBar").html(texNavBar);
-        $("#aux1").html(textFeature);
-        $("#aux2").html(textModalAddTrip);
-        this.setUpClicksAfterLogIn(textModalEditProfile);
+        $("#aux1").html(textModalAddTrip);
+        $("#aux2").html(textModalEditProfile);
+        this.setUpClicksAfterLogIn();
     }
 
     getInputLogIn(controller) {
@@ -242,8 +242,11 @@ class Controller {
                 resultWhere: "none",
                 resultCondition: "none"
             }, beforeSend: function() {
-                $("#loadModal").modal('show');
-                $('#loadModal').fadeIn(200);
+                $('#loadModal').modal('show');
+                setTimeout(function() {
+                    $('#loadModal').modal('hide');
+                  }, 3000);
+               
             },
             success: function (result) {
                 console.log(result);
@@ -254,6 +257,7 @@ class Controller {
                 let textoHTML = work.createPreviewExperiencesHTML(arrayExperiences);
                 //Insertar texto en la página
                 work.view.createDivsExperiences(textoHTML);
+                $("#loadModal").modal('hide');
 
             },
             error: function () {
@@ -473,7 +477,6 @@ class Controller {
 
     ajaxOrderByDate() {
         let work = this;
-        if (this.model.issetToken()) {
             $.ajax({
                 type: "get",
                 url: "api.php",
@@ -499,7 +502,7 @@ class Controller {
                 }
             });
 
-        }
+        
 
     }
 
