@@ -13,7 +13,7 @@ include('html/modalSignIn.php'); // Modal oculto SigIn
 ?>
 
     <!-- MODAL OCULTO Y VACIO PARA EDITAR EL PERFIL DE UN USUARIO. LO LLENA AJAX DESPUES DE LOGIN -->
-    <div id="editProfileModal" class="editProfileModal modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+   <!-- <div id="editProfileModal" class="editProfileModal modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="card-body modal-content">
                 <div id="modalEditProfileAlert" style="display: none;" role="alert">
@@ -23,7 +23,7 @@ include('html/modalSignIn.php'); // Modal oculto SigIn
     </div>
 
 
-    <!-- MODAL OCULTO Y VACIO PARA AÑADIR UNA EXPERIENCIA -->
+     MODAL OCULTO Y VACIO PARA AÑADIR UNA EXPERIENCIA 
     <div id="addTripModal" class="addTripModal modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="card-body modal-content">
@@ -34,7 +34,7 @@ include('html/modalSignIn.php'); // Modal oculto SigIn
 
             </div>
         </div>
-    </div>
+    </div> -->
 
 
 <!-- MODAL OCULTO Y VACIO PARA VISTA DETALADA DE UN TRIP -->

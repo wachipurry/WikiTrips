@@ -8,34 +8,8 @@ class Model {
             this.nickname = "";
             this.token = "";
         }
-        /*
-            101-> Ver la preview de las experiencias
-            102-> Experiencias completas
-            201-> Log in
-            202-> sign in 
-        */
+       
 
-    createDefaultExperiences() {
-            let experiencias = [{
-                    featureImg: "https://picsum.photos/200",
-                    featureTitle: "Prueba 1"
-                },
-                {
-                    featureImg: "https://picsum.photos/200",
-                    featureTitle: "Prueba 2"
-                },
-                {
-                    featureImg: "https://picsum.photos/200",
-                    featureTitle: "Prueba 3"
-                },
-                {
-                    featureImg: "https://picsum.photos/200",
-                    featureTitle: "Prueba 4"
-                }
-            ];
-
-            return experiencias;
-        }
         //Actualiza las experiencias en local
     updateExperiences(newExperiences) {
         if (this.experiences = newExperiences) {
@@ -75,7 +49,7 @@ class Model {
     }
 
     getNickname() {
-        return nickname;
+        return this.nickname;
     }
 
     issetNickname() {
@@ -109,16 +83,7 @@ class View {
                 work.getInputLogIn(controller);
             }
         );
-        $("#submitAddTripButton").click(
-            function() {
-                work.getInputAddTrip(controller);
-            }
-        );
-        $("#submitEditProfileButton").click(
-            function() {
-                work.getInputEditProfile(controller);
-            }
-        );
+      
     }
 
     setUpClicksAfterLogIn(controller) {
@@ -149,15 +114,19 @@ class View {
                 controller.ajaxOrderByCategory(category);
             }
         );
+        $('#featured_box').on('click','a',function(e){
+            let tripId=e.target.id;
+            tripId=tripId.replace("trip","");
+            controller.ajaxFullExperiences(tripId);
+        });
     }
-
+    
     setUpPageAfterLogIn(textNav, texNavBar, textModalAddTrip, textModalEditProfile, controller) {
         $("#wt_navbar-right").html(textNav);
         $("#tripsFilter").html(texNavBar);
         $("#aux1").html(textModalAddTrip);
-        $("#editProfileModal").html(textModalEditProfile);
+        $("#aux2").html(textModalEditProfile);
 
-        //$("#aux2").html(textModalEditProfile);
         this.setUpClicksAfterLogIn(controller);
     }
 
@@ -306,7 +275,7 @@ class Controller {
     createPreviewExperiencesHTML(arrayExperiences) {
         let textHtml = `<div class="row">`;
         for (let i = 0; i < arrayExperiences.length; i++) {
-            textHtml += `<div class="col-lg-6 col-md-12 col-sm-12">
+            textHtml += `<div  class="col-lg-6 col-md-12 col-sm-12">
                 <div class="card" style="background-color: rgba(250,250,250,0.8);margin: 10px -10px;">
                     <!--<img src="img/${arrayExperiences[i].trip_thumb}" class="card-img-top" alt="...">-->
                     <div class="card-body">
@@ -315,7 +284,7 @@ class Controller {
                         <p class="card-text text-muted">${arrayExperiences[i].trip_resum}</p>
                         <div class="row"=>
                             <div class="col-6 text-left">
-                                <a href="#" class="btn btn-block btn-outline-warning text-secondary">Saber Mas</a>
+                                <a id="trip${arrayExperiences[i].trip_id}"  href="#" class="btn btn-block btn-outline-warning text-secondary">Saber Mas</a>
                             </div>
                         <div class="col-6 text-right">`;
             for (let j = 0; j < 5; j++) {
@@ -324,6 +293,7 @@ class Controller {
                 } else {
                     textHtml += `<span class="text-secondary"><i class="fa fa-star" aria-hidden="true"></i></span>`;
                 }
+                
             }
             textHtml += `<!--<a href="#" class="card-link text-warning">REPORTAR</a>-->
                             </div>
@@ -335,51 +305,6 @@ class Controller {
         return textHtml;
     }
 
-    //Método para hacer peticiones Ajax contra PHP   
-    ajaxRequestFullExperiences() {
-        let work = this;
-        $.ajax({
-            type: 'get',
-            url: "api.php",
-            data: {
-                apiCode: "102"
-            },
-            success: function(result) {
-                let arrayExperiences = JSON.parse(result);
-                let textoHTML = work.createFullExperiencesHTML(arrayExperiences);
-                work.view.createDivsExperiences(textoHTML);
-            },
-            error: function() {
-
-            }
-        });
-
-    }
-
-    //Formar el texto con las experiencias completas
-    createFullExperiencesHTML(arrayExperiences) {
-        console.log(arrayExperiences.length);
-        console.log(arrayExperiences);
-        let textHtml = `<div class="row">`;
-        this.model.updateExperiences(arrayExperiences);
-        for (let i = 0; i < arrayExperiences.length; i++) {
-            textHtml += `  <div class="col-lg-3 col-md-6 col-sm-12">
-                <div class="card" style="width: auto;">
-                    <img src="img/${arrayExperiences[i].trip_img}" class="card-img-top" alt="${arrayExperiences[i].trip_alt}">
-                    <div class="card-body">
-                        <h5 class="card-title">${arrayExperiences[i].trip_name}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">${arrayExperiences[i].trip_author}</h6>
-                        <h6 class="card-subtitle mb-2 text-muted">${arrayExperiences[i].trip_date}</h6>
-                        <p class="card-text">${arrayExperiences[i].trip_text}</p>
-                        <a href="#" class="card-link text-success">${arrayExperiences[i].trip_rate}</a>
-                        <a href="#" class="card-link text-warning">REPORTAR</a>
-                    </div>
-                </div>
-            </div> `;
-
-        }
-        return textHtml += "</div>";
-    }
 
     validateFormUser(nickname, name, email, pass1, pass2) {
         let textoError = "";
@@ -450,8 +375,8 @@ class Controller {
         if (title.length > 50) {
             textoError += "<li>The Title is to large</li>";
         }
-        if (resume.length > 150) {
-            textoError += "<li>The Resume is to large</li>";
+        if (resume.length < 100 || resume.length > 150) {
+            textoError += "<li>The Resume could be between 100 and 150 characters</li>";
         }
         if (description > 300) {
             textoError += "<li>The Description is to large</li>";
@@ -479,7 +404,6 @@ class Controller {
                     work.view.loadDangerAlert("#modalSignInAlert", result);
                 } else {
                     work.view.loadSuccessAlert("#modalSignInAlert");
-                    //ajaxSubmitLogIn(ajax.nickname, ajax.password); //AÑADIDO
                 }
             },
             error: function() {
@@ -507,14 +431,13 @@ class Controller {
                     let textFilterNav = obj.filter;
                     let textModalAddTrip = obj.html_modalAddTrip;
                     let textModalEditProfile = obj.html_modalEditProfile;
-
+                    console.log(obj);
                     let token = obj.token;
-                    let nickname = obj.nickname;
+                    let nickname = obj.username;
                     work.model.setToken(token);
                     work.model.setNickname(nickname);
                     work.view.setUpPageAfterLogIn(textNav, textFilterNav, textModalAddTrip, textModalEditProfile, work);
                     work.ajaxOrderByDate();
-                    //$('#sigInModal').modal('hide');
                 } else {
                     work.view.loadDangerAlert("#modalLogInAlert", "Ha fallado el Log In");
 
@@ -526,29 +449,39 @@ class Controller {
         });
     }
 
-    ajaxTestLogIn() {
+
+    ajaxFullExperiences(tripId) {
         let work = this;
-        $.ajax({
-            type: "get",
-            url: "api.php",
-            data: {
-                apiCode: "200",
-            },
-            success: function(result) {
-                if (result == "true") {
+        let nickname= this.model.getNickname();
+        let token=this.model.getToken();
+        console.log(nickname+"  "+token);
+            $.ajax({
+                type: "get",
+                url: "api.php",
+                data: {
+                    apiCode: "102",
+                    username: nickname,
+                    token: token,
+                    tripId: tripId
+                },
+                success: function(result) {
+                    //Añadir validación de result
+                    if (result != "false") {
+                        console.log(result);
+                    } else {
 
-                } else {
-
+                    }
+                },
+                error: function() {
+                    console.log("ERROR petición ajax de ver en detalle el trip");
                 }
-            },
-            error: function() {
-                console.log("ERROR petición ajax de enviar datos LogIn");
-            }
-        });
+            });
+        }
+
     }
 
 
-}
+
 
 //Creacion de toda la estructura MVC con clases
 $(document).ready(function() {

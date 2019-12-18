@@ -2,8 +2,6 @@
 session_start();
 $_SESSION['IP'] = getRealIP();
 $_SESSION['intentos'] = 0;
-echo session_id();
-$_SESSION['username']="angelita";
 //Importación conexión DB y funciones
 require('DDBB/db_gestor.php');
 include('functions.php');
@@ -291,10 +289,9 @@ function consulta_102($id, $username)
         $datos = $db->selectOne();
     }
     
-    print_r($datos);
     
-    //$pintar = json_encode($datos);
-    //echo $pintar;
+    $pintar = json_encode($datos);
+    echo $pintar;
 }
 
 /**103
