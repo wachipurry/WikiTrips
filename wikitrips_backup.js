@@ -109,16 +109,16 @@ class View {
                 work.getInputLogIn(controller);
             }
         );
-        $("#submitAddTripButton").click(
-            function() {
-                work.getInputAddTrip(controller);
-            }
-        );
-        $("#submitEditProfileButton").click(
-            function() {
-                work.getInputEditProfile(controller);
-            }
-        );
+        /* $("#submitAddTripButton").click(
+             function() {
+                 work.getInputAddTrip(controller);
+             }
+         );
+         $("#submitEditProfileButton").click(
+             function() {
+                 work.getInputEditProfile(controller);
+             }
+         );*/
     }
 
     setUpClicksAfterLogIn(controller) {
@@ -155,9 +155,8 @@ class View {
         $("#wt_navbar-right").html(textNav);
         $("#tripsFilter").html(texNavBar);
         $("#aux1").html(textModalAddTrip);
-        $("#editProfileModal").html(textModalEditProfile);
+        $("#aux2").html(textModalEditProfile);
 
-        //$("#aux2").html(textModalEditProfile);
         this.setUpClicksAfterLogIn(controller);
     }
 
@@ -335,26 +334,7 @@ class Controller {
         return textHtml;
     }
 
-    //Método para hacer peticiones Ajax contra PHP   
-    ajaxRequestFullExperiences() {
-        let work = this;
-        $.ajax({
-            type: 'get',
-            url: "api.php",
-            data: {
-                apiCode: "102"
-            },
-            success: function(result) {
-                let arrayExperiences = JSON.parse(result);
-                let textoHTML = work.createFullExperiencesHTML(arrayExperiences);
-                work.view.createDivsExperiences(textoHTML);
-            },
-            error: function() {
 
-            }
-        });
-
-    }
 
     //Formar el texto con las experiencias completas
     createFullExperiencesHTML(arrayExperiences) {
@@ -450,8 +430,8 @@ class Controller {
         if (title.length > 50) {
             textoError += "<li>The Title is to large</li>";
         }
-        if (resume.length > 150) {
-            textoError += "<li>The Resume is to large</li>";
+        if (resume.length < 100 || resume.length > 150) {
+            textoError += "<li>The Resume could be between 100 and 150 characters</li>";
         }
         if (description > 300) {
             textoError += "<li>The Description is to large</li>";
@@ -545,6 +525,33 @@ class Controller {
         });
     }
 
+    ajaxFullExperiences(tripId) {
+        let work = this;
+        if (this.model.issetToken()) {
+            $.ajax({
+                type: "get",
+                url: "api.php",
+                data: {
+                    apiCode: "102",
+                    username: this.model.getNickname(),
+                    token: this.model.getToken(),
+                    tripId: tripId
+                },
+                success: function(result) {
+                    //Añadir validación de result
+                    if (result != "false") {
+
+                    } else {
+
+                    }
+                },
+                error: function() {
+                    console.log("ERROR petición ajax de ver en detalle el trip");
+                }
+            });
+        }
+
+    }
 
 }
 
