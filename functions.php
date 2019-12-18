@@ -211,101 +211,137 @@ function logged_return()
 
     $html_logged = array(
         'html_textNav' => '
-            <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#editProfileModal"> EDIT PROFILE </button>
-            <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#addTripModal"> ADD TRIP </button>
+        <p class="text-seondary">Hola ' . $_SESSION['username'] . ' !' . '
+        <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#editProfileModal"> EDIAR PERFIL </button>
+        <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#addTripModal"> AÑADIR TRIP </button>
+        <!-- PONGO EL BOTON, PERO NO HACE NADA POR AHORA -->
+        <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#logInModal"> SALIR </button>
+    </p>
         ',
         'html_modalAddTrip' => '
-            <!-- Creación del modal de prueba con todas las clases de boostrap para que se parezca -->
-            <div id="addTripModal" class="addTripModal modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="card-body modal-content">
-                        <h2>Add trip</h2>
-
-                        <div id="modalAddTripAlert" style="display: none;" role="alert">
-
-                        </div>
-                        <form>
+        <!-- Creación del modal de prueba con todas las clases de boostrap para que se parezca -->
+        <div id="addTripModal" class="addTripModal modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="card-body modal-content">
+                    <h2>Add trip</h2>
+        
+                    <div id="modalAddTripAlert" style="display: none;" role="alert">
+        
+                    </div>
+                    <div class="modal-header">
+                        <h5 class="modal-title text-warning">Comparte con el mundo tus Trips !!</h5>
+                    </div>
+                    <form>
+                        <div class="modal-body">
                             <div class="form-group">
-                                <label for="tripTitle">Title</label>
-                                <input type="text" class="form-control" id="tripTitle" placeholder="Max 50 characters" >
+                                <label for="tripTitle">Título</label>
+                                <input type="text" class="form-control" id="tripTitle" placeholder="es un título, no escribas mas de 50 caracteres ;)">
                             </div>
                             <div class="form-group">
-                                <label for="tripResume">Resume</label>
-                                <textarea class="form-control" id="tripResume" rows="2" cols="50" placeholder="Max 150 characters" ></textarea>
+                                <label for="tripResume">Resumen</label>
+                                <textarea class="form-control" id="tripResume" rows="2" placeholder="escribe aqui una breve resumen de tu experiència (de 100 a 150 carácteres)"></textarea>
                             </div>
                             <div class="form-group">
-                                <label for="tripDescription">Description</label>
-                                <textarea class="form-control" id="tripDescription" rows="4" cols="50" placeholder="Max 300 characters" ></textarea>
+                                <label for="tripDescription">Descricónion</label>
+                                <textarea class="form-control" id="tripDescription" rows="5" cols="50" placeholder="cuentanoslo todo !"></textarea>
                             </div>
                             <div class="form-group">
-                                <label for="tripLocation">Trip location</label>
-                                <input type="text" class="form-control" id="tripLocation" placeholder="Country, city, etc">
+                                <label for="tripLocation">Ubicación</label>
+                                <input type="text" class="form-control" id="tripLocation" placeholder="País, ciudad, ruta, ...">
                             </div>
                             <div class="form-group">
-                                <label for="tripCategory">Category</label>
+                                <label for="tripCategory">Categoria</label>
                                 <select class="form-control" id="tripCategory">
                                     <option>Love</option>
                                     <option>Adventure</option>
                                     <option>Relax</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="tripImg">Image</label>
-                                <input type="file" class="form-control" id="tripImg" placeholder="Url of trip image">
-
-                            </div>
-
-                            <button id="submitAddTripButton" type="button" class="btn btn-success">Confirm</button>
-                            <button id="cancelAddTripButton" type="button" class="btn btn-danger">Cancel</button>
-
-                        </form>
-                    </div>
+                            <!--SAQUEMOSNOS DE ENCIMA EL TEMA IMAGEN POR SU COMPLEJIDAD -->
+                            <!--<div class="form-group">
+                            <label for="tripImg">Image</label>
+                            <input type="file" class="form-control" id="tripImg" placeholder="Url of trip image">
+                        </div>-->
+                        </div>
+                        <div class="modal-footer">
+                            <button id="submitAddTripButton" type="button" class="btn btn-outline-warning text-secondary">CONFIRMAR</button>
+                            <button id="cancelAddTripButton" type="button" class="btn btn-outline-danger text-secondary">CANCELAR</button>
+                        </div>
+                    </form>
                 </div>
             </div>
+        </div>
         ',
         'html_modalEditProfile' => '
-            <!-- Creación del modal de prueba con todas las clases de boostrap para que se parezca -->
-            <div id="editProfileModal" class="editProfileModal modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="card-body modal-content">
-                        <h2>Edit profile</h2>
-
-                        <div id="modalEditProfileAlert" style="display: none;" role="alert">
-
-                        </div>
-                        <form>
-                            <div class="form-group">
-                                <label for="nicknameEdit">Nickname</label>
-                                <input type="text" class="form-control" id="nicknameEdit" placeholder="Pakito69" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label for="nameEdit">Name</label>
-                                <input type="text" class="form-control" id="nameEdit" placeholder="Paco" >
-                            </div>
-                            <div class="form-group">
-                                <label for="surnameEdit">Surnames</label>
-                                <input type="text" class="form-control" id="surnameEdit" placeholder="García" >
-                            </div>
-                            <div class="form-group">
-                                <label for="newEmail">New email address</label>
-                                <input type="newEmail" class="form-control" id="newEmail" placeholder="paco@inspedralbes.cat">
-                            </div>
-                            <div class="form-group">
-                                <label for="newPassword">New password </label>
-                                <input type="text" placeholder="Between 6 and 12 characters" class="form-control" id="newPassword">
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="newPasswordRepeat" placeholder="Repeat the password" aria-describedby="passwordHelp">
-                                <small id="passwordHelp" class="form-text text-muted">* Must contains minimun one capital
-                                    letter, one especial char and one number </small>
-                            </div>
-                            <button id="submitEditProfileButton" type="button" class="btn btn-success">Confirm</button>
-                            <button id="cancelEditProfileButton" type="button" class="btn btn-danger">Cancel</button>
-
-                        </form>
+        <!-- Creación del modal de prueba con todas las clases de boostrap para que se parezca -->
+        <div id="editProfileModal" class="editProfileModal modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="card-body modal-content">
+                    <h2>Edit profile</h2>
+        
+                    <div id="modalEditProfileAlert" style="display: none;" role="alert">
                     </div>
+                    <div class="modal-header">
+                        <h5 class="modal-title text-warning">Ayudanos a saber un poco mas de ti !!</h5>
+                    </div>
+                    <form>
+                        <div class="modal-body">
+        
+                            <!-- EL NOOMBRE DE USUARIO NO PUEDE CANVIAR, HO PETA LA BASE DE DATOS -->
+                            <!--<div class="form-group">
+                            <label for="nicknameEdit">Nickname</label>
+                            <input type="text" class="form-control" id="nicknameEdit" placeholder="Pakito69" readonly>
+                        </div>-->
+                            <div class="form-group">
+                                <label for="treatment">Como podemos dirigirnos a ti?</label>
+                                <select class="form-control" id="treatment">
+                                    <option>Sr.</option>
+                                    <option>Sra.</option>
+                                    <option>Don</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="nameEdit">Nombre</label>
+                                <input type="text" class="form-control" id="nameEdit" placeholder="escribe aquí tu nombre">
+                            </div>
+                            <div class="form-group">
+                                <label for="surnameEdit">Apellido</label>
+                                <input type="text" class="form-control" id="surnameEdit" placeholder="escribe aqui tu apellido">
+                            </div>
+                            <div class="form-group">
+                                <label for="userDescriptionEdit">Cuentanos algo sobre ti</label>
+                                <textarea type="text" class="form-control" rows="4" id="userDescriptionEdit" placeholder="escribe aqui tu apellido">
+                            </div>
+                            <div class="form-group">
+                                <label for="newEmail">Nueva dirección email</label>
+                                <input type="newEmail" class="form-control" id="newEmail" placeholder="hola@wikitrips.cat">
+                            </div>
+                            <div class="form-group">
+                                <label for="publicityEdit">Quieres que te informemos de las ultimas novedades en la web?</label>
+                                <select class="form-control" id="publicityEdit">
+                                    <option>Si</option>
+                                    <option>No.</option>
+                                </select>
+                            </div>
+                            <!-- EL PASSWORD QUE NO SE CAMBIE POR AHORA, PASO DE UPDATES XUNGOS -->
+                            <!--<div class="form-group">
+                            <label for="newPassword">New password </label>
+                            <input type="text" placeholder="Between 6 and 12 characters" class="form-control" id="newPassword">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="newPasswordRepeat" placeholder="Repeat the password" aria-describedby="passwordHelp">
+                            <small id="passwordHelp" class="form-text text-muted">* Must contains minimun one capital
+                                letter, one especial char and one number </small>
+                        </div>-->
+                        </div>
+                        <div class="modal-footer">
+                            <button id="submitEditProfileButton" type="button" class="btn btn-outline-warning text-secondary">CONFIRMAR</button>
+                            <button id="cancelEditProfileButton" type="button" class="btn btn-outline-danger text-secondary">CANCELAR</button>
+                        </div>
+                    </form>
                 </div>
             </div>
+        </div>
         ',
         'filter' => '
             <!-- SECCION SEGUNDA -->
