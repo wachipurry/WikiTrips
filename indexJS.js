@@ -75,7 +75,7 @@ class Model {
     }
 
     getNickname() {
-        return nickname;
+        return this.nickname;
     }
 
     issetNickname() {
@@ -149,6 +149,11 @@ class View {
                 controller.ajaxOrderByCategory(category);
             }
         );
+        $('#featured_box').on('click','a',function(e){
+            let tripId=e.target.id;
+            tripId=tripId.replace("trip","");
+            controller.ajaxFullExperiences(tripId);
+        });
     }
 
     setUpPageAfterLogIn(textNav, texNavBar, textModalAddTrip, textModalEditProfile, controller) {
@@ -305,7 +310,7 @@ class Controller {
     createPreviewExperiencesHTML(arrayExperiences) {
         let textHtml = `<div class="row">`;
         for (let i = 0; i < arrayExperiences.length; i++) {
-            textHtml += `<div class="col-lg-6 col-md-12 col-sm-12">
+            textHtml += `<div  class="col-lg-6 col-md-12 col-sm-12">
                 <div class="card" style="background-color: rgba(250,250,250,0.8);margin: 10px -10px;">
                     <!--<img src="img/${arrayExperiences[i].trip_thumb}" class="card-img-top" alt="...">-->
                     <div class="card-body">
@@ -314,7 +319,7 @@ class Controller {
                         <p class="card-text text-muted">${arrayExperiences[i].trip_resum}</p>
                         <div class="row"=>
                             <div class="col-6 text-left">
-                                <a href="#" class="btn btn-block btn-outline-warning text-secondary">Saber Mas</a>
+                                <a id="trip${arrayExperiences[i].trip_id}"  href="#" class="btn btn-block btn-outline-warning text-secondary">Saber Mas</a>
                             </div>
                         <div class="col-6 text-right">`;
             for (let j = 0; j < 5; j++) {
@@ -323,6 +328,7 @@ class Controller {
                 } else {
                     textHtml += `<span class="text-secondary"><i class="fa fa-star" aria-hidden="true"></i></span>`;
                 }
+                
             }
             textHtml += `<!--<a href="#" class="card-link text-warning">REPORTAR</a>-->
                             </div>
@@ -486,9 +492,9 @@ class Controller {
                     let textFilterNav = obj.filter;
                     let textModalAddTrip = obj.html_modalAddTrip;
                     let textModalEditProfile = obj.html_modalEditProfile;
-
+                    console.log(obj);
                     let token = obj.token;
-                    let nickname = obj.nickname;
+                    let nickname = obj.username;
                     work.model.setToken(token);
                     work.model.setNickname(nickname);
                     work.view.setUpPageAfterLogIn(textNav, textFilterNav, textModalAddTrip, textModalEditProfile, work);
@@ -527,20 +533,22 @@ class Controller {
 
     ajaxFullExperiences(tripId) {
         let work = this;
-        if (this.model.issetToken()) {
+        let nickname= this.model.getNickname();
+        let token=this.model.getToken();
+        console.log(nickname+"  "+token);
             $.ajax({
                 type: "get",
                 url: "api.php",
                 data: {
                     apiCode: "102",
-                    username: this.model.getNickname(),
-                    token: this.model.getToken(),
+                    username: nickname,
+                    token: token,
                     tripId: tripId
                 },
                 success: function(result) {
                     //Añadir validación de result
                     if (result != "false") {
-
+                        console.log(result);
                     } else {
 
                     }
@@ -553,7 +561,8 @@ class Controller {
 
     }
 
-}
+
+
 
 //Creacion de toda la estructura MVC con clases
 $(document).ready(function() {
