@@ -178,6 +178,10 @@ section {
     color: royalblue;
 }
 
+#viewFullTrip .modal-dialog {
+    max-width: 80vw;
+}
+
 
 /* FOOTER y COPYRIGHT */
 
