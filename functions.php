@@ -223,8 +223,6 @@ function logged_return()
         <div id="addTripModal" class="addTripModal modal fade" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="card-body modal-content">
-                    <h2>Add trip</h2>
-        
                     <div id="modalAddTripAlert" style="display: none;" role="alert">
         
                     </div>
@@ -235,7 +233,7 @@ function logged_return()
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="tripTitle">Título</label>
-                                <input type="text" class="form-control" id="tripTitle" placeholder="es un título, no escribas mas de 50 caracteres ;)">
+                                <input type="text" class="form-control" id="tripTitle" placeholder="es un título, no escribas mas de 50 caracteres" ">
                             </div>
                             <div class="form-group">
                                 <label for="tripResume">Resumen</label>
@@ -274,13 +272,13 @@ function logged_return()
         ',
         'html_modalEditProfile' => '
         <!-- Creación del modal de prueba con todas las clases de boostrap para que se parezca -->
-        <div id="editProfileModal" class="editProfileModal modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <!--<div id="editProfileModal" class="editProfileModal modal fade" tabindex="-1" role="dialog" aria-hidden="true">-->
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="card-body modal-content">
-                    <h2>Edit profile</h2>
-        
-                    <div id="modalEditProfileAlert" style="display: none;" role="alert">
+
+                <div id="modalEditProfileAlert" style="display: none;" role="alert">
                     </div>
+
                     <div class="modal-header">
                         <h5 class="modal-title text-warning">Ayudanos a saber un poco mas de ti !!</h5>
                     </div>
@@ -310,14 +308,14 @@ function logged_return()
                             </div>
                             <div class="form-group">
                                 <label for="userDescriptionEdit">Cuentanos algo sobre ti</label>
-                                <textarea type="text" class="form-control" rows="4" id="userDescriptionEdit" placeholder="una breve descirpcón de no mas de 500 carácteres será suficiente ;)"></textarea>
+                                <textarea type="text" class="form-control" rows="4" col="50" id="userDescriptionEdit" placeholder="una breve descripción de no mas de 500 carácteres seria suficiente"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="newEmail">Nueva dirección email</label>
-                                <input type="newEmail" class="form-control" id="newEmail" placeholder="hola@wikitrips.cat">
+                                <input type="text" class="form-control" id="newEmail" placeholder="hola@wikitrips.cat">
                             </div>
                             <div class="form-group">
-                                <label for="publicityEdit">Quieres que te informemos de las ultimas novedades en la web?</label>
+                                <label for="publicityEdit">Quieres que te avisemos de las últimas novedades en la web?</label>
                                 <select class="form-control" id="publicityEdit">
                                     <option>Si</option>
                                     <option>No.</option>
@@ -335,13 +333,14 @@ function logged_return()
                         </div>-->
                         </div>
                         <div class="modal-footer">
-                            <button id="submitEditProfileButton" type="button" class="btn btn-outline-warning text-secondary">CONFIRMAR</button>
-                            <button id="cancelEditProfileButton" type="button" class="btn btn-outline-danger text-secondary">CANCELAR</button>
+                        
+                            <button id="submitEditProfileButton" type="button" class="btn btn-block btn-outline-warning text-secondary">CONFIRMAR</button>
+                            <button id="cancelEditProfileButton" type="button" class="btn btn-block btn-outline-danger text-secondary">DARME DE BAJA</button>
                         </div>
                     </form>
                 </div>
             </div>
-        </div>
+        <!--</div>-->
         ',
         'filter' => '
 

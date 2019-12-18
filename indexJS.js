@@ -122,7 +122,7 @@ class View {
     }
 
     setUpClicksAfterLogIn(controller) {
-        let work=this;
+        let work = this;
         $("#submitAddTripButton").click(
             function() {
                 work.getInputAddTrip(controller);
@@ -134,28 +134,30 @@ class View {
             }
         );
         $("#filterDate").click(
-            function(){
+            function() {
                 controller.ajaxOrderByDate();
             }
         );
         $("#filterRate").click(
-            function(){
+            function() {
                 controller.ajaxOrderByRate();
             }
         );
         $("#filterCategory").change(
-            function(){
-                let category=$("#filterCategory").val();
+            function() {
+                let category = $("#filterCategory").val();
                 controller.ajaxOrderByCategory(category);
             }
         );
     }
 
-    setUpPageAfterLogIn(textNav, texNavBar, textModalAddTrip, textModalEditProfile,controller) {
+    setUpPageAfterLogIn(textNav, texNavBar, textModalAddTrip, textModalEditProfile, controller) {
         $("#wt_navbar-right").html(textNav);
         $("#tripsFilter").html(texNavBar);
         $("#aux1").html(textModalAddTrip);
-        $("#aux2").html(textModalEditProfile);
+        $("#editProfileModal").html(textModalEditProfile);
+
+        //$("#aux2").html(textModalEditProfile);
         this.setUpClicksAfterLogIn(controller);
     }
 
@@ -244,64 +246,63 @@ class Controller {
     }
 
     ajaxOrderByDate() {
-        if(this.model.issetToken()){
-            this.ajaxOrderBy("all",1,"last","none","none");
-        }
-        else{
-            this.ajaxOrderBy(4,1,"last","none","none");
+        if (this.model.issetToken()) {
+            this.ajaxOrderBy("all", 1, "last", "none", "none");
+        } else {
+            this.ajaxOrderBy(4, 1, "last", "none", "none");
         }
         console.log("Ordenado por fecha");
     }
 
-    ajaxOrderByRate(){
-        this.ajaxOrderBy("all",1,"rate","none","none");
+    ajaxOrderByRate() {
+        this.ajaxOrderBy("all", 1, "rate", "none", "none");
         console.log("Ordenado por valoración");
     }
 
-    ajaxOrderByCategory(category){
-        this.ajaxOrderBy("all",1,"last","category",category);
-        console.log("Ordenado por categoria "+category);
+    ajaxOrderByCategory(category) {
+        this.ajaxOrderBy("all", 1, "last", "category", category);
+        console.log("Ordenado por categoria " + category);
     }
 
     //Método para hacer peticiones Ajax para ordenar los trips contra PHP   
-    ajaxOrderBy(resultTotal,resultPage,resultOrder,resultWhere,resultCondition){
-        let work = this;
-        $.ajax({
-            type: 'get',
-            //Hay que poner la ruta completa en la url para poder hacer la request
-            url: "api.php",
-            data: {
-                apiCode: "101",
-                resultTotal: resultTotal,
-                resultPage: resultPage,
-                resultOrder: resultOrder,
-                resultWhere: resultWhere,
-                resultCondition: resultCondition
-            },
-            beforeSend: function() {
-                $('#loadModal').modal('show');
-                setTimeout(function() {
-                    $('#loadModal').modal('hide');
-                }, 2000);
+    ajaxOrderBy(resultTotal, resultPage, resultOrder, resultWhere, resultCondition) {
+            let work = this;
+            $.ajax({
+                type: 'get',
+                //Hay que poner la ruta completa en la url para poder hacer la request
+                url: "api.php",
+                data: {
+                    apiCode: "101",
+                    resultTotal: resultTotal,
+                    resultPage: resultPage,
+                    resultOrder: resultOrder,
+                    resultWhere: resultWhere,
+                    resultCondition: resultCondition
+                },
+                beforeSend: function() {
+                    $('#loadModal').modal('show');
+                    setTimeout(function() {
+                        $('#loadModal').modal('hide');
+                    }, 2000);
 
-            },
-            success: function(result) {
-                console.log(result);
-                let arrayExperiences = JSON.parse(result);
-                //Actualizar modelo
-                work.model.updateExperiences(arrayExperiences);
-                //Cargar texto de las experiencias
-                let textoHTML = work.createPreviewExperiencesHTML(arrayExperiences);
-                //Insertar texto en la página
-                work.view.createDivsExperiences(textoHTML);
+                },
+                success: function(result) {
+                    console.log(result);
+                    let arrayExperiences = JSON.parse(result);
+                    //Actualizar modelo
+                    work.model.updateExperiences(arrayExperiences);
+                    //Cargar texto de las experiencias
+                    let textoHTML = work.createPreviewExperiencesHTML(arrayExperiences);
+                    //Insertar texto en la página
+                    work.view.createDivsExperiences(textoHTML);
 
-            },
-            error: function() {
-                console.log("Error en la petición AJAX preview");
-            }
-        });
-    }
-    //Forma el texto con las experiencias del HOME (HE TOCADO CSS)
+                },
+                error: function() {
+                    console.log("Error en la petición AJAX preview");
+                }
+            });
+        }
+        //Forma el texto con las experiencias del HOME (HE TOCADO CSS)
     createPreviewExperiencesHTML(arrayExperiences) {
         let textHtml = `<div class="row">`;
         for (let i = 0; i < arrayExperiences.length; i++) {
@@ -510,7 +511,7 @@ class Controller {
                     let nickname = obj.nickname;
                     work.model.setToken(token);
                     work.model.setNickname(nickname);
-                    work.view.setUpPageAfterLogIn(textNav, textFilterNav, textModalAddTrip, textModalEditProfile,work);
+                    work.view.setUpPageAfterLogIn(textNav, textFilterNav, textModalAddTrip, textModalEditProfile, work);
                     work.ajaxOrderByDate();
                 } else {
                     work.view.loadDangerAlert("#modalLogInAlert", "Ha fallado el Log In");
@@ -523,7 +524,7 @@ class Controller {
         });
     }
 
-    ajaxTestLogIn(){
+    ajaxTestLogIn() {
         let work = this;
         $.ajax({
             type: "get",
@@ -533,7 +534,7 @@ class Controller {
             },
             success: function(result) {
                 if (result == "true") {
-                    
+
                 } else {
 
                 }

@@ -20,3 +20,8 @@ JOIN ratings USING (id_trip)
 GROUP BY id_trip
 
 CREATE VIEW users AS SELECT id_user AS user_id, alias AS user_nickname FROM `user_details`
+
+
+user_details FK_STATUS on delete no action
+user_profile FK USER_DETAIL on delete cascade
+pass FK USER_DETAIL on delete cascade
