@@ -215,7 +215,7 @@ function logged_return()
         <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#editProfileModal"> EDITAR PERFIL </button>
         <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#addTripModal"> AÑADIR TRIP </button>
         <!-- PONGO EL BOTON, PERO NO HACE NADA POR AHORA -->
-        <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#logInModal"> SALIR </button>
+        <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#logInModal" onclick="location.reload()"> SALIR </button>
     </p>
         ',
         'html_modalAddTrip' => '

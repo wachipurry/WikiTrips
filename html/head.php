@@ -15,8 +15,11 @@
     <!-- Awesome font icons stylesheet-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <!-- linkS provisionales para tests -->
-    <link rel="stylesheet" href="css/roger.css">
-    <script src="indexJS.js"></script>
+    <!-- enlaces propios WikiTrips -->
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="css/wikitrips.css">
+    <script src="wikitrips.js"></script>
     <!--<script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
 </head>
+
+<body>
