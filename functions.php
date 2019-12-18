@@ -212,7 +212,7 @@ function logged_return()
     $html_logged = array(
         'html_textNav' => '
         <p class="text-seondary">Hola ' . $_SESSION['username'] . ' !' . '
-        <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#editProfileModal"> EDIAR PERFIL </button>
+        <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#editProfileModal"> EDITAR PERFIL </button>
         <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#addTripModal"> AÑADIR TRIP </button>
         <!-- PONGO EL BOTON, PERO NO HACE NADA POR AHORA -->
         <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#logInModal"> SALIR </button>
@@ -233,15 +233,15 @@ function logged_return()
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="tripTitle">Título</label>
-                                <input type="text" class="form-control" id="tripTitle" placeholder="es un título, no escribas mas de 50 caracteres" ">
+                                <input type="text" class="form-control" id="tripTitle" placeholder="Es un título, no escribas mas de 50 caracteres" ">
                             </div>
                             <div class="form-group">
                                 <label for="tripResume">Resumen</label>
-                                <textarea class="form-control" id="tripResume" rows="2" cols="50" placeholder="escribe aqui una breve resumen de tu experiència (de 100 a 150 carácteres)"></textarea>
+                                <textarea class="form-control" id="tripResume" rows="2" cols="50" placeholder="Escribe aqui una breve resumen de tu experiència (de 100 a 150 carácteres)"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="tripDescription">Descricónion</label>
-                                <textarea class="form-control" id="tripDescription" rows="5" cols="50" placeholder="cuentanoslo todo !"></textarea>
+                                <textarea class="form-control" id="tripDescription" rows="5" cols="50" placeholder="Cuentanoslo todo !"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="tripLocation">Ubicación</label>
@@ -272,75 +272,71 @@ function logged_return()
         ',
         'html_modalEditProfile' => '
         <!-- Creación del modal de prueba con todas las clases de boostrap para que se parezca -->
-        <!--<div id="editProfileModal" class="editProfileModal modal fade" tabindex="-1" role="dialog" aria-hidden="true">-->
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="card-body modal-content">
-
-                <div id="modalEditProfileAlert" style="display: none;" role="alert">
+        <div id="editProfileModal" class="editProfileModal modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+           <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="card-body modal-content">
+                 <div id="modalEditProfileAlert" style="display: none;" role="alert">
+                 </div>
+                 <div class="modal-header">
+                    <h5 class="modal-title text-warning">Ayudanos a saber un poco mas de ti !!</h5>
+                 </div>
+                 <form>
+                    <div class="modal-body">
+                       <!-- EL NOMBRE DE USUARIO NO PUEDE CANVIAR, HO PETA LA BASE DE DATOS -->
+                       <div class="form-group">
+                          <label for="nicknameEdit">Nickname</label>
+                          <input type="text" class="form-control" id="nicknameEdit" placeholder="Pakito69" readonly>
+                       </div>
+                       <div class="form-group">
+                          <label for="treatment">Como podemos dirigirnos a ti?</label>
+                          <select class="form-control" id="treatment">
+                             <option>Sr.</option>
+                             <option>Sra.</option>
+                             <option>No especificar</option>
+                          </select>
+                       </div>
+                       <div class="form-group">
+                          <label for="nameEdit">Nombre</label>
+                          <input type="text" class="form-control" id="nameEdit" placeholder="Escribe aquí tu nombre">
+                       </div>
+                       <div class="form-group">
+                          <label for="surnameEdit">Apellido</label>
+                          <input type="text" class="form-control" id="surnameEdit" placeholder="Escribe aqui tu apellido">
+                       </div>
+                       <div class="form-group">
+                          <label for="userDescriptionEdit">Cuentanos algo sobre ti</label>
+                          <textarea type="text" class="form-control" rows="4" col="50" id="userDescriptionEdit" placeholder="una breve descripción de no mas de 500 carácteres seria suficiente"></textarea>
+                       </div>
+                       <div class="form-group">
+                          <label for="newEmail">Nueva dirección email</label>
+                          <input type="text" class="form-control" id="newEmail" placeholder="hola@wikitrips.cat">
+                       </div>
+                       <div class="form-group">
+                          <label for="publicityEdit">Quieres que te avisemos de las últimas novedades en la web?</label>
+                          <select class="form-control" id="publicityEdit">
+                             <option>Si</option>
+                             <option>No.</option>
+                          </select>
+                       </div>
+                       <!-- EL PASSWORD QUE NO SE CAMBIE POR AHORA, PASO DE UPDATES XUNGOS -->
+                       <!--<div class="form-group">
+                          <label for="newPassword">New password </label>
+                          <input type="text" placeholder="Between 6 and 12 characters" class="form-control" id="newPassword">
+                          </div>
+                          <div class="form-group">
+                          <input type="text" class="form-control" id="newPasswordRepeat" placeholder="Repeat the password" aria-describedby="passwordHelp">
+                          <small id="passwordHelp" class="form-text text-muted">* Must contains minimun one capital
+                              letter, one especial char and one number </small>
+                          </div>-->
                     </div>
-
-                    <div class="modal-header">
-                        <h5 class="modal-title text-warning">Ayudanos a saber un poco mas de ti !!</h5>
+                    <div >
+                       <button id="submitEditProfileButton" type="button" class="btn btn-block btn-outline-warning text-secondary">CONFIRMAR</button>
+                       <button id="cancelEditProfileButton" type="button" class="btn btn-block btn-outline-danger text-secondary">CANCELAR</button>
                     </div>
-                    <form>
-                        <div class="modal-body">
-        
-                            <!-- EL NOMBRE DE USUARIO NO PUEDE CANVIAR, HO PETA LA BASE DE DATOS -->
-                            <!--<div class="form-group">
-                            <label for="nicknameEdit">Nickname</label>
-                            <input type="text" class="form-control" id="nicknameEdit" placeholder="Pakito69" readonly>
-                        </div>-->
-                            <div class="form-group">
-                                <label for="treatment">Como podemos dirigirnos a ti?</label>
-                                <select class="form-control" id="treatment">
-                                    <option>Sr.</option>
-                                    <option>Sra.</option>
-                                    <option>Don</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="nameEdit">Nombre</label>
-                                <input type="text" class="form-control" id="nameEdit" placeholder="escribe aquí tu nombre">
-                            </div>
-                            <div class="form-group">
-                                <label for="surnameEdit">Apellido</label>
-                                <input type="text" class="form-control" id="surnameEdit" placeholder="escribe aqui tu apellido">
-                            </div>
-                            <div class="form-group">
-                                <label for="userDescriptionEdit">Cuentanos algo sobre ti</label>
-                                <textarea type="text" class="form-control" rows="4" col="50" id="userDescriptionEdit" placeholder="una breve descripción de no mas de 500 carácteres seria suficiente"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="newEmail">Nueva dirección email</label>
-                                <input type="text" class="form-control" id="newEmail" placeholder="hola@wikitrips.cat">
-                            </div>
-                            <div class="form-group">
-                                <label for="publicityEdit">Quieres que te avisemos de las últimas novedades en la web?</label>
-                                <select class="form-control" id="publicityEdit">
-                                    <option>Si</option>
-                                    <option>No.</option>
-                                </select>
-                            </div>
-                            <!-- EL PASSWORD QUE NO SE CAMBIE POR AHORA, PASO DE UPDATES XUNGOS -->
-                            <!--<div class="form-group">
-                            <label for="newPassword">New password </label>
-                            <input type="text" placeholder="Between 6 and 12 characters" class="form-control" id="newPassword">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="newPasswordRepeat" placeholder="Repeat the password" aria-describedby="passwordHelp">
-                            <small id="passwordHelp" class="form-text text-muted">* Must contains minimun one capital
-                                letter, one especial char and one number </small>
-                        </div>-->
-                        </div>
-                        <div class="modal-footer">
-                        
-                            <button id="submitEditProfileButton" type="button" class="btn btn-block btn-outline-warning text-secondary">CONFIRMAR</button>
-                            <button id="cancelEditProfileButton" type="button" class="btn btn-block btn-outline-danger text-secondary">DARME DE BAJA</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        <!--</div>-->
+                 </form>
+              </div>
+           </div>
+        </div>
         ',
         'filter' => '
 

@@ -12,23 +12,23 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="nickname">Nombre de usuario</label>
-                        <input type="text" class="form-control" id="nickname" placeholder="escribe aqui tu nombre de usuario" required>
+                        <input type="text" class="form-control" id="nickname" placeholder="Escribe aqui tu nombre de usuario" required>
                     </div>
                     <div class="form-group">
                         <label for="treatment">Tratamiento:</label>
                         <select class="form-control" id="treatment">
                             <option>Sr.</option>
                             <option>Sra.</option>
-                            <option>Don</option>
+                            <option>No especificar</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="name">Nombre</label>
-                        <input type="text" class="form-control" id="name" placeholder="escribe aqui tu nombre" required>
+                        <input type="text" class="form-control" id="name" placeholder="Escribe aqui tu nombre" required>
                     </div>
                     <div class="form-group">
                         <label for="surname">Apellido</label>
-                        <input type="text" class="form-control" id="surname" placeholder="escribre aqui tu apellido">
+                        <input type="text" class="form-control" id="surname" placeholder="Escribe aqui tu apellido">
                     </div>
                     <div class="form-group">
                         <label for="email">Dirección email</label>
@@ -37,10 +37,10 @@
                     <div class="form-group">
                         <label for="passwordA">Contraseña </label>
                         <input type="password" class="form-control" id="passwordA" placeholder="Entre 6 y 12 carácteres" aria-describedby="passwordHelp" required>
-                        <small id="passwordHelp" class="form-text text-muted">* Debe contener mínimo una letra mayúscula, un numero y un símbolo.</small>
+                        <small id="passwordHelp" class="form-text text-muted">* Debe contener mínimo una letra mayúscula, un numero y un carácter especial.</small>
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control" id="passwordB" placeholder="Repeat the password" required>
+                        <input type="password" class="form-control" id="passwordB" placeholder="Repita la contraseña" required>
                     </div>
                 </div>
                 <div class="modal-footer">
