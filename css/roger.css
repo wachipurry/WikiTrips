@@ -73,7 +73,7 @@ body {
     float: left;
     color: black;
     text-align: center;
-    padding: 12px;
+    _padding: 12px;
     text-decoration: none;
     font-size: 18px;
     line-height: 25px;
@@ -86,10 +86,13 @@ body {
     transition: 2s;
 }
 
+
+/*
 #wt_navbar:hover {
     background-color: rgba(251, 179, 45, 0.5);
     color: black;
 }
+*/
 
 #wt_navbar a.active {
     background-color: dodgerblue;
