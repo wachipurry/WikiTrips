@@ -344,29 +344,23 @@ function logged_return()
         </div>
         ',
         'filter' => '
-            <!-- SECCION SEGUNDA -->
-                <section id="roger_02">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label class="btn btn-dark">Filter by:</label>
-                            </div>
-                            <div class="col-md-3">
-                                <button type="button" class="btn btn-outline-dark" >Date</button>
-                            </div>
-                            <div class="col-md-3">
-                                <button type="button" class="btn btn-outline-dark">Rate</button>
-                            </div>
-                            <div class="col-md-3">
-                                <!-- Petición ajax para cargarlas-->
-                                <select class="btn btn-outline-dark form-control" id="v">
-                                ' . $html_options . '
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-        ',
+
+        <div class="col-md-3" style="width:100%">
+                <label class="btn btn-block btn-dark">Filter by:</label>
+        </div>
+        <div class="col-md-3">
+            <button type="button" class="btn btn-block btn-outline-dark" id="filterDate">Date</button>
+        </div>
+        <div class="col-md-3">
+            <button type="button" class="btn btn-block btn-outline-dark" id="filterRate">Rate</button>
+        </div>
+        <div class="col-md-3">
+            <!-- Petición ajax para cargarlas-->
+            <select class="btn btn-block btn-outline-dark form-control" id="filterCategory">
+            ' . $html_options . '
+            </select>
+        </div>
+         ',
         'username' => $_SESSION['username'],
         'token' => session_id()
     );

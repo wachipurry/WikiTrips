@@ -4,10 +4,26 @@
         <div id="loadModal" class="editProfileModal modal fade" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div id="loadButton" class="card-body modal-content">
-                    
+
                 </div>
             </div>
         </div>
+        <div class="row" id="tripsFilter">
+            <!--<div class="col-md-3" style="width:100%">
+                    <label class="btn btn-block btn-dark">Filter by:</label>
+                </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-block btn-outline-dark" id="filterDate">Date</button>
+            </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-block btn-outline-dark" id="filterRate">Rate</button>
+            </div>
+            <div class="col-md-3">
+                <select class="btn btn-block btn-outline-dark form-control" id="filterCategory">
+                </select>
+            </div>-->
+        </div>
+
         <div id="featured_box">
 
             <div class="card" style="width: auto;">

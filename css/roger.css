@@ -150,6 +150,13 @@ section {
 
 /* CAJAS DE DESTACADOS (FEATURED) */
 
+#tripsFilter {
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 25vh;
+    display: none;
+}
+
 #featured_box {
     padding-left: 50px;
     padding-right: 50px;
