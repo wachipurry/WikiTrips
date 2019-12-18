@@ -154,13 +154,13 @@ section {
     padding-left: 50px;
     padding-right: 50px;
     padding-top: 25vh;
-    display: none;
+    _display: none;
 }
 
 #featured_box {
     padding-left: 50px;
     padding-right: 50px;
-    padding-top: 35vh;
+    padding-top: 5vh;
     _background-color: white;
     _position: absolute;
     _bottom: 50px;

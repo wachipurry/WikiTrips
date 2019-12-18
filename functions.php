@@ -310,7 +310,7 @@ function logged_return()
                             </div>
                             <div class="form-group">
                                 <label for="userDescriptionEdit">Cuentanos algo sobre ti</label>
-                                <textarea type="text" class="form-control" rows="4" id="userDescriptionEdit" placeholder="escribe aqui tu apellido">
+                                <textarea type="text" class="form-control" rows="4" id="userDescriptionEdit" placeholder="una breve descirpcón de no mas de 500 carácteres será suficiente ;)"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="newEmail">Nueva dirección email</label>

@@ -88,6 +88,19 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
                 }
                 break;
 
+            case 200:
+                if (isset($_SESSION['username'])) { //Comprobar que POST['uId'] y POST['uPwd'] existe
+                    if (!empty($_SESSION['username'])) {
+                        $html_logged = logged_return();
+                        //Encode y retorno de JSON
+                        $pintar = json_encode($html_logged);
+                        echo $pintar;
+                    }
+                } else {
+                    echo false;
+                }
+
+
             case 201: // code 201 = login
                 if (isset($_GET['uId']) && isset($_GET['uId'])) { //Comprobar que POST['uId'] y POST['uPwd'] existe
                     if (!empty($_GET['uPwd']) && !empty($_GET['uPwd'])) { //Comprobar que el POST['uId'] y POST['uPwd'] no està vacio
@@ -198,6 +211,13 @@ function listar_trips($resultTotal, $resultPage, $resultOrder, $resultWhere, $re
                 //Ejecutar consulta SQL RESUMIDA + TODAS + WHERE + ORDER BY RATE + PACK
                 $sql = "SELECT * FROM trips_published WHERE trip_author = '" . $resultCondition . "' ORDER BY trip_rate DESC";
                 consulta_101($sql);
+            } else {
+                if ($resultOrder == "last") { // Si se elige ordenar por LAST
+                $sql = "SELECT * FROM trips_published ORDER BY trip_id DESC";
+                consulta_101($sql);
+            } else if ($resultOrder == "rate") { // Si se elige ordenar por RATE
+                $sql = "SELECT * FROM trips_published ORDER BY trip_rate DESC";
+                consulta_101($sql); 
             } else {
                 echo "Sorry, I've not understood your resultOrder";
             }

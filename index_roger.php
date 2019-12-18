@@ -1,6 +1,4 @@
 <?php
-$_SESSION['username'] = 'Aun no estas registrado?';
-
 include('html/header.php'); // Cabecera de HTML
 include('html/navbar.php'); // Header
 
