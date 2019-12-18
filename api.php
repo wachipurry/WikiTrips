@@ -212,13 +212,6 @@ function listar_trips($resultTotal, $resultPage, $resultOrder, $resultWhere, $re
                 $sql = "SELECT * FROM trips_published WHERE trip_author = '" . $resultCondition . "' ORDER BY trip_rate DESC";
                 consulta_101($sql);
             } else {
-                if ($resultOrder == "last") { // Si se elige ordenar por LAST
-                $sql = "SELECT * FROM trips_published ORDER BY trip_id DESC";
-                consulta_101($sql);
-            } else if ($resultOrder == "rate") { // Si se elige ordenar por RATE
-                $sql = "SELECT * FROM trips_published ORDER BY trip_rate DESC";
-                consulta_101($sql); 
-            } else {
                 echo "Sorry, I've not understood your resultOrder";
             }
         } else if ($resultWhere == "category") {
@@ -235,7 +228,15 @@ function listar_trips($resultTotal, $resultPage, $resultOrder, $resultWhere, $re
                 echo "Sorry, I've not understood your resultOrder";
             }
         } else {
-            echo "Sorry, I've not understood your resultCondition";
+            if ($resultOrder == "last") { // Si se elige ordenar por LAST
+                $sql = "SELECT * FROM trips_published ORDER BY trip_id DESC";
+                consulta_101($sql);
+            } else if ($resultOrder == "rate") { // Si se elige ordenar por RATE
+                $sql = "SELECT * FROM trips_published ORDER BY trip_rate DESC";
+                consulta_101($sql);
+            } else {
+                echo "Sorry, I've not understood your resultOrder";
+            }
         }
     } else {
         echo "Sorry, I've not understood your resultTotal";
