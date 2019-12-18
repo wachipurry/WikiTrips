@@ -122,6 +122,7 @@ class View {
     }
 
     setUpClicksAfterLogIn(controller) {
+        let work=this;
         $("#submitAddTripButton").click(
             function() {
                 work.getInputAddTrip(controller);
@@ -144,17 +145,18 @@ class View {
         );
         $("#filterCategory").change(
             function(){
-                controller.ajaxOrderByCategory();
+                let category=$("#filterCategory").val();
+                controller.ajaxOrderByCategory(category);
             }
         );
     }
 
-    setUpPageAfterLogIn(textNav, texNavBar, textModalAddTrip, textModalEditProfile) {
+    setUpPageAfterLogIn(textNav, texNavBar, textModalAddTrip, textModalEditProfile,controller) {
         $("#wt_navbar-right").html(textNav);
         $("#tripsFilter").html(texNavBar);
         $("#aux1").html(textModalAddTrip);
         $("#aux2").html(textModalEditProfile);
-        this.setUpClicksAfterLogIn();
+        this.setUpClicksAfterLogIn(controller);
     }
 
     getInputLogIn(controller) {
@@ -242,17 +244,22 @@ class Controller {
     }
 
     ajaxOrderByDate() {
-        this.ajaxOrderBy(4,1,"last","none","none");
+        if(this.model.issetToken()){
+            this.ajaxOrderBy("all",1,"last","none","none");
+        }
+        else{
+            this.ajaxOrderBy(4,1,"last","none","none");
+        }
         console.log("Ordenado por fecha");
     }
 
     ajaxOrderByRate(){
-        this.ajaxOrderBy(4,1,"rate","none","none");
+        this.ajaxOrderBy("all",1,"rate","none","none");
         console.log("Ordenado por valoración");
     }
 
     ajaxOrderByCategory(category){
-        this.ajaxOrderBy(4,1,"last","category",category);
+        this.ajaxOrderBy("all",1,"last","category",category);
         console.log("Ordenado por categoria "+category);
     }
 
@@ -492,7 +499,7 @@ class Controller {
             success: function(result) {
                 //Añadir validación de result
                 if (result != "false") {
-                    work.view.loadSuccessAlert("#modalLogInAlert");
+                    //work.view.loadSuccessAlert("#modalLogInAlert");
                     let obj = JSON.parse(result);
                     let textNav = obj.html_textNav;
                     let textFilterNav = obj.filter;
@@ -503,7 +510,7 @@ class Controller {
                     let nickname = obj.nickname;
                     work.model.setToken(token);
                     work.model.setNickname(nickname);
-                    work.view.setUpPageAfterLogIn(textNav, textFilterNav, textModalAddTrip, textModalEditProfile);
+                    work.view.setUpPageAfterLogIn(textNav, textFilterNav, textModalAddTrip, textModalEditProfile,work);
                     work.ajaxOrderByDate();
                 } else {
                     work.view.loadDangerAlert("#modalLogInAlert", "Ha fallado el Log In");
@@ -516,7 +523,26 @@ class Controller {
         });
     }
 
+    ajaxTestLogIn(){
+        let work = this;
+        $.ajax({
+            type: "get",
+            url: "api.php",
+            data: {
+                apiCode: "200",
+            },
+            success: function(result) {
+                if (result == "true") {
+                    
+                } else {
 
+                }
+            },
+            error: function() {
+                console.log("ERROR petición ajax de enviar datos LogIn");
+            }
+        });
+    }
 
 
 }
