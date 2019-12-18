@@ -2,41 +2,41 @@
 class Model {
     //Constructor que crea lo necesario cuando se declara el modelo
     constructor(controller) {
-        console.log("Model creat");
-        let experiences = [];
-        this.controller = controller;
-        this.nickname = "";
-        this.token = "";
-    }
-    /*
-        101-> Ver la preview de las experiencias
-        102-> Experiencias completas
-        201-> Log in
-        202-> sign in 
-    */
+            console.log("Model creat");
+            let experiences = [];
+            this.controller = controller;
+            this.nickname = "";
+            this.token = "";
+        }
+        /*
+            101-> Ver la preview de las experiencias
+            102-> Experiencias completas
+            201-> Log in
+            202-> sign in 
+        */
 
     createDefaultExperiences() {
-        let experiencias = [{
-            featureImg: "https://picsum.photos/200",
-            featureTitle: "Prueba 1"
-        },
-        {
-            featureImg: "https://picsum.photos/200",
-            featureTitle: "Prueba 2"
-        },
-        {
-            featureImg: "https://picsum.photos/200",
-            featureTitle: "Prueba 3"
-        },
-        {
-            featureImg: "https://picsum.photos/200",
-            featureTitle: "Prueba 4"
-        }
-        ];
+            let experiencias = [{
+                    featureImg: "https://picsum.photos/200",
+                    featureTitle: "Prueba 1"
+                },
+                {
+                    featureImg: "https://picsum.photos/200",
+                    featureTitle: "Prueba 2"
+                },
+                {
+                    featureImg: "https://picsum.photos/200",
+                    featureTitle: "Prueba 3"
+                },
+                {
+                    featureImg: "https://picsum.photos/200",
+                    featureTitle: "Prueba 4"
+                }
+            ];
 
-        return experiencias;
-    }
-    //Actualiza las experiencias en local
+            return experiencias;
+        }
+        //Actualiza las experiencias en local
     updateExperiences(newExperiences) {
         if (this.experiences = newExperiences) {
             return true;
@@ -100,22 +100,22 @@ class View {
     setUpClicks(controller) {
         let work = this;
         $("#submitSignInButton").click(
-            function () {
+            function() {
                 work.getInputSignIn(controller);
             }
         );
         $("#submitLogInButton").click(
-            function () {
+            function() {
                 work.getInputLogIn(controller);
             }
         );
         $("#submitAddTripButton").click(
-            function () {
+            function() {
                 work.getInputAddTrip(controller);
             }
         );
         $("#submitEditProfileButton").click(
-            function () {
+            function() {
                 work.getInputEditProfile(controller);
             }
         );
@@ -123,18 +123,18 @@ class View {
 
     setUpClicksAfterLogIn() {
         $("#submitAddTripButton").click(
-            function () {
+            function() {
                 work.getInputAddTrip(controller);
             }
         );
         $("#submitEditProfileButton").click(
-            function () {
+            function() {
                 work.getInputEditProfile(controller);
             }
         );
     }
 
-    setUpPageAfterLogIn(textNav, texNavBar, textModalAddTrip,textModalEditProfile) {
+    setUpPageAfterLogIn(textNav, texNavBar, textModalAddTrip, textModalEditProfile) {
         $("#wt_navbar-right").html(textNav);
         $("#orderNavBar").html(texNavBar);
         $("#aux1").html(textModalAddTrip);
@@ -241,14 +241,15 @@ class Controller {
                 resultOrder: "last",
                 resultWhere: "none",
                 resultCondition: "none"
-            }, beforeSend: function() {
+            },
+            beforeSend: function() {
                 $('#loadModal').modal('show');
                 setTimeout(function() {
                     $('#loadModal').modal('hide');
-                  }, 3000);
-               
+                }, 3000);
+
             },
-            success: function (result) {
+            success: function(result) {
                 console.log(result);
                 let arrayExperiences = JSON.parse(result);
                 //Actualizar modelo
@@ -259,25 +260,38 @@ class Controller {
                 work.view.createDivsExperiences(textoHTML);
 
             },
-            error: function () {
+            error: function() {
                 console.log("Error en la petición AJAX preview");
             }
         });
     }
 
-    //Forma el texto con las experiencias
+    //Forma el texto con las experiencias del HOME (HE TOCADO CSS)
     createPreviewExperiencesHTML(arrayExperiences) {
         let textHtml = `<div class="row">`;
         for (let i = 0; i < arrayExperiences.length; i++) {
-            textHtml += `<div class="col-lg-3 col-md-6 col-sm-12">
-                <div class="card" style="width: auto;">
-                    <img src="img/${arrayExperiences[i].trip_thumb}" class="card-img-top" alt="...">
+            textHtml += `<div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="card" style="background-color: rgba(250,250,250,0.8);margin: 10px -10px;">
+                    <!--<img src="img/${arrayExperiences[i].trip_thumb}" class="card-img-top" alt="...">-->
                     <div class="card-body">
                         <h5 class="card-title">${arrayExperiences[i].trip_name}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Autor o ciudad</h6>
-                        <p class="card-text">${arrayExperiences[i].trip_resum}</p>
-                        <a href="#" class="card-link text-success">+ INFO</a>
-                        <a href="#" class="card-link text-warning">REPORTAR</a>
+                        <!--<h6 class="card-subtitle mb-2 text-muted">Autor o ciudad</h6>-->
+                        <p class="card-text text-muted">${arrayExperiences[i].trip_resum}</p>
+                        <div class="row"=>
+                            <div class="col-6 text-left">
+                                <a href="#" class="btn btn-block btn-outline-warning text-secondary">Saber Mas</a>
+                            </div>
+                        <div class="col-6 text-right">`;
+            for (let j = 0; j < 5; j++) {
+                if (j < arrayExperiences[i].trip_rate) {
+                    textHtml += `<span class="text-warning"><i class="fa fa-star" aria-hidden="true"></i></span>`;
+                } else {
+                    textHtml += `<span class="text-secondary"><i class="fa fa-star" aria-hidden="true"></i></span>`;
+                }
+            }
+            textHtml += `<!--<a href="#" class="card-link text-warning">REPORTAR</a>-->
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div> `;
@@ -294,12 +308,12 @@ class Controller {
             data: {
                 apiCode: "102"
             },
-            success: function (result) {
+            success: function(result) {
                 let arrayExperiences = JSON.parse(result);
                 let textoHTML = work.createFullExperiencesHTML(arrayExperiences);
                 work.view.createDivsExperiences(textoHTML);
             },
-            error: function () {
+            error: function() {
 
             }
         });
@@ -424,14 +438,14 @@ class Controller {
                 password: pass1,
                 treatment: treatment
             },
-            success: function (result) {
+            success: function(result) {
                 if (result != "") {
                     work.view.loadDangerAlert("#modalSignInAlert", result);
                 } else {
                     work.view.loadSuccessAlert("#modalSignInAlert");
                 }
             },
-            error: function () {
+            error: function() {
                 console.log("ERROR petición ajax de enviar datos SignIn");
             }
         });
@@ -447,10 +461,10 @@ class Controller {
                 uId: nickname,
                 uPwd: password
             },
-            success: function (result) {
+            success: function(result) {
                 if (result != "false") {
                     work.view.loadSuccessAlert("#modalLogInAlert");
-                    let obj=JSON.parse(result);
+                    let obj = JSON.parse(result);
                     let textNav = obj.html_textNav;
                     let textOrderNavBar = obj.filter;
                     let textModalAddTrip = obj.html_modalAddTrip;
@@ -460,14 +474,14 @@ class Controller {
                     let nickname = obj.nickname;
                     work.model.setToken(token);
                     work.model.setNickname(nickname);
-                    work.view.setUpPageAfterLogIn(textNav, textOrderNavBar, textModalAddTrip,textModalEditProfile);
+                    work.view.setUpPageAfterLogIn(textNav, textOrderNavBar, textModalAddTrip, textModalEditProfile);
                     work.ajaxOrderByDate();
                 } else {
                     work.view.loadDangerAlert("#modalLogInAlert", result);
 
                 }
             },
-            error: function () {
+            error: function() {
                 console.log("ERROR petición ajax de enviar datos LogIn");
             }
         });
@@ -476,32 +490,32 @@ class Controller {
 
     ajaxOrderByDate() {
         let work = this;
-            $.ajax({
-                type: "get",
-                url: "api.php",
-                data: {
-                    apiCode: "103",
-                    token:work.model.getToken(),
-                    username:work.model.getNickname()
+        $.ajax({
+            type: "get",
+            url: "api.php",
+            data: {
+                apiCode: "103",
+                token: work.model.getToken(),
+                username: work.model.getNickname()
                     //Seria conveniente enviar un token o algo para confirmar que está registradoS
-                },
-                success: function (result) {
-                    if (result == "false") {
-                        //Avisar de que no se han podido ordenar
-                    } else {
-                        console.log("Order by date:" + result);
+            },
+            success: function(result) {
+                if (result == "false") {
+                    //Avisar de que no se han podido ordenar
+                } else {
+                    console.log("Order by date:" + result);
 
-                        let arrayExperiences = JSON.parse(result);
-                        let textoHTML = work.createFullExperiencesHTML(arrayExperiences);
-                        work.view.createDivsExperiences(textoHTML);
-                    }
-                },
-                error: function () {
-                    console.log("ERROR petición ajax de cargar experiencias por fecha");
+                    let arrayExperiences = JSON.parse(result);
+                    let textoHTML = work.createFullExperiencesHTML(arrayExperiences);
+                    work.view.createDivsExperiences(textoHTML);
                 }
-            });
+            },
+            error: function() {
+                console.log("ERROR petición ajax de cargar experiencias por fecha");
+            }
+        });
 
-        
+
 
     }
 
@@ -511,6 +525,6 @@ class Controller {
 }
 
 //Creacion de toda la estructura MVC con clases
-$(document).ready(function () {
+$(document).ready(function() {
     const wikiTrips = new Controller(new Model(this), new View(this));
 })

@@ -1,14 +1,15 @@
 html {
-    margin: 0;
+    _margin: 0;
 }
 
 body {
     _font-family: Georgia, 'Times New Roman', Times, serif;
-    margin: 0;
+    _margin: 0;
 }
 
 
 /* Intento de animacion */
+
 #loadButton {
     display: block;
     position: absolute;
@@ -24,35 +25,34 @@ body {
     border-left: 10px #ffa700 solid;
     border-radius: 50%;
     -webkit-animation: spin6 1s infinite linear;
-            animation: spin6 1s infinite linear;
-  }
-  
-  @-webkit-keyframes spin6 {
+    animation: spin6 1s infinite linear;
+}
+
+@-webkit-keyframes spin6 {
     from {
-      -webkit-transform: rotate(0deg);
-              transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
     }
     to {
-      -webkit-transform: rotate(359deg);
-              transform: rotate(359deg);
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
     }
-  }
-  @keyframes spin6 {
+}
+
+@keyframes spin6 {
     from {
-      -webkit-transform: rotate(0deg);
-              transform: rotate(0deg);
-      -webkit-transform: rotate(0deg);
-              transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
     }
     to {
-      -webkit-transform: rotate(359deg);
-              transform: rotate(359deg);
-      -webkit-transform: rotate(359deg);
-              transform: rotate(359deg);
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
     }
-  }
-
-
+}
 
 
 /* HEADER CON NABVAR */
@@ -63,7 +63,8 @@ body {
     padding: 90px 10px;
     transition: 0.4s;
     position: fixed;
-    width: 100%;
+    /* Para Firefox */
+    width: -moz-available;
     top: 0;
     z-index: 99;
 }
@@ -125,8 +126,10 @@ section {
     background-position: center center;
     _position: relative;
     background-blend-mode: darken;
-    background-color: pink;
+    _background-color: pink;
     padding: 0px;
+    /* Para Firefox */
+    width: -moz-available;
 }
 
 #roger_02 {
@@ -161,6 +164,10 @@ section {
     margin: 5px;
 }
 
+.star:hover {
+    color: royalblue;
+}
+
 
 /* FOOTER y COPYRIGHT */
 
@@ -169,7 +176,8 @@ section {
     left: 0;
     bottom: 0;
     height: 2em;
-    width: 100%;
+    /* Para Firefox */
+    width: -moz-available;
     background-color: rgb(251, 179, 45);
     color: darkslategray;
     text-align: center;
