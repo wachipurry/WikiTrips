@@ -121,7 +121,7 @@ class View {
         );
     }
 
-    setUpClicksAfterLogIn() {
+    setUpClicksAfterLogIn(controller) {
         $("#submitAddTripButton").click(
             function() {
                 work.getInputAddTrip(controller);
@@ -132,11 +132,26 @@ class View {
                 work.getInputEditProfile(controller);
             }
         );
+        $("#filterDate").click(
+            function(){
+                controller.ajaxOrderByDate();
+            }
+        );
+        $("#filterRate").click(
+            function(){
+                controller.ajaxOrderByRate();
+            }
+        );
+        $("#filterCategory").change(
+            function(){
+                controller.ajaxOrderByCategory();
+            }
+        );
     }
 
     setUpPageAfterLogIn(textNav, texNavBar, textModalAddTrip, textModalEditProfile) {
         $("#wt_navbar-right").html(textNav);
-        $("#orderNavBar").html(texNavBar);
+        $("#tripsFilter").html(texNavBar);
         $("#aux1").html(textModalAddTrip);
         $("#aux2").html(textModalEditProfile);
         this.setUpClicksAfterLogIn();
@@ -221,14 +236,28 @@ class Controller {
         this.view = view;
         this.view.setUpClicks(this);
         //Peticion de ajax al cargar el controlador con las experiencias previas
-        this.ajaxRequestPreviewExperiences();
-
+        this.ajaxOrderByDate();
         console.log("Controlador creado");
 
     }
 
-    //Método para hacer peticiones Ajax contra PHP   
-    ajaxRequestPreviewExperiences() {
+    ajaxOrderByDate() {
+        this.ajaxOrderBy(4,1,"last","none","none");
+        console.log("Ordenado por fecha");
+    }
+
+    ajaxOrderByRate(){
+        this.ajaxOrderBy(4,1,"rate","none","none");
+        console.log("Ordenado por valoración");
+    }
+
+    ajaxOrderByCategory(category){
+        this.ajaxOrderBy(4,1,"last","category",category);
+        console.log("Ordenado por categoria "+category);
+    }
+
+    //Método para hacer peticiones Ajax para ordenar los trips contra PHP   
+    ajaxOrderBy(resultTotal,resultPage,resultOrder,resultWhere,resultCondition){
         let work = this;
         $.ajax({
             type: 'get',
@@ -236,17 +265,17 @@ class Controller {
             url: "api.php",
             data: {
                 apiCode: "101",
-                resultTotal: "4",
-                resultPage: "1",
-                resultOrder: "last",
-                resultWhere: "none",
-                resultCondition: "none"
+                resultTotal: resultTotal,
+                resultPage: resultPage,
+                resultOrder: resultOrder,
+                resultWhere: resultWhere,
+                resultCondition: resultCondition
             },
             beforeSend: function() {
                 $('#loadModal').modal('show');
                 setTimeout(function() {
                     $('#loadModal').modal('hide');
-                }, 3000);
+                }, 2000);
 
             },
             success: function(result) {
@@ -265,7 +294,6 @@ class Controller {
             }
         });
     }
-
     //Forma el texto con las experiencias del HOME (HE TOCADO CSS)
     createPreviewExperiencesHTML(arrayExperiences) {
         let textHtml = `<div class="row">`;
@@ -462,11 +490,12 @@ class Controller {
                 uPwd: password
             },
             success: function(result) {
+                //Añadir validación de result
                 if (result != "false") {
                     work.view.loadSuccessAlert("#modalLogInAlert");
                     let obj = JSON.parse(result);
                     let textNav = obj.html_textNav;
-                    let textOrderNavBar = obj.filter;
+                    let textFilterNav = obj.filter;
                     let textModalAddTrip = obj.html_modalAddTrip;
                     let textModalEditProfile = obj.html_modalEditProfile;
 
@@ -474,10 +503,10 @@ class Controller {
                     let nickname = obj.nickname;
                     work.model.setToken(token);
                     work.model.setNickname(nickname);
-                    work.view.setUpPageAfterLogIn(textNav, textOrderNavBar, textModalAddTrip, textModalEditProfile);
+                    work.view.setUpPageAfterLogIn(textNav, textFilterNav, textModalAddTrip, textModalEditProfile);
                     work.ajaxOrderByDate();
                 } else {
-                    work.view.loadDangerAlert("#modalLogInAlert", result);
+                    work.view.loadDangerAlert("#modalLogInAlert", "Ha fallado el Log In");
 
                 }
             },
@@ -485,38 +514,6 @@ class Controller {
                 console.log("ERROR petición ajax de enviar datos LogIn");
             }
         });
-    }
-
-
-    ajaxOrderByDate() {
-        let work = this;
-        $.ajax({
-            type: "get",
-            url: "api.php",
-            data: {
-                apiCode: "103",
-                token: work.model.getToken(),
-                username: work.model.getNickname()
-                    //Seria conveniente enviar un token o algo para confirmar que está registradoS
-            },
-            success: function(result) {
-                if (result == "false") {
-                    //Avisar de que no se han podido ordenar
-                } else {
-                    console.log("Order by date:" + result);
-
-                    let arrayExperiences = JSON.parse(result);
-                    let textoHTML = work.createFullExperiencesHTML(arrayExperiences);
-                    work.view.createDivsExperiences(textoHTML);
-                }
-            },
-            error: function() {
-                console.log("ERROR petición ajax de cargar experiencias por fecha");
-            }
-        });
-
-
-
     }
 
 
