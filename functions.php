@@ -239,7 +239,7 @@ function logged_return()
                             </div>
                             <div class="form-group">
                                 <label for="tripResume">Resumen</label>
-                                <textarea class="form-control" id="tripResume" rows="2" placeholder="escribe aqui una breve resumen de tu experiència (de 100 a 150 carácteres)"></textarea>
+                                <textarea class="form-control" id="tripResume" rows="2" cols="50" placeholder="escribe aqui una breve resumen de tu experiència (de 100 a 150 carácteres)"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="tripDescription">Descricónion</label>
@@ -287,7 +287,7 @@ function logged_return()
                     <form>
                         <div class="modal-body">
         
-                            <!-- EL NOOMBRE DE USUARIO NO PUEDE CANVIAR, HO PETA LA BASE DE DATOS -->
+                            <!-- EL NOMBRE DE USUARIO NO PUEDE CANVIAR, HO PETA LA BASE DE DATOS -->
                             <!--<div class="form-group">
                             <label for="nicknameEdit">Nickname</label>
                             <input type="text" class="form-control" id="nicknameEdit" placeholder="Pakito69" readonly>
@@ -310,7 +310,7 @@ function logged_return()
                             </div>
                             <div class="form-group">
                                 <label for="userDescriptionEdit">Cuentanos algo sobre ti</label>
-                                <textarea type="text" class="form-control" rows="4" id="userDescriptionEdit" placeholder="escribe aqui tu apellido">
+                                <textarea type="text" class="form-control" rows="4" id="userDescriptionEdit" placeholder="una breve descirpcón de no mas de 500 carácteres será suficiente ;)"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="newEmail">Nueva dirección email</label>
