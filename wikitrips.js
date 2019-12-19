@@ -75,12 +75,12 @@ class View {
     setUpClicks(controller) {
         let work = this;
         $("#submitSignInButton").click(
-            function () {
+            function() {
                 work.getInputSignIn(controller);
             }
         );
         $("#submitLogInButton").click(
-            function () {
+            function() {
                 work.getInputLogIn(controller);
             }
         );
@@ -90,32 +90,32 @@ class View {
     setUpClicksAfterLogIn(controller) {
         let work = this;
         $("#submitAddTripButton").click(
-            function () {
+            function() {
                 work.getInputAddTrip(controller);
             }
         );
         $("#submitEditProfileButton").click(
-            function () {
+            function() {
                 work.getInputEditProfile(controller);
             }
         );
         $("#filterDate").click(
-            function () {
+            function() {
                 controller.ajaxOrderByDate();
             }
         );
         $("#filterRate").click(
-            function () {
+            function() {
                 controller.ajaxOrderByRate();
             }
         );
         $("#filterCategory").change(
-            function () {
+            function() {
                 let category = $("#filterCategory").val();
                 controller.ajaxOrderByCategory(category);
             }
         );
-        $('#featured_box').on('click', 'a', function (e) {
+        $('#featured_box').on('click', 'a', function(e) {
             let tripId = e.target.id;
             tripId = tripId.replace("trip", "");
             controller.ajaxFullExperiences(tripId);
@@ -131,7 +131,7 @@ class View {
         this.setUpClicksAfterLogIn(controller);
     }
 
-    openModalFullExperiences(textoHtml){
+    openModalFullExperiences(textoHtml) {
         $("#aux3").html(" ");
         $("#aux3").html(textoHtml);
         $("#viewFullTrip").modal("show");
@@ -242,43 +242,43 @@ class Controller {
 
     //Método para hacer peticiones Ajax para ordenar los trips contra PHP   
     ajaxOrderBy(resultTotal, resultPage, resultOrder, resultWhere, resultCondition) {
-        let work = this;
-        $.ajax({
-            type: 'get',
-            //Hay que poner la ruta completa en la url para poder hacer la request
-            url: "api.php",
-            data: {
-                apiCode: "101",
-                resultTotal: resultTotal,
-                resultPage: resultPage,
-                resultOrder: resultOrder,
-                resultWhere: resultWhere,
-                resultCondition: resultCondition
-            },
-            beforeSend: function () {
-                $('#loadModal').modal('show');
-                setTimeout(function () {
-                    $('#loadModal').modal('hide');
-                }, 2000);
+            let work = this;
+            $.ajax({
+                type: 'get',
+                //Hay que poner la ruta completa en la url para poder hacer la request
+                url: "api.php",
+                data: {
+                    apiCode: "101",
+                    resultTotal: resultTotal,
+                    resultPage: resultPage,
+                    resultOrder: resultOrder,
+                    resultWhere: resultWhere,
+                    resultCondition: resultCondition
+                },
+                beforeSend: function() {
+                    $('#loadModal').modal('show');
+                    setTimeout(function() {
+                        $('#loadModal').modal('hide');
+                    }, 2000);
 
-            },
-            success: function (result) {
-                console.log(result);
-                let arrayExperiences = JSON.parse(result);
-                //Actualizar modelo
-                work.model.updateExperiences(arrayExperiences);
-                //Cargar texto de las experiencias
-                let textoHTML = work.createPreviewExperiencesHTML(arrayExperiences);
-                //Insertar texto en la página
-                work.view.createDivsExperiences(textoHTML);
+                },
+                success: function(result) {
+                    console.log(result);
+                    let arrayExperiences = JSON.parse(result);
+                    //Actualizar modelo
+                    work.model.updateExperiences(arrayExperiences);
+                    //Cargar texto de las experiencias
+                    let textoHTML = work.createPreviewExperiencesHTML(arrayExperiences);
+                    //Insertar texto en la página
+                    work.view.createDivsExperiences(textoHTML);
 
-            },
-            error: function () {
-                console.log("Error en la petición AJAX preview");
-            }
-        });
-    }
-    //Forma el texto con las experiencias del HOME (HE TOCADO CSS)
+                },
+                error: function() {
+                    console.log("Error en la petición AJAX preview");
+                }
+            });
+        }
+        //Forma el texto con las experiencias del HOME (HE TOCADO CSS)
     createPreviewExperiencesHTML(arrayExperiences) {
         let textHtml = `<div class="row">`;
         for (let i = 0; i < arrayExperiences.length; i++) {
@@ -313,7 +313,7 @@ class Controller {
     }
 
     createModalFullTrip(trip) {
-        let textHTML = `<div id="viewFullTrip" class="viewFullTrippModal modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        let textHtml = `<div id="viewFullTrip" class="viewFullTrippModal modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
             <div class="card-body modal-content">
                 <div class="modal-header">
@@ -322,7 +322,7 @@ class Controller {
                 <div class="modal-body">
                     <p class="text-secondary">${trip.trip_text}</p>
                     <p class="text-secondary text-left">
-                        <a class="text-secondary">${trip_author}</a><br />
+                        <a class="text-secondary">${trip.trip_author}</a><br />
                         ${trip.trip_date}</p>
                         <div class="col-6 text-right">`;
         for (let j = 0; j < 5; j++) {
@@ -333,7 +333,7 @@ class Controller {
             }
 
         }
-        textoHTML += ` <div class="modal-footer">
+        textHtml += ` <div class="modal-footer">
                         <form>
                             <!--ANTES-->
                             <div class="input-group input-group-sm mt-3 mb-3">
@@ -361,7 +361,7 @@ class Controller {
             </div>
         </div>
     </div>`;
-        return textoHTML;
+        return textHtml;
     }
 
     validateFormUser(nickname, name, email, pass1, pass2) {
@@ -453,14 +453,14 @@ class Controller {
                 password: pass1,
                 treatment: treatment
             },
-            success: function (result) {
+            success: function(result) {
                 if (result != "") {
                     work.view.loadDangerAlert("#modalSignInAlert", result);
                 } else {
                     work.view.loadSuccessAlert("#modalSignInAlert");
                 }
             },
-            error: function () {
+            error: function() {
                 console.log("ERROR petición ajax de enviar datos SignIn");
             }
         });
@@ -476,7 +476,7 @@ class Controller {
                 uId: nickname,
                 uPwd: password
             },
-            success: function (result) {
+            success: function(result) {
                 //Añadir validación de result
                 if (result != "false") {
                     //work.view.loadSuccessAlert("#modalLogInAlert");
@@ -497,7 +497,7 @@ class Controller {
 
                 }
             },
-            error: function () {
+            error: function() {
                 console.log("ERROR petición ajax de enviar datos LogIn");
             }
         });
@@ -518,16 +518,16 @@ class Controller {
                 token: token,
                 tripId: tripId
             },
-            success: function (result) {
+            success: function(result) {
                 //Añadir validación de result
                 if (result != "false") {
-                    let textoHTML = work.createModalFullTrip(result);
+                    let textoHtml = work.createModalFullTrip(result);
                     work.view.openModalFullExperiences(textoHtml);
                 } else {
 
                 }
             },
-            error: function () {
+            error: function() {
                 console.log("ERROR petición ajax de ver en detalle el trip");
             }
         });
@@ -550,7 +550,7 @@ class Controller {
                 category: category
 
             },
-            success: function (result) {
+            success: function(result) {
                 //Añadir validación de result
                 if (result != "false") {
                     console.log(result);
@@ -558,7 +558,7 @@ class Controller {
                     console.log(result);
                 }
             },
-            error: function () {
+            error: function() {
                 console.log("ERROR petición ajax de ver en detalle el trip");
             }
         });
@@ -571,6 +571,6 @@ class Controller {
 
 
 //Creacion de toda la estructura MVC con clases
-$(document).ready(function () {
+$(document).ready(function() {
     const wikiTrips = new Controller(new Model(this), new View(this));
 })

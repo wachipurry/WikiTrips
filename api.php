@@ -3,7 +3,7 @@ session_start();
 $_SESSION['IP'] = getRealIP();
 $_SESSION['intentos'] = 0;
 
-echo session_id();
+//echo session_id();
 //Importación conexión DB y funciones
 require('DDBB/db_gestor.php');
 include('functions.php');
@@ -178,10 +178,10 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
                     $description = htmlentities($_GET["description"]);
                     $category = htmlentities($_GET["category"]);
                     insertar_experiencia($nickname, $title, $resum, $description, $category);
-                
                 } else {
                     echo 'Invalid token';
                 }
+                break;
             default:
                 return 'Invalid request !!';
         }
@@ -389,21 +389,25 @@ function insertar_experiencia($nickname, $title, $resum, $description, $category
 {
     $db = new DB("SELECT id_cat FROM `categories` WHERE cat_name = '" . $category . "'");
     $id = $db->selectOne();
-    $id_category = $id[0];
+    $id_category = $id[0]['id_cat'];
 
     $db = new DB("SELECT id_user FROM `user_details` WHERE alias = '" . $nickname . "'");
     $id = $db->selectOne();
-    $id_user = $id[0];
+    $id_user = $id[0]['id_user'];
 
-    $conditions1 = array('id_user' => "'" . $id_user . "'", 'id_status' => 2, 'title' => "'" . $title . "'", 'summary' => "'" . $resum . "'", 'description' => "'" . $description . "'");
-    $db1 = new DB("");
-    $newId = $db1->insert('user_details', $conditions1);
+    $conditions = array('id_user' => $id_user , 'id_status' => 2, 'title' => "'" . $title . "'", 'summary' => "'" . $resum . "'", 'description' => "'" . $description . "'");
+    $db = new DB("");
+    $newId = $db->insert('trips', $conditions);
 
-    $conditions2 = array('id_trip' => "'" . $newId . "'", 'id_cat' => $id_category, 'title' => "'" . $title . "'", 'summary' => "'" . $resum . "'", 'description' => "'" . $description . "'");
-    $db1 = new DB("");
-    $db1->insert('user_details', $conditions2);
+    $conditions = array('id_trip' => $newId, 'id_cat' => $id_category);
+    $db = new DB("");
+    $db->insert('trips_cat', $conditions);
 
-    echo true;
+    $conditions = array('id_trip' => $newId, 'img_url_thumb' => "'foto01.jpg'", 'img_url_high' => "'foto01.jpg'", 'img_alt' => "'pie de foto'");
+    $db = new DB("");
+    $db->insert('media', $conditions);
+
+    echo 'true';
 }
 
 
