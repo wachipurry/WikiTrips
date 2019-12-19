@@ -10,8 +10,7 @@
                 <div class="col-lg-6 col-md-6 col-sm-12 text-right">
                     <div id="wt_navbar-right" class=>
                         <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#sigInModal"> UNETE AL CLUB ! </button>
-                        <button id="logInButton" type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#logInModal"> ENTRAR </button>
-                    </div>
+                        <button id="logInButton" type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#logInModal"> ENTRAR </button>                    </div>
                 </div>
             </div>
         </div>

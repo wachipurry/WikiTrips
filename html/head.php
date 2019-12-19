@@ -18,7 +18,9 @@
     <!-- enlaces propios WikiTrips -->
     <link rel="icon" href="img/favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="css/wikitrips.css">
-    <script src="wikitrips.js"></script>
+    <script src="js/wikitrips.js"></script>
+    <script src="js/header.js"></script>
+
     <!--<script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
 </head>
 

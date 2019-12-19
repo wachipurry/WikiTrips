@@ -1,6 +1,6 @@
 <!-- MODAL OCULTO Y VACIO PARA VISTA DETALADA DE UN TRIP -->
-<div id="viewFullTrip" class="viewFullTrippModal modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
+<div id="viewFullTrip" class="viewFullTrippModal modal modal-xl fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
         <div class="card-body modal-content">
             <div class="modal-header">
                 <h5 class="modal-title text-warning">TITULO</h5>

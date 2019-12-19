@@ -1,6 +1,6 @@
     <!-- FOOTER (include('html/footer.php');)-->
     <div class="footer">
-        <p><img class="minilogo" src="img/wikitrips_02_left.png"> AJR digital design studio ©</p>
+        <p><a href="docs/index_readme.php"><img class="minilogo" src="img/wikitrips_02_left.png"> AJR digital design studio ©</a></p>
     </div>
     <script src="js/roger.js"></script>
 

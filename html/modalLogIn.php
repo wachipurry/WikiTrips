@@ -13,12 +13,10 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="nickname">Nombre de usuario</label>
-                            <input type="text" class="form-control" id="nicknameLogIn" placeholder="Inserta nickname" required autofocus>
-                        </div>
+                            <input type="text" class="form-control" id="nicknameLogIn" placeholder="Inserta nickname" required autofocus> </div>
                         <div class="form-group">
                             <label for="passwordLogIn">Contraseña</label>
-                            <input type="password" class="form-control" id="passwordLogIn" placeholder="Inserta contraseña" required>
-                        </div>
+                            <input type="password" class="form-control" id="passwordLogIn" placeholder="Inserta contraseña" required> </div>
                     </div>
                     <div class="modal-footer">
                         <button id="submitLogInButton" type="button" class="btn btn-block btn-outline-warning text-secondary">Entrar</button><br>
