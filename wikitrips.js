@@ -204,10 +204,10 @@ class View {
         $(idModal).show();
     }
 
-    loadSuccessAlert(idModal) {
+    loadSuccessAlert(idModal, texto) {
         $(idModal).removeClass("alert-danger");
         $(idModal).addClass("alert alert-success");
-        $(idModal).html("Success !");
+        $(idModal).html(texto);
         $(idModal).show();
     }
 }
@@ -298,9 +298,9 @@ class Controller {
                         <div class="col-6 text-right">`;
             for (let j = 0; j < 5; j++) {
                 if (j < arrayExperiences[i].trip_rate) {
-                    textHtml += `<span class="text-warning"><i class="fa fa-star" aria-hidden="true"></i></span>`;
+                    textHtml += `<span class="text-warning"><i class="fa fa-star star" aria-hidden="true"></i></span>`;
                 } else {
-                    textHtml += `<span class="text-secondary"><i class="fa fa-star" aria-hidden="true"></i></span>`;
+                    textHtml += `<span class="text-secondary"><i class="fa fa-star star" aria-hidden="true"></i></span>`;
                 }
 
             }
@@ -317,8 +317,11 @@ class Controller {
     createModalFullTrip(trip) {
         console.log(trip);
         let textHtml = `<div id="viewFullTrip" class="viewFullTrippModal modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
+        <div class="modal-dialog modal-dialog-centered modal-md " role="document">
             <div class="card-body modal-content">
+            <div id="modalViewFullTripAlert" style="display: none;" role="alert">
+
+            </div>
                 <div class="modal-header">
                     <h5 class="modal-title text-warning">${trip[0].trip_name}</h5>
                 </div>
@@ -331,14 +334,14 @@ class Controller {
         } else {
             textHtml += trip[0].trip_author;
         }
-        textHtml += `</a><br />
-                        ${trip[0].trip_date}</p>
-                        <div class="col-6 text-right">`;
+        let date = trip[0].trip_date.split(" ");
+        //date = date.split(" ");
+        textHtml += `</a><br /><small>${date[0]}</small></p>`;
         for (let j = 0; j < 5; j++) {
             if (j < trip[0].trip_rate) {
-                textHtml += `<span class="text-warning"><i class="fa fa-star" aria-hidden="true"></i></span>`;
+                textHtml += `<span class="text-warning"><i id="rate-star" class="fa fa-star star" aria-hidden="true"></i></span>`;
             } else {
-                textHtml += `<span class="text-secondary"><i class="fa fa-star" aria-hidden="true"></i></span>`;
+                textHtml += `<span class="text-secondary"><i id="rate-star" class="fa fa-star star" aria-hidden="true"></i></span>`;
             }
 
         }
@@ -466,7 +469,7 @@ class Controller {
                 if (result != "") {
                     work.view.loadDangerAlert("#modalSignInAlert", result);
                 } else {
-                    work.view.loadSuccessAlert("#modalSignInAlert");
+                    work.view.loadSuccessAlert("#modalSignInAlert", "Bienvenido al club !\nYa puedes hacer Log In y empezar a compartir tus trips");
                 }
             },
             error: function() {
@@ -488,7 +491,6 @@ class Controller {
             success: function(result) {
                 //Añadir validación de result
                 if (result != "false") {
-                    //work.view.loadSuccessAlert("#modalLogInAlert");
                     let obj = JSON.parse(result);
                     let textNav = obj.html_textNav;
                     let textFilterNav = obj.filter;
@@ -501,8 +503,9 @@ class Controller {
                     work.model.setNickname(nickname);
                     work.view.setUpPageAfterLogIn(textNav, textFilterNav, textModalAddTrip, textModalEditProfile, work);
                     work.ajaxOrderByDate();
+                    work.view.loadSuccessAlert("#modalLogInAlert", "Ya estás logeado.\nBienvenido de nuevo !!");
                 } else {
-                    work.view.loadDangerAlert("#modalLogInAlert", "Ha fallado el Log In");
+                    work.view.loadDangerAlert("#modalLogInAlert", "Ups! Algo ha fallado\nRevisa los datos por favor");
 
                 }
             },
@@ -565,7 +568,10 @@ class Controller {
                 //Añadir validación de result
                 if (result != "false") {
                     console.log(result);
+                    work.view.loadSuccessAlert("#modalAddTripAlert", "En breve publicaremos tu trip.\nGracias por compartirlo !!");
+
                 } else {
+                    work.view.loadDangerAlert("#modalAddTripAlert", ":(  Algo ha fallad0!");
                     console.log(result);
                 }
             },

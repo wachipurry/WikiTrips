@@ -175,6 +175,13 @@ section {
 }
 
 .star:hover {
+    -webkit-animation: spin6 1s infinite linear;
+    animation: spin6 1s infinite linear;
+    _transform: rotate(360dg);
+    _transition-duration: rotate(1s);
+}
+
+#rate-star:hover {
     color: royalblue;
 }
 
