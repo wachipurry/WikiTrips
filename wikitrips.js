@@ -325,7 +325,13 @@ class Controller {
                 <div class="modal-body">
                     <p class="text-secondary">${trip[0].trip_text}</p>
                     <p class="text-secondary text-left">
-                        <a class="text-secondary">${trip[0].trip_author}</a><br />
+                        <a class="text-secondary">`;
+        if (trip[0].trip_author == 'aussias') {
+            textHtml += `anonimo`;
+        } else {
+            textHtml += trip[0].trip_author;
+        }
+        textHtml += `</a><br />
                         ${trip[0].trip_date}</p>
                         <div class="col-6 text-right">`;
         for (let j = 0; j < 5; j++) {
