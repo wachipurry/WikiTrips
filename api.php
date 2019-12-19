@@ -10,22 +10,8 @@ include('functions.php');
 
 
 /**
- * apiCode
- * 
- * 101 -> Lista de categorias
- * + resultTotal (LIMIT)
- * + resultPage (Paginacion)
- * + resultOrder (last, rate)
- * + resultWhere (author, category)
- * + resultCondition (nickname, category_name with underscore !!!)
- * 
- * 102 -> Detalle de una experiencia
- * 103 -> lista de categorias de un trip
- * 
- * 201 Login
- * 202 Registro Usuario
- * 
- * 
+ * Primero de todo, comprobar que llega un apiCode para con un SWITCH redirigir la consulta API
+ * @param apiCode Que debe estar en el POST
  */
 
 
@@ -75,9 +61,7 @@ if (isset($_POST['apiCode'])) { //Comprobar que POST['apiCode'] existe
                 }
                 break;
 
-
-
-            case 103: // code 104 = lista de categorias de un trip
+            case 103: // code 103 = lista de categorias de un trip
                 if (isset($_POST['tripId'])) { //Comprobar que POST['tId'] existe
                     if (!empty($_POST['tripId'])) { //Comprobar que el POST['tId'] no està vacio
                         $id = htmlentities($_POST['tripId']); //Sanear la entrada del POST['tId']
@@ -88,7 +72,7 @@ if (isset($_POST['apiCode'])) { //Comprobar que POST['apiCode'] existe
                 }
                 break;
 
-            case 200:
+            case 200: // 200 = NO USADO, Era comprobar que existe una session al entrar a la página
                 if (isset($_SESSION['username'])) { //Comprobar que POST['uId'] y POST['uPwd'] existe
                     if (!empty($_SESSION['username'])) {
                         $html_logged = logged_return();
@@ -384,22 +368,32 @@ function editar_usuario($nickname, $treatment, $firstname, $lastname, $descripti
 
 function insertar_experiencia($username, $title, $resum, $description, $category)
 {
+    // Recuperar el ID de la cartegoria
     $db = new DB("SELECT id_cat FROM `categories` WHERE cat_name = '" . $category . "'");
     $id = $db->selectOne();
     $id_category = $id[0]['id_cat'];
 
+    // Recuperar el ID del usuario
     $db = new DB("SELECT id_user FROM `user_details` WHERE alias = '" . $username . "'");
     $id = $db->selectOne();
     $id_user = $id[0]['id_user'];
 
+    // Insertar el trip --> IMPORTANTE RECUPERAR EL ID DEL INSERT
     $conditions = array('id_user' => $id_user , 'id_status' => 2, 'title' => "'" . $title . "'", 'summary' => "'" . $resum . "'", 'description' => "'" . $description . "'");
     $db = new DB("");
     $newId = $db->insert('trips', $conditions);
 
+    // Añadir la categoria con el ultimo ID para foreign key
     $conditions = array('id_trip' => $newId, 'id_cat' => $id_category);
     $db = new DB("");
     $db->insert('trips_cat', $conditions);
 
+    // Añadir un voto (1) con el ultimo ID (usuario admin) ya que si un trip no tiene votos, no sale en la vista de trips publicados
+    $conditions = array('id_trip' => $newId, 'id_user' => 1, 'rate' => 1);
+    $db = new DB("");
+    $db->insert('ratings', $conditions);
+
+    // Añadir dats de las fotos con el ultimo ID para foreign key (NO SE USA PERO ES NECESSARIO para las foreign keys)
     $conditions = array('id_trip' => $newId, 'img_url_thumb' => "'foto01.jpg'", 'img_url_high' => "'foto01.jpg'", 'img_alt' => "'pie de foto'");
     $db = new DB("");
     $db->insert('media', $conditions);
