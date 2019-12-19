@@ -388,8 +388,9 @@ function insertar_experiencia($username, $title, $resum, $description, $category
     $db = new DB("");
     $db->insert('trips_cat', $conditions);
 
-    // Añadir un voto (1) con el ultimo ID (usuario admin) ya que si un trip no tiene votos, no sale en la vista de trips publicados
-    $conditions = array('id_trip' => $newId, 'id_user' => 1, 'rate' => 1);
+    // Añadir un voto (falso) con el ultimo ID (usuario admin) ya que si un trip no tiene votos, no sale en la vista de trips publicados
+    $fake_rate = random_int(1, 5);
+    $conditions = array('id_trip' => $newId, 'id_user' => 1, 'rate' => $fake_rate);
     $db = new DB("");
     $db->insert('ratings', $conditions);
 
@@ -400,9 +401,6 @@ function insertar_experiencia($username, $title, $resum, $description, $category
 
     echo 'true';
 }
-
-
-
 
 
 function getRealIP()
