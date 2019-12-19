@@ -12,7 +12,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="nickname">Nombre de usuario</label>
-                            <input type="text" class="form-control" id="nickname" placeholder="escribe aqui tu nombre de usuario" required>
+                            <input type="text" class="form-control" id="nickname" placeholder="escribe aqui tu nombre de usuario" required autofocus>
                         </div>
                         <div class="form-group">
                             <label for="treatment">Tratamiento:</label>

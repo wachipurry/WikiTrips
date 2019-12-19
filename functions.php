@@ -233,7 +233,7 @@ function logged_return()
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="tripTitle">Título</label>
-                                <input type="text" class="form-control" id="tripTitle" placeholder="Es un título, no escribas mas de 50 caracteres" ">
+                                <input type="text" class="form-control" id="tripTitle" placeholder="Es un título, no escribas mas de 50 caracteres" autofocus>
                             </div>
                             <div class="form-group">
                                 <label for="tripResume">Resumen</label>
@@ -295,7 +295,7 @@ function logged_return()
                        </div>
                        <div class="form-group">
                           <label for="nameEdit">Nombre</label>
-                          <input type="text" class="form-control" id="nameEdit" placeholder="Escribe aquí tu nombre">
+                          <input type="text" class="form-control" id="nameEdit" placeholder="Escribe aquí tu nombre autofocus">
                        </div>
                        <div class="form-group">
                           <label for="surnameEdit">Apellido</label>

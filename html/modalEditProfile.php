@@ -27,7 +27,7 @@
                     </div>
                     <div class="form-group">
                         <label for="nameEdit">Nombre</label>
-                        <input type="text" class="form-control" id="nameEdit" placeholder="escribe aquí tu nombre">
+                        <input type="text" class="form-control" id="nameEdit" placeholder="escribe aquí tu nombre" autofocus>
                     </div>
                     <div class="form-group">
                         <label for="surnameEdit">Apellido</label>

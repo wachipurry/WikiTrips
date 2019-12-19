@@ -10,7 +10,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="nickname">Nombre de usuario</label>
-                            <input type="text" class="form-control" id="nicknameLogIn" placeholder=" Bienvenido !" required>
+                            <input type="text" class="form-control" id="nicknameLogIn" placeholder=" Bienvenido !" required autofocus>
                         </div>
                         <div class="form-group">
                             <label for="passwordLogIn">Contraseña</label>

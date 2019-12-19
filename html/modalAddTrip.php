@@ -13,14 +13,14 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="tripTitle">Título</label>
-                            <input type="text" class="form-control" id="tripTitle" placeholder="es un título, no escribas mas de 50 caracteres ;)">
+                            <input type="text" class="form-control" id="tripTitle" placeholder="es un título, no escribas mas de 50 caracteres ;)" autofocus>
                         </div>
                         <div class="form-group">
                             <label for="tripResume">Resumen</label>
                             <textarea class="form-control" id="tripResume" rows="2" placeholder="escribe aqui una breve resumen de tu experiència (de 100 a 150 carácteres)"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="tripDescription">Descricónion</label>
+                            <label for="tripDescription">Descripción</label>
                             <textarea class="form-control" id="tripDescription" rows="5" cols="50" placeholder="cuentanoslo todo !"></textarea>
                         </div>
                         <div class="form-group">
