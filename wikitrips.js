@@ -2,15 +2,16 @@
 class Model {
     //Constructor que crea lo necesario cuando se declara el modelo
     constructor(controller) {
-            console.log("Model creat");
-            let experiences = [];
-            this.controller = controller;
-            this.nickname = "";
-            this.token = "";
-        }
-       
+        let experiences = [];
+        this.controller = controller;
+        this.nickname = "";
+        this.token = "";
+        console.log("Model creat");
 
-        //Actualiza las experiencias en local
+    }
+
+
+    //Actualiza las experiencias en local
     updateExperiences(newExperiences) {
         if (this.experiences = newExperiences) {
             return true;
@@ -74,53 +75,53 @@ class View {
     setUpClicks(controller) {
         let work = this;
         $("#submitSignInButton").click(
-            function() {
+            function () {
                 work.getInputSignIn(controller);
             }
         );
         $("#submitLogInButton").click(
-            function() {
+            function () {
                 work.getInputLogIn(controller);
             }
         );
-      
+
     }
 
     setUpClicksAfterLogIn(controller) {
         let work = this;
         $("#submitAddTripButton").click(
-            function() {
+            function () {
                 work.getInputAddTrip(controller);
             }
         );
         $("#submitEditProfileButton").click(
-            function() {
+            function () {
                 work.getInputEditProfile(controller);
             }
         );
         $("#filterDate").click(
-            function() {
+            function () {
                 controller.ajaxOrderByDate();
             }
         );
         $("#filterRate").click(
-            function() {
+            function () {
                 controller.ajaxOrderByRate();
             }
         );
         $("#filterCategory").change(
-            function() {
+            function () {
                 let category = $("#filterCategory").val();
                 controller.ajaxOrderByCategory(category);
             }
         );
-        $('#featured_box').on('click','a',function(e){
-            let tripId=e.target.id;
-            tripId=tripId.replace("trip","");
+        $('#featured_box').on('click', 'a', function (e) {
+            let tripId = e.target.id;
+            tripId = tripId.replace("trip", "");
             controller.ajaxFullExperiences(tripId);
         });
     }
-    
+
     setUpPageAfterLogIn(textNav, texNavBar, textModalAddTrip, textModalEditProfile, controller) {
         $("#wt_navbar-right").html(textNav);
         $("#tripsFilter").html(texNavBar);
@@ -128,6 +129,12 @@ class View {
         $("#aux2").html(textModalEditProfile);
 
         this.setUpClicksAfterLogIn(controller);
+    }
+
+    openModalFullExperiences(textoHtml){
+        $("#aux3").html(" ");
+        $("#aux3").html(textoHtml);
+        $("#viewFullTrip").modal("show");
     }
 
     getInputLogIn(controller) {
@@ -179,12 +186,12 @@ class View {
         let description = $("#tripDescription").val();
         let location = $("#tripLocation").val();
         let category = $("#tripCategory").val();
-        let img = $("#tripImg").val();
-        let textoError = controller.validateFormAddTrip(title, resume, description, location, category, img);
+        let textoError = controller.validateFormAddTrip(title, resume, description, location, category);
         if (textoError != "") {
             this.loadDangerAlert("#modalAddTripAlert", textoError);
         } else {
-            //Hacer update del usuario
+            console.log("Petición de ajax add trip enviada");
+            controller.ajaxAddTrip();
         }
     }
 
@@ -235,43 +242,43 @@ class Controller {
 
     //Método para hacer peticiones Ajax para ordenar los trips contra PHP   
     ajaxOrderBy(resultTotal, resultPage, resultOrder, resultWhere, resultCondition) {
-            let work = this;
-            $.ajax({
-                type: 'get',
-                //Hay que poner la ruta completa en la url para poder hacer la request
-                url: "api.php",
-                data: {
-                    apiCode: "101",
-                    resultTotal: resultTotal,
-                    resultPage: resultPage,
-                    resultOrder: resultOrder,
-                    resultWhere: resultWhere,
-                    resultCondition: resultCondition
-                },
-                beforeSend: function() {
-                    $('#loadModal').modal('show');
-                    setTimeout(function() {
-                        $('#loadModal').modal('hide');
-                    }, 2000);
+        let work = this;
+        $.ajax({
+            type: 'get',
+            //Hay que poner la ruta completa en la url para poder hacer la request
+            url: "api.php",
+            data: {
+                apiCode: "101",
+                resultTotal: resultTotal,
+                resultPage: resultPage,
+                resultOrder: resultOrder,
+                resultWhere: resultWhere,
+                resultCondition: resultCondition
+            },
+            beforeSend: function () {
+                $('#loadModal').modal('show');
+                setTimeout(function () {
+                    $('#loadModal').modal('hide');
+                }, 2000);
 
-                },
-                success: function(result) {
-                    console.log(result);
-                    let arrayExperiences = JSON.parse(result);
-                    //Actualizar modelo
-                    work.model.updateExperiences(arrayExperiences);
-                    //Cargar texto de las experiencias
-                    let textoHTML = work.createPreviewExperiencesHTML(arrayExperiences);
-                    //Insertar texto en la página
-                    work.view.createDivsExperiences(textoHTML);
+            },
+            success: function (result) {
+                console.log(result);
+                let arrayExperiences = JSON.parse(result);
+                //Actualizar modelo
+                work.model.updateExperiences(arrayExperiences);
+                //Cargar texto de las experiencias
+                let textoHTML = work.createPreviewExperiencesHTML(arrayExperiences);
+                //Insertar texto en la página
+                work.view.createDivsExperiences(textoHTML);
 
-                },
-                error: function() {
-                    console.log("Error en la petición AJAX preview");
-                }
-            });
-        }
-        //Forma el texto con las experiencias del HOME (HE TOCADO CSS)
+            },
+            error: function () {
+                console.log("Error en la petición AJAX preview");
+            }
+        });
+    }
+    //Forma el texto con las experiencias del HOME (HE TOCADO CSS)
     createPreviewExperiencesHTML(arrayExperiences) {
         let textHtml = `<div class="row">`;
         for (let i = 0; i < arrayExperiences.length; i++) {
@@ -293,7 +300,7 @@ class Controller {
                 } else {
                     textHtml += `<span class="text-secondary"><i class="fa fa-star" aria-hidden="true"></i></span>`;
                 }
-                
+
             }
             textHtml += `<!--<a href="#" class="card-link text-warning">REPORTAR</a>-->
                             </div>
@@ -305,6 +312,57 @@ class Controller {
         return textHtml;
     }
 
+    createModalFullTrip(trip) {
+        let textHTML = `<div id="viewFullTrip" class="viewFullTrippModal modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
+            <div class="card-body modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-warning">${trip.trip_name}</h5>
+                </div>
+                <div class="modal-body">
+                    <p class="text-secondary">${trip.trip_text}</p>
+                    <p class="text-secondary text-left">
+                        <a class="text-secondary">${trip_author}</a><br />
+                        ${trip.trip_date}</p>
+                        <div class="col-6 text-right">`;
+        for (let j = 0; j < 5; j++) {
+            if (j < trip.trip_rate) {
+                textHtml += `<span class="text-warning"><i class="fa fa-star" aria-hidden="true"></i></span>`;
+            } else {
+                textHtml += `<span class="text-secondary"><i class="fa fa-star" aria-hidden="true"></i></span>`;
+            }
+
+        }
+        textoHTML += ` <div class="modal-footer">
+                        <form>
+                            <!--ANTES-->
+                            <div class="input-group input-group-sm mt-3 mb-3">
+    
+                                <!--selector-->
+                                <select class="form-control-sm" id="sel1">
+                                    <option>5</option>
+                                    <option>4</option>
+                                    <option>3</option>
+                                    <option>2</option>
+                                    <option>2</option>
+    
+                                </select>
+                                <!--BOTONES-->
+                                <div class="input-group-append input-group-sm">
+                                    <button class="btn btn-outline-secondary" type="button">VOTAR</button>
+                                    <button class="btn btn-outline-warning" type="button" data-dismiss="modal">CERRAR</button>
+    
+                                </div>
+                            </div>
+                        </form>
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>`;
+        return textoHTML;
+    }
 
     validateFormUser(nickname, name, email, pass1, pass2) {
         let textoError = "";
@@ -346,13 +404,12 @@ class Controller {
         return textoError;
     }
 
-    validateFormAddTrip(title, resume, description, location, category, img) {
+    validateFormAddTrip(title, resume, description, location, category) {
         title = title.trim();
         resume = resume.trim();
         description = description.trim();
         location = location.trim()
         category = category.trim();
-        img = img.trim();
         let textoError = "";
         if (title == "") {
             textoError += "<li>Empty title</li>";
@@ -368,9 +425,6 @@ class Controller {
         }
         if (category == "") {
             textoError += "<li>Empty category</li>";
-        }
-        if (img == "") {
-            textoError += "<li>Empty img</li>";
         }
         if (title.length > 50) {
             textoError += "<li>The Title is to large</li>";
@@ -399,14 +453,14 @@ class Controller {
                 password: pass1,
                 treatment: treatment
             },
-            success: function(result) {
+            success: function (result) {
                 if (result != "") {
                     work.view.loadDangerAlert("#modalSignInAlert", result);
                 } else {
                     work.view.loadSuccessAlert("#modalSignInAlert");
                 }
             },
-            error: function() {
+            error: function () {
                 console.log("ERROR petición ajax de enviar datos SignIn");
             }
         });
@@ -422,7 +476,7 @@ class Controller {
                 uId: nickname,
                 uPwd: password
             },
-            success: function(result) {
+            success: function (result) {
                 //Añadir validación de result
                 if (result != "false") {
                     //work.view.loadSuccessAlert("#modalLogInAlert");
@@ -443,7 +497,7 @@ class Controller {
 
                 }
             },
-            error: function() {
+            error: function () {
                 console.log("ERROR petición ajax de enviar datos LogIn");
             }
         });
@@ -452,38 +506,71 @@ class Controller {
 
     ajaxFullExperiences(tripId) {
         let work = this;
-        let nickname= this.model.getNickname();
-        let token=this.model.getToken();
-        console.log(nickname+"  "+token);
-            $.ajax({
-                type: "get",
-                url: "api.php",
-                data: {
-                    apiCode: "102",
-                    username: nickname,
-                    token: token,
-                    tripId: tripId
-                },
-                success: function(result) {
-                    //Añadir validación de result
-                    if (result != "false") {
-                        console.log(result);
-                    } else {
+        let nickname = this.model.getNickname();
+        let token = this.model.getToken();
+        console.log(nickname + "  " + token);
+        $.ajax({
+            type: "get",
+            url: "api.php",
+            data: {
+                apiCode: "102",
+                username: nickname,
+                token: token,
+                tripId: tripId
+            },
+            success: function (result) {
+                //Añadir validación de result
+                if (result != "false") {
+                    let textoHTML = work.createModalFullTrip(result);
+                    work.view.openModalFullExperiences(textoHtml);
+                } else {
 
-                    }
-                },
-                error: function() {
-                    console.log("ERROR petición ajax de ver en detalle el trip");
                 }
-            });
-        }
-
+            },
+            error: function () {
+                console.log("ERROR petición ajax de ver en detalle el trip");
+            }
+        });
     }
+
+    ajaxAddTrip(title, resume, description, category) {
+        let work = this;
+        let nickname = this.model.getNickname();
+        let token = this.model.getToken();
+        $.ajax({
+            type: "get",
+            url: "api.php",
+            data: {
+                apiCode: "301",
+                username: nickname,
+                token: token,
+                title: title,
+                resume: resume,
+                description: description,
+                category: category
+
+            },
+            success: function (result) {
+                //Añadir validación de result
+                if (result != "false") {
+                    console.log(result);
+                } else {
+                    console.log(result);
+                }
+            },
+            error: function () {
+                console.log("ERROR petición ajax de ver en detalle el trip");
+            }
+        });
+    }
+
+}
+
 
 
 
 
 //Creacion de toda la estructura MVC con clases
-$(document).ready(function() {
+$(document).ready(function () {
     const wikiTrips = new Controller(new Model(this), new View(this));
 })
