@@ -250,9 +250,7 @@ function logged_return()
                             <div class="form-group">
                                 <label for="tripCategory">Categoria</label>
                                 <select class="form-control" id="tripCategory">
-                                    <option>Love</option>
-                                    <option>Adventure</option>
-                                    <option>Relax</option>
+                                '. $html_options .' 
                                 </select>
                             </div>
                             <!--SAQUEMOSNOS DE ENCIMA EL TEMA IMAGEN POR SU COMPLEJIDAD -->
@@ -315,7 +313,7 @@ function logged_return()
                           <label for="publicityEdit">Quieres que te avisemos de las últimas novedades en la web?</label>
                           <select class="form-control" id="publicityEdit">
                              <option>Si</option>
-                             <option>No.</option>
+                             <option>No</option>
                           </select>
                        </div>
                        <!-- EL PASSWORD QUE NO SE CAMBIE POR AHORA, PASO DE UPDATES XUNGOS -->

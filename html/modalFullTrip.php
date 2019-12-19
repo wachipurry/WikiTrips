@@ -8,8 +8,6 @@
             <div class="modal-body">
                 <p class="text-secondary">Para todos aquellos a los que le gusta sentir el mundo bajo sus pies e ir paso a paso conociendo rincones inaccesibles y vivir la naturaleza de una forma directa y sin barreras esta es tu opción de viaje. Con diferentes niveles pasando del senderismo, accesible a cualquier público medianamente en forma, a los trekkings, sólo aptos para viajeros preparados física y técnicamente, nuestros viajes a pie son una garantía de sentir el mundo como siempre has soñado.</p>
                 <p class="text-secondary text-left">
-                    <a class="text-secondary">Categorias, aventura, a Pie...</a></p>
-                <p class="text-secondary text-left">
                     <a class="text-secondary">Autor</a><br />
                     fecha</p>
 
