@@ -186,12 +186,14 @@ class View {
         let description = $("#tripDescription").val();
         let location = $("#tripLocation").val();
         let category = $("#tripCategory").val();
+        console.log(title, resume, description, location, category); //ROGER
         let textoError = controller.validateFormAddTrip(title, resume, description, location, category);
         if (textoError != "") {
             this.loadDangerAlert("#modalAddTripAlert", textoError);
         } else {
             console.log("Petición de ajax add trip enviada");
-            controller.ajaxAddTrip();
+            //Te olvidaste meter los parametros cuando llamas al controlador XD !! ARREGLADO!!
+            controller.ajaxAddTrip(title, resume, description, category);
         }
     }
 
@@ -244,7 +246,7 @@ class Controller {
     ajaxOrderBy(resultTotal, resultPage, resultOrder, resultWhere, resultCondition) {
             let work = this;
             $.ajax({
-                type: 'get',
+                type: 'post',
                 //Hay que poner la ruta completa en la url para poder hacer la request
                 url: "api.php",
                 data: {
@@ -442,7 +444,7 @@ class Controller {
         let work = this;
         $.ajax({
 
-            type: "get",
+            type: "post",
             url: "api.php",
             data: {
                 apiCode: "202",
@@ -469,7 +471,7 @@ class Controller {
     ajaxSubmitLogIn(nickname, password) {
         let work = this;
         $.ajax({
-            type: "get",
+            type: "post",
             url: "api.php",
             data: {
                 apiCode: "201",
@@ -510,7 +512,7 @@ class Controller {
         let token = this.model.getToken();
         console.log(nickname + "  " + token);
         $.ajax({
-            type: "get",
+            type: "post",
             url: "api.php",
             data: {
                 apiCode: "102",
@@ -538,7 +540,7 @@ class Controller {
         let nickname = this.model.getNickname();
         let token = this.model.getToken();
         $.ajax({
-            type: "get",
+            type: "post",
             url: "api.php",
             data: {
                 apiCode: "301",

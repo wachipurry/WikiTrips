@@ -2,7 +2,7 @@
 session_start();
 $_SESSION['IP'] = getRealIP();
 $_SESSION['intentos'] = 0;
-//print_r($_POST);
+
 //echo session_id();
 //Importación conexión DB y funciones
 require('DDBB/db_gestor.php');
@@ -19,6 +19,9 @@ include('functions.php');
  * + resultWhere (author, category)
  * + resultCondition (nickname, category_name with underscore !!!)
  * 
+ * Como por GET no puedo mandar en una URL por ahora las categorias hay que llamarlas con barrabaja y yo luego lo reemplazo
+ * Supongo que luego por POST podré quitarlo, pero por ahora me tienen que mandar las categorias como "A_pie" o "Semana_Santa"
+ * 
  * 102 -> Detalle de una experiencia
  * 103 -> lista de categorias de un trip
  * 
@@ -29,9 +32,9 @@ include('functions.php');
  */
 
 
-if (isset($_POST['apiCode'])) { //Comprobar que POST['apiCode'] existe
-    if (!empty($_POST['apiCode'])) { //Comprobar que el POST['apiCode'] no està vacio
-        $code = htmlentities($_POST['apiCode']); //Sanear la entrada del POST['apiCode']
+if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
+    if (!empty($_GET['apiCode'])) { //Comprobar que el POST['apiCode'] no està vacio
+        $code = htmlentities($_GET['apiCode']); //Sanear la entrada del POST['apiCode']
 
         //Si solo hay apiCode, solo hay estas opciones de SWITCH
         switch ($code) {
@@ -40,13 +43,13 @@ if (isset($_POST['apiCode'])) { //Comprobar que POST['apiCode'] existe
                 break;
 
             case 101: // code 101 = Lista de experiencias
-                if (isset($_POST['resultTotal']) && isset($_POST['resultPage']) && isset($_POST['resultOrder']) && isset($_POST['resultWhere']) && isset($_POST['resultCondition'])) { //Comprobar que POST['apiCode'] existe
-                    if (!empty($_POST['resultTotal']) && !empty($_POST['resultPage']) && !empty($_POST['resultOrder']) && !empty($_POST['resultWhere']) && !empty($_POST['resultCondition'])) { //Comprobar que el POST['apiCode'] no està vacio
-                        $resultTotal = htmlentities($_POST['resultTotal']); //Sanear la entrada del POST['resultTotal']
-                        $resultPage = htmlentities($_POST['resultPage']); //Sanear la entrada del POST['resultPage']
-                        $resultOrder = htmlentities($_POST['resultOrder']); //Sanear la entrada del POST['resultOrder']
-                        $resultWhere = htmlentities($_POST['resultWhere']); //Sanear la entrada del POST['resultWhere']
-                        $resultCondition = htmlentities($_POST['resultCondition']); //Sanear la entrada del POST['resultCondition']
+                if (isset($_GET['resultTotal']) && isset($_GET['resultPage']) && isset($_GET['resultOrder']) && isset($_GET['resultWhere']) && isset($_GET['resultCondition'])) { //Comprobar que POST['apiCode'] existe
+                    if (!empty($_GET['resultTotal']) && !empty($_GET['resultPage']) && !empty($_GET['resultOrder']) && !empty($_GET['resultWhere']) && !empty($_GET['resultCondition'])) { //Comprobar que el POST['apiCode'] no està vacio
+                        $resultTotal = htmlentities($_GET['resultTotal']); //Sanear la entrada del POST['resultTotal']
+                        $resultPage = htmlentities($_GET['resultPage']); //Sanear la entrada del POST['resultPage']
+                        $resultOrder = htmlentities($_GET['resultOrder']); //Sanear la entrada del POST['resultOrder']
+                        $resultWhere = htmlentities($_GET['resultWhere']); //Sanear la entrada del POST['resultWhere']
+                        $resultCondition = htmlentities($_GET['resultCondition']); //Sanear la entrada del POST['resultCondition']
                         listar_trips($resultTotal, $resultPage, $resultOrder, $resultWhere, $resultCondition);
                     } else {
                         echo "Sorry, I've recived some parameter empty";
@@ -57,11 +60,11 @@ if (isset($_POST['apiCode'])) { //Comprobar que POST['apiCode'] existe
                 break;
 
             case 102: // code 102 = Información detallada de un trip
-                if (isset($_POST['tripId']) && isset($_POST['token']) && isset($_POST['username'])) { //Comprobar que POST existe
-                    if (!empty($_POST['tripId']) && !empty($_POST['token']) && !empty($_POST['username'])) { //Comprobar que el POST no està vacio
-                        $id = htmlentities($_POST['tripId']); //Sanear la entrada del POST['tripId]
-                        $sessionId = htmlentities($_POST['token']); //Sanear la entrada del POST['tripId]
-                        $username = htmlentities($_POST['username']); //Sanear la entrada del POST['tripId]
+                if (isset($_GET['tripId']) && isset($_GET['token']) && isset($_GET['username'])) { //Comprobar que POST existe
+                    if (!empty($_GET['tripId']) && !empty($_GET['token']) && !empty($_GET['username'])) { //Comprobar que el POST no està vacio
+                        $id = htmlentities($_GET['tripId']); //Sanear la entrada del POST['tripId]
+                        $sessionId = htmlentities($_GET['token']); //Sanear la entrada del POST['tripId]
+                        $username = htmlentities($_GET['username']); //Sanear la entrada del POST['tripId]
 
                         //Si el ID de session y el nombre de usuario son los mismos recividos
                         if (($sessionId == session_id()) && ($username == $_SESSION['username'])) {
@@ -78,9 +81,9 @@ if (isset($_POST['apiCode'])) { //Comprobar que POST['apiCode'] existe
 
 
             case 103: // code 104 = lista de categorias de un trip
-                if (isset($_POST['tripId'])) { //Comprobar que POST['tId'] existe
-                    if (!empty($_POST['tripId'])) { //Comprobar que el POST['tId'] no està vacio
-                        $id = htmlentities($_POST['tripId']); //Sanear la entrada del POST['tId']
+                if (isset($_GET['tripId'])) { //Comprobar que POST['tId'] existe
+                    if (!empty($_GET['tripId'])) { //Comprobar que el POST['tId'] no està vacio
+                        $id = htmlentities($_GET['tripId']); //Sanear la entrada del POST['tId']
                         categorias_por_trip($id);
                     }
                 } else {
@@ -102,10 +105,10 @@ if (isset($_POST['apiCode'])) { //Comprobar que POST['apiCode'] existe
 
 
             case 201: // code 201 = login
-                if (isset($_POST['uId']) && isset($_POST['uId'])) { //Comprobar que POST['uId'] y POST['uPwd'] existe
-                    if (!empty($_POST['uPwd']) && !empty($_POST['uPwd'])) { //Comprobar que el POST['uId'] y POST['uPwd'] no està vacio
-                        $user = htmlentities($_POST['uId']); //Sanear la entrada del POST['uId']
-                        $pwd = htmlentities($_POST['uPwd']); //Sanear la entrada del POST['uPwd']
+                if (isset($_GET['uId']) && isset($_GET['uId'])) { //Comprobar que POST['uId'] y POST['uPwd'] existe
+                    if (!empty($_GET['uPwd']) && !empty($_GET['uPwd'])) { //Comprobar que el POST['uId'] y POST['uPwd'] no està vacio
+                        $user = htmlentities($_GET['uId']); //Sanear la entrada del POST['uId']
+                        $pwd = htmlentities($_GET['uPwd']); //Sanear la entrada del POST['uPwd']
 
                         if ($_SESSION['intentos'] < 3) {
                             if (comprobar_login($user, $pwd)) {
@@ -130,12 +133,12 @@ if (isset($_POST['apiCode'])) { //Comprobar que POST['apiCode'] existe
                 break;
 
             case 202: // code 202 = registro de usuario
-                $nickname = htmlentities($_POST["nickname"]);
-                $firstname = htmlentities($_POST["name"]);
-                $lastname = htmlentities($_POST["surname"]);
-                $password = htmlentities($_POST["password"]);
-                $email = htmlentities($_POST["email"]);
-                $treatment = htmlentities($_POST["treatment"]);
+                $nickname = htmlentities($_GET["nickname"]);
+                $firstname = htmlentities($_GET["name"]);
+                $lastname = htmlentities($_GET["surname"]);
+                $password = htmlentities($_GET["password"]);
+                $email = htmlentities($_GET["email"]);
+                $treatment = htmlentities($_GET["treatment"]);
                 //Validar datos y respuesta de error
                 $error = validate_signIn($nickname, $firstname, $password, $email);
 
@@ -149,14 +152,14 @@ if (isset($_POST['apiCode'])) { //Comprobar que POST['apiCode'] existe
                 break;
 
             case 203: // apiCode 203 = Editar perfil de usuario
-                $nickname = htmlentities($_POST["user_nickname"]);
-                $treatment = htmlentities($_POST["user_treatment"]);
-                $firstname = htmlentities($_POST["user_name"]);
-                $lastname = htmlentities($_POST["user_surname"]);
-                $description = htmlentities($_POST["user_description"]);
-                $user_image = htmlentities($_POST["user_image"]);
-                $email = htmlentities($_POST["user_email"]);
-                $publicity = htmlentities($_POST["allow_add"]);
+                $nickname = htmlentities($_GET["user_nickname"]);
+                $treatment = htmlentities($_GET["user_treatment"]);
+                $firstname = htmlentities($_GET["user_name"]);
+                $lastname = htmlentities($_GET["user_surname"]);
+                $description = htmlentities($_GET["user_description"]);
+                $user_image = htmlentities($_GET["user_image"]);
+                $email = htmlentities($_GET["user_email"]);
+                $publicity = htmlentities($_GET["allow_add"]);
                 //Validar datos y respuesta de error
                 $error = validate_edit_profile($nickname, $treatment, $firstname, $lastname, $description, $user_image, $email, $publicity);
                 if (!empty($error) && $error != "") {
@@ -167,14 +170,14 @@ if (isset($_POST['apiCode'])) { //Comprobar que POST['apiCode'] existe
                 break;
 
             case 301: //apiCode = Añadir Trip
-                $token = htmlentities($_POST["token"]);
+                $token = htmlentities($_GET["token"]);
                 if (session_id() == $token) {
-                    $username = htmlentities($_POST["username"]);
-                    $title = htmlentities($_POST["title"]);
-                    $resum = htmlentities($_POST["resume"]);
-                    $description = htmlentities($_POST["description"]);
-                    $category = htmlentities($_POST["category"]);
-                    insertar_experiencia($username, $title, $resum, $description, $category);
+                    $nickname = htmlentities($_GET["nickname"]);
+                    $title = htmlentities($_GET["title"]);
+                    $resum = htmlentities($_GET["resume"]);
+                    $description = htmlentities($_GET["description"]);
+                    $category = htmlentities($_GET["category"]);
+                    insertar_experiencia($nickname, $title, $resum, $description, $category);
                 } else {
                     echo 'Invalid token';
                 }
@@ -228,7 +231,7 @@ function listar_trips($resultTotal, $resultPage, $resultOrder, $resultWhere, $re
                 echo "Sorry, I've not understood your resultOrder";
             }
         } else if ($resultWhere == "category") {
-            //$resultCondition = str_replace("_", " ", $resultCondition);
+            $resultCondition = str_replace("_", " ", $resultCondition);
             if ($resultOrder == "last") { // Si se elige ordenar por LAST
                 //Ejecutar consulta SQL RESUMIDA + TODAS + WHERE + ORDER BY LAST + PACK
                 $sql = "SELECT * FROM trips_category WHERE trip_category = '" . $resultCondition . "' ORDER BY trip_id DESC";
@@ -382,13 +385,13 @@ function editar_usuario($nickname, $treatment, $firstname, $lastname, $descripti
     $db1->update('user_details', $sets, $condition);
 }
 
-function insertar_experiencia($username, $title, $resum, $description, $category)
+function insertar_experiencia($nickname, $title, $resum, $description, $category)
 {
     $db = new DB("SELECT id_cat FROM `categories` WHERE cat_name = '" . $category . "'");
     $id = $db->selectOne();
     $id_category = $id[0]['id_cat'];
 
-    $db = new DB("SELECT id_user FROM `user_details` WHERE alias = '" . $username . "'");
+    $db = new DB("SELECT id_user FROM `user_details` WHERE alias = '" . $nickname . "'");
     $id = $db->selectOne();
     $id_user = $id[0]['id_user'];
 
