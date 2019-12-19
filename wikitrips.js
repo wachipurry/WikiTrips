@@ -315,20 +315,21 @@ class Controller {
     }
 
     createModalFullTrip(trip) {
+        console.log(trip);
         let textHtml = `<div id="viewFullTrip" class="viewFullTrippModal modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
             <div class="card-body modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-warning">${trip.trip_name}</h5>
+                    <h5 class="modal-title text-warning">${trip[0].trip_name}</h5>
                 </div>
                 <div class="modal-body">
-                    <p class="text-secondary">${trip.trip_text}</p>
+                    <p class="text-secondary">${trip[0].trip_text}</p>
                     <p class="text-secondary text-left">
-                        <a class="text-secondary">${trip.trip_author}</a><br />
-                        ${trip.trip_date}</p>
+                        <a class="text-secondary">${trip[0].trip_author}</a><br />
+                        ${trip[0].trip_date}</p>
                         <div class="col-6 text-right">`;
         for (let j = 0; j < 5; j++) {
-            if (j < trip.trip_rate) {
+            if (j < trip[0].trip_rate) {
                 textHtml += `<span class="text-warning"><i class="fa fa-star" aria-hidden="true"></i></span>`;
             } else {
                 textHtml += `<span class="text-secondary"><i class="fa fa-star" aria-hidden="true"></i></span>`;
@@ -523,7 +524,9 @@ class Controller {
             success: function(result) {
                 //Añadir validación de result
                 if (result != "false") {
-                    let textoHtml = work.createModalFullTrip(result);
+                    console.log(result); //ROGER
+                    let obj = JSON.parse(result); // ROGER -> te olvidaste el PARSE
+                    let textoHtml = work.createModalFullTrip(obj);
                     work.view.openModalFullExperiences(textoHtml);
                 } else {
 
