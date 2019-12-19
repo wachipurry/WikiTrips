@@ -7,18 +7,22 @@
                 </div>
 
                 <form>
+                    <div class="modal-header">
+                        <h5 class="modal-title text-warning">Inicia Sesión !</h5>
+                    </div>
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="nickname">Nombre de usuario</label>
-                            <input type="text" class="form-control" id="nicknameLogIn" placeholder=" Bienvenido !" required autofocus>
+                            <input type="text" class="form-control" id="nicknameLogIn" placeholder="Inserta nickname" required autofocus>
                         </div>
                         <div class="form-group">
                             <label for="passwordLogIn">Contraseña</label>
-                            <input type="password" class="form-control" id="passwordLogIn" placeholder=" Enjoy :) " required>
+                            <input type="password" class="form-control" id="passwordLogIn" placeholder="Inserta contraseña" required>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button id="submitLogInButton" type="button" class="btn btn-block btn-outline-warning text-secondary">Entrar</button>
+                        <button id="submitLogInButton" type="button" class="btn btn-block btn-outline-warning text-secondary">Entrar</button><br>
+                        <button id="cancelLogInButton" type="button" class="btn btn-block btn-outline-danger text-secondary" data-dismiss="modal">Cancelar</button>
                     </div>
                 </form>
             </div>

@@ -75,19 +75,19 @@ function validate_password($password)
 {
     $error = "";
     if (strlen($password) < 6 || strlen($password) > 12) {
-        $error .= "<li>The password must be between 6 and 12 chars</li>";
+        $error .= "<li>La contraseña debe contener entre 6 y 12 caracteres</li>";
     }
     if (!preg_match("#[0-9]+#", $password)) {
-        $error .= "<li>The password must have one number</li>";
+        $error .= "<li>La contraseña debe contener un número</li>";
     }
     if (!preg_match("#[A-Z]+#", $password)) {
-        $error .= "<li>The password must have minimun one capital letter</li>";
+        $error .= "<li>La contraseña debe contener una letra mayúscula</li>";
     }
     if (!preg_match("#[a-z]+#", $password)) {
-        $error .= "<li>The password must have minimun one small letter</li>";
+        $error .= "<li>La contraseña debe contener una letra minúscula</li>";
     }
-    if (preg_match('[@_!#$%^&*()<>?/\|}{~:]', $password)) {
-        $error .= "<li>The password must have minimun one special character</li>";
+    if (!preg_match('[@_!#$%^&*()<>?/\|}{~:]', $password)) {
+        $error .= "<li>La contraseña debe contener un carácter especial</li>";
     }
     return $error;
 }
@@ -261,7 +261,7 @@ function logged_return()
                         </div>
                         <div class="modal-footer">
                             <button id="submitAddTripButton" type="button" class="btn btn-outline-warning text-secondary">CONFIRMAR</button>
-                            <button id="cancelAddTripButton" type="button" class="btn btn-outline-danger text-secondary">CANCELAR</button>
+                            <button id="cancelAddTripButton" type="button" class="btn btn-outline-danger text-secondary" data-dismiss="modal">CANCELAR</button>
                         </div>
                     </form>
                 </div>
@@ -329,7 +329,7 @@ function logged_return()
                     </div>
                     <div >
                        <button id="submitEditProfileButton" type="button" class="btn btn-block btn-outline-warning text-secondary">CONFIRMAR</button>
-                       <button id="cancelEditProfileButton" type="button" class="btn btn-block btn-outline-danger text-secondary">CANCELAR</button>
+                       <button id="cancelEditProfileButton" type="button" class="btn btn-block btn-outline-danger text-secondary" data-dismiss="modal">CANCELAR</button>
                     </div>
                  </form>
               </div>

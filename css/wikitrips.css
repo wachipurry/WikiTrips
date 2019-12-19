@@ -6,7 +6,10 @@ body {
     _font-family: Georgia, 'Times New Roman', Times, serif;
     _margin: 0;
 }
-
+a{
+    text-decoration: none;
+    color:grey;
+}
 
 /* Intento de animacion */
 

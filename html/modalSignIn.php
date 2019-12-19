@@ -44,7 +44,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button id="submitSignInButton" type="button" class="btn btn-block btn-outline-warning text-secondary">Registrarse</button>
+                        <button id="submitSignInButton" type="button" class="btn btn-block btn-outline-warning text-secondary">Registrarse</button><br>
+                        <button id="cancelSignInButton" type="button" class="btn btn-block btn-outline-danger text-secondary" data-dismiss="modal">Cancelar</button>
                     </div>
                 </form>
             </div>
