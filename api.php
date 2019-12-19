@@ -2,6 +2,8 @@
 session_start();
 $_SESSION['IP'] = getRealIP();
 $_SESSION['intentos'] = 0;
+
+echo session_id();
 //Importación conexión DB y funciones
 require('DDBB/db_gestor.php');
 include('functions.php');
@@ -75,6 +77,8 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
                     echo "Sorry, I've missed some parameter";
                 }
                 break;
+
+
 
             case 103: // code 104 = lista de categorias de un trip
                 if (isset($_GET['tripId'])) { //Comprobar que POST['tId'] existe
@@ -165,6 +169,19 @@ if (isset($_GET['apiCode'])) { //Comprobar que POST['apiCode'] existe
                 }
                 break;
 
+            case 301: //apiCode = Añadir Trip
+                $token = htmlentities($_GET["token"]);
+                if (session_id() == $token) {
+                    $nickname = htmlentities($_GET["nickname"]);
+                    $title = htmlentities($_GET["title"]);
+                    $resum = htmlentities($_GET["resume"]);
+                    $description = htmlentities($_GET["description"]);
+                    $category = htmlentities($_GET["category"]);
+                    insertar_experiencia($nickname, $title, $resum, $description, $category);
+                
+                } else {
+                    echo 'Invalid token';
+                }
             default:
                 return 'Invalid request !!';
         }
@@ -288,8 +305,20 @@ function consulta_102($id, $username)
         $db = new DB("SELECT * from trip_details WHERE trip_id = " . $id . " GROUP BY trip_id");
         $datos = $db->selectOne();
     }
-    
-    
+    $pintar = json_encode($datos);
+    echo $pintar;
+}
+
+/**105
+ * Información complets de una experincia para vista
+ * @param Integer $id Numero ID de la experiencia
+ * @return JSON_Object Array Keys = [ trip_id | trip_name | trip_text | trip_author | trip_Date | trip_location | trip_img | trip_alt ]
+ * */
+function consulta_105()
+{
+    $db = new DB("SELECT cat_name from categories");
+    $datos = $db->selectAll();
+    print_r($datos);
     $pintar = json_encode($datos);
     echo $pintar;
 }
@@ -346,7 +375,6 @@ function insertar_usuario($nickname, $name, $surname, $password, $email, $treatm
 function editar_usuario($nickname, $treatment, $firstname, $lastname, $description, $user_image, $email, $publicity)
 {
 
-    ///api.php?apiCode=203&user_nickname=marccc&user_treatment=treat&user_name=name&user_surname=sur&user_email=email@email.com&allow_add=yes&user_description=description&user_image=JPG
     $db = new DB("SELECT user_id FROM `users` WHERE user_nickname = '" . $nickname . "'");
     $id = $db->selectAll();
     $condition = $id[0];
@@ -357,8 +385,25 @@ function editar_usuario($nickname, $treatment, $firstname, $lastname, $descripti
     $db1->update('user_details', $sets, $condition);
 }
 
-function añadir_experiencia($nickname, $name, $surname, $password, $email, $treatment)
+function insertar_experiencia($nickname, $title, $resum, $description, $category)
 {
+    $db = new DB("SELECT id_cat FROM `categories` WHERE cat_name = '" . $category . "'");
+    $id = $db->selectOne();
+    $id_category = $id[0];
+
+    $db = new DB("SELECT id_user FROM `user_details` WHERE alias = '" . $nickname . "'");
+    $id = $db->selectOne();
+    $id_user = $id[0];
+
+    $conditions1 = array('id_user' => "'" . $id_user . "'", 'id_status' => 2, 'title' => "'" . $title . "'", 'summary' => "'" . $resum . "'", 'description' => "'" . $description . "'");
+    $db1 = new DB("");
+    $newId = $db1->insert('user_details', $conditions1);
+
+    $conditions2 = array('id_trip' => "'" . $newId . "'", 'id_cat' => $id_category, 'title' => "'" . $title . "'", 'summary' => "'" . $resum . "'", 'description' => "'" . $description . "'");
+    $db1 = new DB("");
+    $db1->insert('user_details', $conditions2);
+
+    echo true;
 }
 
 
